@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>SimPy Practice Exercises</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+html:has(body.marp-vscode) {
+  padding: 0;
+}
+
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.showEditorSelection {
+      --marp-vscode-highlight-color: rgb(255 255 255 / 40%);
+
+      &.vscode-light {
+        --marp-vscode-highlight-color: rgb(0 0 0 / 15%);
+      }
+
+      &.vscode-high-contrast {
+        --marp-vscode-highlight-color: rgb(255 160 0 / 70%);
+      }
+    }
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+    position: relative;
+
+    &.code-active-line,
+    &:has(.code-active-line) {
+      &::before {
+        position: absolute;
+        content: '';
+        inset: -7px;
+        border: 3px solid var(--marp-vscode-highlight-color, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    overflow-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="simpy-practice-exercises">SimPy Practice Exercises</h1>
+<h2 id="discrete-event-simulation-with-mm1-mmc-and-machine-breakdowns">Discrete Event Simulation with M/M/1, M/M/c, and Machine Breakdowns</h2>
+<p><strong>Instructions:</strong> Use the code examples from the lecture segments to complete these exercises. Modify the provided code and experiment with different parameters. Try to answer the questions based on your simulation results.</p>
+<hr>
+<h2 id="question-1-bank-teller-analysis-mm1-queue">Question 1: Bank Teller Analysis (M/M/1 Queue)</h2>
+<h3 id="scenario">Scenario</h3>
+<p>A small bank branch has a single teller serving customers. The bank manager wants to understand customer wait times under different demand levels.</p>
+<h3 id="given-information">Given Information</h3>
+<ul>
+<li>Customers arrive following a Poisson process</li>
+<li>Service times are exponentially distributed</li>
+<li>Average service time: <strong>3 minutes per customer</strong></li>
+<li>Simulation time: <strong>8 hours</strong> (480 minutes)</li>
+</ul>
+<h3 id="tasks">Tasks</h3>
+<p><strong>a)</strong> Implement an M/M/1 queue simulation for this bank using the code from Segment 1 (M/M/1 queue).</p>
+<p><strong>b)</strong> Run simulations with the following arrival rates and calculate the system utilization (ρ) for each:</p>
+<ul>
+<li><strong>Scenario 1:</strong> 15 customers per hour</li>
+<li><strong>Scenario 2:</strong> 18 customers per hour</li>
+<li><strong>Scenario 3:</strong> 20 customers per hour</li>
+</ul>
+<p><strong>c)</strong> For each scenario, collect and report:</p>
+<ul>
+<li>Average wait time in queue</li>
+<li>Average total time in system</li>
+<li>Maximum wait time observed</li>
+<li>Percentage of customers who had to wait</li>
+</ul>
+<p><strong>d)</strong> Create visualizations (histograms or line plots) showing the distribution of wait times for each scenario.</p>
+<p><strong>e)</strong> Compare your simulation results with the theoretical M/M/1 formulas:</p>
+<ul>
+<li>Average wait time in queue: <strong>W_q = ρ / (μ(1-ρ))</strong></li>
+<li>Average time in system: <strong>W = 1 / (μ - λ)</strong></li>
+</ul>
+<p>Where: λ = arrival rate, μ = service rate, ρ = λ/μ</p>
+<p><strong>f)</strong> Based on your results, which arrival rate(s) lead to acceptable service levels? Why?</p>
+<hr>
+<h2 id="question-2-supermarket-checkout-optimization-mmc-queue">Question 2: Supermarket Checkout Optimization (M/M/c Queue)</h2>
+<h3 id="scenario-1">Scenario</h3>
+<p>A supermarket manager needs to decide how many checkout lanes to operate during afternoon hours (2pm-6pm). Operating too many checkouts wastes staff costs, but too few leads to long queues and customer dissatisfaction.</p>
+<h3 id="given-information-1">Given Information</h3>
+<ul>
+<li>Customers arrive at an average rate of <strong>48 customers per hour</strong></li>
+<li>Average checkout time: <strong>4 minutes per customer</strong></li>
+<li>Staff cost: <strong>£12 per hour per checkout lane</strong></li>
+<li>Customer dissatisfaction cost: <strong>£0.20 per minute</strong> of wait time</li>
+<li>Simulation time: <strong>240 minutes</strong> (4 hours)</li>
+</ul>
+<h3 id="tasks-1">Tasks</h3>
+<p><strong>a)</strong> Using the M/M/c code from Segment 2 (Petrol Station), adapt it to model the supermarket checkout system.</p>
+<p><strong>b)</strong> Run simulations with <strong>2, 3, 4, 5, and 6 checkout lanes</strong>.</p>
+<p><strong>c)</strong> For each configuration, calculate:</p>
+<ul>
+<li>System utilization (ρ = λ / (c × μ))</li>
+<li>Average wait time</li>
+<li>Average queue length</li>
+<li>Percentage of customers who waited</li>
+</ul>
+<p><strong>d)</strong> For each configuration, calculate the <strong>total cost</strong> for the 4-hour period:</p>
+<ul>
+<li><strong>Staff cost</strong> = (Number of lanes) × (£12/hour) × (4 hours)</li>
+<li><strong>Wait cost</strong> = (Total customers served) × (Average wait time) × (£0.20/minute)</li>
+<li><strong>Total cost</strong> = Staff cost + Wait cost</li>
+</ul>
+<p><strong>e)</strong> Create a visualization showing:</p>
+<ul>
+<li>Total cost vs number of checkout lanes</li>
+<li>Breakdown showing staff costs and wait costs (stacked bar chart)</li>
+</ul>
+<p><strong>f)</strong> What is the optimal number of checkout lanes? Why?</p>
+<hr>
+<h2 id="question-3-call-center-capacity-planning-mmc-queue">Question 3: Call Center Capacity Planning (M/M/c Queue)</h2>
+<h3 id="scenario-2">Scenario</h3>
+<p>A customer service call center operates 24/7. Management wants to maintain a service level where <strong>at least 80% of callers</strong> wait less than 2 minutes before speaking to an agent.</p>
+<h3 id="given-information-2">Given Information</h3>
+<ul>
+<li>Average call arrival rate: <strong>12 calls per hour</strong> (varies by time of day)</li>
+<li>Average call handling time: <strong>8 minutes</strong></li>
+<li>Peak hours have <strong>50% higher</strong> arrival rate (18 calls per hour)</li>
+<li>Off-peak hours have <strong>30% lower</strong> arrival rate (8.4 calls per hour)</li>
+<li>Simulation time for each scenario: <strong>480 minutes</strong> (8 hours)</li>
+</ul>
+<h3 id="tasks-2">Tasks</h3>
+<p><strong>a)</strong> Adapt the M/M/c code from Segment 2 to model the call center.</p>
+<p><strong>b)</strong> For <strong>normal hours</strong> (12 calls/hour):</p>
+<ul>
+<li>Test configurations with 2, 3, 4, and 5 agents</li>
+<li>Determine the minimum number of agents needed to meet the service level (80% of callers wait &lt; 2 minutes)</li>
+</ul>
+<p><strong>c)</strong> For <strong>peak hours</strong> (18 calls/hour):</p>
+<ul>
+<li>Test the same configurations (2-5 agents)</li>
+<li>Determine the minimum number needed to meet the service level</li>
+</ul>
+<p><strong>d)</strong> For <strong>off-peak hours</strong> (8.4 calls/hour):</p>
+<ul>
+<li>Determine the minimum number of agents needed</li>
+</ul>
+<p><strong>e)</strong> Create a visualization comparing:</p>
+<ul>
+<li>Average wait time vs number of agents (for all three periods)</li>
+<li>Percentage of callers waiting &lt; 2 minutes vs number of agents</li>
+</ul>
+<p><strong>f)</strong> Propose a staffing schedule: how many agents for normal, peak, and off-peak hours?</p>
+<hr>
+<h2 id="question-4-manufacturing-machine-reliability-analysis-machine-breakdowns">Question 4: Manufacturing Machine Reliability Analysis (Machine Breakdowns)</h2>
+<h3 id="scenario-3">Scenario</h3>
+<p>A factory has a CNC machine that processes metal parts. The machine occasionally breaks down, interrupting production. The factory manager wants to understand how machine reliability affects production output and costs.</p>
+<h3 id="given-information-3">Given Information</h3>
+<ul>
+<li>Parts arrive at an average rate of <strong>1 part every 15 minutes</strong></li>
+<li>Average processing time: <strong>10 minutes per part</strong></li>
+<li>Repair cost: <strong>£300 per breakdown</strong></li>
+<li>Delay penalty: <strong>£50 per hour</strong> for each hour a part is delayed beyond its expected processing time</li>
+<li>Part profit: <strong>£500 per completed part</strong></li>
+<li>Simulation time: <strong>2 shifts</strong> (16 hours = 960 minutes)</li>
+</ul>
+<h3 id="tasks-3">Tasks</h3>
+<p><strong>a)</strong> Using the code from Segment 3 (Machine Breakdowns), implement the CNC machine simulation.</p>
+<p><strong>b)</strong> Run simulations with the following reliability scenarios:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>MTBF (hours)</th>
+<th>MTTR (hours)</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>100</td>
+<td>2</td>
+<td>New machine</td>
+</tr>
+<tr>
+<td>B</td>
+<td>50</td>
+<td>2</td>
+<td>Good condition</td>
+</tr>
+<tr>
+<td>C</td>
+<td>30</td>
+<td>3</td>
+<td>Average condition</td>
+</tr>
+<tr>
+<td>D</td>
+<td>20</td>
+<td>4</td>
+<td>Poor condition</td>
+</tr>
+<tr>
+<td>E</td>
+<td>15</td>
+<td>5</td>
+<td>Very poor condition</td>
+</tr>
+</tbody>
+</table>
+<p><strong>c)</strong> For each scenario, collect:</p>
+<ul>
+<li>Total parts completed</li>
+<li>Average completion time per part</li>
+<li>Average interruptions per part</li>
+<li>Total number of breakdowns</li>
+<li>Machine availability (MTBF / (MTBF + MTTR))</li>
+</ul>
+<p><strong>d)</strong> Calculate the <strong>total profit</strong> for each scenario:</p>
+<ul>
+<li><strong>Revenue</strong> = (Parts completed) × £500</li>
+<li><strong>Repair costs</strong> = (Total breakdowns) × £300</li>
+<li><strong>Delay costs</strong> = (Parts completed) × (Avg delay per part) × £50/hour
+<ul>
+<li>Where: Avg delay = max(0, Actual completion time - Expected time)</li>
+<li>Expected time = 10 minutes</li>
+</ul>
+</li>
+<li><strong>Profit</strong> = Revenue - Repair costs - Delay costs</li>
+</ul>
+<p><strong>e)</strong> Create visualizations showing:</p>
+<ul>
+<li>Parts completed vs MTBF</li>
+<li>Total profit vs MTBF</li>
+<li>Average interruptions per part vs MTBF</li>
+</ul>
+<p><strong>f)</strong> At what MTBF level does the machine become too unreliable? Should it be replaced or refurbished?</p>
+<hr>
+<h2 id="question-5-hospital-emergency-department-integrated-challenge">Question 5: Hospital Emergency Department (Integrated Challenge)</h2>
+<p>This question is particularly hard, we will be looking into something similar next week, so don't worry if you find it too challenging to attempt.</p>
+<h3 id="scenario-4">Scenario</h3>
+<p>A hospital Emergency Department (ED) has two types of patients: <strong>Standard</strong> and <strong>Urgent</strong>. Urgent patients should be prioritized and experience minimal waiting. The hospital wants to optimize staffing while maintaining quality of care.</p>
+<h3 id="given-information-4">Given Information</h3>
+<ul>
+<li><strong>Standard patients:</strong> Arrive at 3 patients/hour, average treatment time 20 minutes</li>
+<li><strong>Urgent patients:</strong> Arrive at 1 patient/hour, average treatment time 30 minutes</li>
+<li>Urgent patients should be seen with <strong>priority</strong></li>
+<li>ED doctors can be interrupted to treat urgent patients</li>
+<li>Number of doctors available: <strong>to be determined</strong></li>
+<li>Cost of doctor: <strong>£40 per hour</strong></li>
+<li>Target: <strong>90% of urgent patients</strong> wait less than 10 minutes</li>
+<li>Target: <strong>80% of standard patients</strong> wait less than 30 minutes</li>
+<li>Simulation time: <strong>12 hours</strong> (one shift)</li>
+</ul>
+<h3 id="tasks-4">Tasks</h3>
+<p><strong>a)</strong> Design a simulation that combines concepts from M/M/c queues and preemptive resources:</p>
+<ul>
+<li>Two patient arrival processes (standard and urgent)</li>
+<li>Doctors modeled as PreemptiveResource</li>
+<li>Urgent patients interrupt standard patients if all doctors busy</li>
+<li>Collect separate statistics for each patient type</li>
+</ul>
+<p><strong>b)</strong> Test configurations with <strong>2, 3, 4, and 5 doctors</strong>.</p>
+<p><strong>c)</strong> For each configuration, track:</p>
+<ul>
+<li>For urgent patients: average wait time, % waiting &lt; 10 min</li>
+<li>For standard patients: average wait time, % waiting &lt; 30 min, average interruptions</li>
+<li>Total patients treated (both types)</li>
+<li>Doctor utilization</li>
+</ul>
+<p><strong>d)</strong> Calculate the <strong>total operational cost</strong> for the 12-hour shift:</p>
+<ul>
+<li><strong>Doctor costs</strong> = (Number of doctors) × £40/hour × 12 hours</li>
+<li><strong>Patient dissatisfaction cost:</strong>
+<ul>
+<li>Urgent: £5 per minute of wait time</li>
+<li>Standard: £1 per minute of wait time</li>
+</ul>
+</li>
+<li><strong>Total cost</strong> = Doctor costs + Dissatisfaction costs</li>
+</ul>
+<p><strong>e)</strong> Create visualizations showing:</p>
+<ul>
+<li>Wait times for both patient types vs number of doctors</li>
+<li>Percentage meeting service targets vs number of doctors</li>
+<li>Total cost breakdown</li>
+</ul>
+<p><strong>f)</strong> What is the optimal number of doctors? Do you meet the service level targets? What's the impact of interruptions?</p>
+<h3 id="hints">Hints</h3>
+<ul>
+<li>Use <code>PreemptiveResource</code> from Segment 3</li>
+<li>Assign priority=0 to urgent patients, priority=1 to standard patients</li>
+<li>Standard patients need to track if they were interrupted and resume treatment</li>
+</ul>
+<hr>
+<h2 id="tips">Tips</h2>
+<ol>
+<li>Start with the code from the lecture segments</li>
+<li>Test with short simulation times first to verify your code works</li>
+<li>Always check utilization (ρ) - if ρ ≥ 1, the system is unstable!</li>
+<li>Use visualizations to understand what's happening</li>
+<li>Compare simulation results with theoretical formulas where possible</li>
+</ol>
+
+            
+            <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var G=Object.defineProperty;var J=(f,u,_)=>u in f?G(f,u,{enumerable:!0,configurable:!0,writable:!0,value:_}):f[u]=_;var r=(f,u)=>G(f,"name",{value:u,configurable:!0});var w=(f,u,_)=>J(f,typeof u!="symbol"?u+"":u,_);(()=>{var f={32:(S,E,h)=>{S.exports=h(924)},924:(S,E)=>{"use strict";var h;h={value:!0};const b={h1:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:r(()=>HTMLSpanElement,"proto")},pre:{proto:r(()=>HTMLElement,"proto"),style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},z="data-marp-auto-scaling-wrapper",M="data-marp-auto-scaling-svg",T="data-marp-auto-scaling-container",j=class j extends HTMLElement{constructor(){super();w(this,"container");w(this,"containerSize");w(this,"containerObserver");w(this,"svg");w(this,"svgComputedStyle");w(this,"svgPreserveAspectRatio","xMinYMid meet");w(this,"wrapper");w(this,"wrapperSize");w(this,"wrapperObserver");const n=r(s=>([t])=>{const{width:i,height:o}=t.contentRect;this[s]={width:i,height:o},this.updateSVGRect()},"e");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(n("containerSize")),this.wrapperObserver=new ResizeObserver((...s)=>{n("wrapperSize")(...s),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`
+<style>
+  svg[${M}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${T}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${z}>
+  <svg part="svg" ${M}>
+    <foreignObject><span ${T}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${z}]`)??void 0;const n=this.svg;this.svg=this.wrapper?.querySelector(`svg[${M}]`)??void 0,this.svg!==n&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${T}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:n}=this;n&&(n.style.display="inline",requestAnimationFrame(()=>{n.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(n){const s=r(()=>{const t=(()=>{const i=n.getPropertyValue("--preserve-aspect-ratio");return i?i.trim():`x${(({textAlign:o,direction:p})=>{if(o.endsWith("left"))return"Min";if(o.endsWith("right"))return"Max";if(o==="start"||o==="end"){let m=p==="rtl";return o==="end"&&(m=!m),m?"Max":"Min"}return"Mid"})(n)}YMid meet`})();t!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=t,this.updateSVGRect()),n===this.svgComputedStyle&&requestAnimationFrame(s)},"t");s()}updateSVGRect(){let n=Math.ceil(this.containerSize?.width??0);const s=Math.ceil(this.containerSize?.height??0);this.dataset.downscaleOnly!==void 0&&(n=Math.max(n,this.wrapperSize?.width??0));const t=this.svg?.querySelector(":scope > foreignObject");if(t?.setAttribute("width",`${n}`),t?.setAttribute("height",`${s}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${n} ${s}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=n<=0||s<=0?"0":""),this.container){const i=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=i.startsWith("xmid")||i.startsWith("xmax")?"auto":"0",this.container.style.marginRight=i.startsWith("xmi")?"auto":"0"}}};r(j,"s");let k=j;const F=r((d,{attrs:v={},style:n})=>class extends d{constructor(...s){super(...s);for(const[t,i]of Object.entries(v))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(s){if(!(s instanceof Error&&s.name==="NotSupportedError"))throw s}return this.shadowRoot}_update(){const s=this._shadow();if(s){const t=n?`<style>:host { ${n} }</style>`:"";let i="<slot></slot>";const{autoScaling:o}=this.dataset;o!==void 0&&(i=`<marp-auto-scaling exportparts="svg:auto-scaling" ${o==="downscale-only"?"data-downscale-only":""}>${i}</marp-auto-scaling>`),s.innerHTML=t+i}}},"r");let L;const R=Symbol();let H;const C="marpitSVGPolyfill:setZoomFactor,",a=Symbol(),l=Symbol(),e=r(()=>{const d=navigator.vendor==="Apple Computer, Inc.",v=d?[g]:[],n={then:r(s=>(d?(async()=>{if(H===void 0){const t=document.createElement("canvas");t.width=10,t.height=10;const i=t.getContext("2d"),o=new Image(10,10),p=new Promise(m=>{o.addEventListener("load",()=>m())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await p,i.drawImage(o,0,0),H=i.getImageData(5,5,1,1).data[3]<128}return H})().then(t=>{s?.(t?[g]:[])}):s?.([]),n),"then")};return Object.assign(v,n)},"g");let c,y;function g(d){const v=typeof d=="object"&&d.target||document,n=typeof d=="object"?d.zoom:d;window[l]||(Object.defineProperty(window,l,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:i})=>{if(i===window.origin)try{if(t&&typeof t=="string"&&t.startsWith(C)){const[,o]=t.split(","),p=Number.parseFloat(o);Number.isNaN(p)||(y=p)}}catch(o){console.error(o)}}));let s=!1;Array.from(v.querySelectorAll("svg[data-marpit-svg]"),t=>{var i,o,p,m;t.style.transform||(t.style.transform="translateZ(0)");const x=n||y||t.currentScale||1;c!==x&&(c=x,s=x);const B=t.getBoundingClientRect(),{length:Y}=t.children;for(let N=0;N<Y;N+=1){const $=t.children[N];if($.getScreenCTM){const A=$.getScreenCTM();if(A){const Z=(o=(i=$.x)===null||i===void 0?void 0:i.baseVal.value)!==null&&o!==void 0?o:0,U=(m=(p=$.y)===null||p===void 0?void 0:p.baseVal.value)!==null&&m!==void 0?m:0,X=$.children.length;for(let P=0;P<X;P+=1){const W=$.children[P];if(W.tagName==="SECTION"){const{style:D}=W;D.transformOrigin||(D.transformOrigin=`${-Z}px ${-U}px`),D.transform=`scale(${x}) matrix(${A.a}, ${A.b}, ${A.c}, ${A.d}, ${A.e-B.left}, ${A.f-B.top}) translateZ(0.0001px)`;break}}}}}}),s!==!1&&Array.from(v.querySelectorAll("iframe"),({contentWindow:t})=>{t?.postMessage(`${C}${s}`,window.origin==="null"?"*":window.origin)})}r(g,"u");function O({once:d=!1,target:v=document}={}){const n=function(s=document){if(s[a])return s[a];let t=!0;const i=r(()=>{t=!1,delete s[a]},"i");Object.defineProperty(s,a,{configurable:!0,value:i});let o=[],p=!1;(async()=>{try{o=await e()}finally{p=!0}})();const m=r(()=>{for(const x of o)x({target:s});p&&o.length===0||t&&window.requestAnimationFrame(m)},"r");return m(),i}(v);return d?(n(),()=>{}):n}r(O,"v"),c=1,y=void 0;const I=O,q=Symbol(),V=r((d=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((t=document)=>{const i=window[R];i||customElements.define("marp-auto-scaling",k);for(const o of Object.keys(b)){const p=`marp-${o}`,m=b[o].proto();(L??(L=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),L))&&m!==HTMLElement?i||customElements.define(p,F(m,{style:b[o].style}),{extends:o}):(i||customElements.define(p,F(HTMLElement,b[o])),t.querySelectorAll(`${o}[is="${p}"]`).forEach(x=>{x.outerHTML=x.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${p}`).replace(new RegExp(`</${o}>$`,"i"),`</${p}>`)}))}window[R]=!0})(d),d[q])return d[q];const v=O({target:d}),n=r(()=>{v(),delete d[q]},"n"),s=Object.assign(n,{cleanup:n,update:r(()=>V(d),"update")});return Object.defineProperty(d,q,{configurable:!0,value:s}),s},"y");E.browser=V,h=V,h=I}},u={};function _(S){var E=u[S];if(E!==void 0)return E.exports;var h=u[S]={exports:{}};return f[S](h,h.exports,_),h.exports}r(_,"__webpack_require__");var K={};(()=>{"use strict";var S=_(32);const E="marp_vscode_content_section",h="data-marp-vscode-content-start-line",b="data-marp-vscode-content-end-line";function z(a){a.core.ruler.push(E,l=>{if(l.inlineMode)return;let e=null,c=0,y=0;for(const g of l.tokens)g.map&&(c=g.map[0],y=Math.max(y,...g.map)),g.type==="marpit_slide_open"&&(e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,c-1)),e=g);e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,y))})}r(z,"marpVSCodeContentSection");const M="marp-vscode.overflowTracker",T=r(a=>typeof a=="object"&&a!=null&&"type"in a&&a.type===M&&"overflowElements"in a&&Array.isArray(a.overflowElements),"isOverflowTrackerEvent"),C=class C{constructor(l){this.postMessage=l,this.delay=150,this.update()}update(){window.setTimeout(()=>this.detectOverflowElements(),this.delay)}cleanup(){}detectOverflowElements(){const l=[];for(const e of document.querySelectorAll(`section[${h}][${b}]`)){const c=e.scrollWidth-e.clientWidth,y=e.scrollHeight-e.clientHeight;if(c<=0&&y<=0)continue;const g=parseInt(e.getAttribute(h)||"",10),O=parseInt(e.getAttribute(b)||"",10);Number.isNaN(g)||Number.isNaN(O)||l.push({startLine:g,endLine:O})}this.postMessage(M,{overflowElements:l})}};r(C,"OverflowTracker");let k=C;function F(){let a;const l=window.cspAlerter?._messaging?.postMessage||window.styleLoadingMonitor?._poster?.postMessage,e=r(()=>{const c=document.getElementById("__marp-vscode");!!a!=!!c?(document.body.classList.toggle("marp-vscode",!!c),c?a={browser:(0,S.browser)(),overflowTracker:l?new k(l):void 0}:(a?.browser.cleanup(),a?.overflowTracker?.cleanup(),a=void 0)):(a?.browser.update(),a?.overflowTracker?.update()),a?(c&&L(c),R()):H()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(e,100)),window.addEventListener("vscode.markdown.updateContent",e),e()}r(F,"preview");const L=r(a=>{a.querySelectorAll("[is]").forEach(l=>{if(l.nodeName.includes("-")||document.createElement(l.nodeName).constructor!==l.constructor)return;const{outerHTML:c}=l;l.outerHTML=c,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",c.slice(0,c.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),R=r(()=>{const a=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),l=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');a.forEach(e=>{e.closest("#__marp-vscode")||(e.dataset.marpVscodeBody=e.textContent??"",e.textContent="")}),l.forEach(e=>{if(e.closest("#__marp-vscode"))return;const{href:c}=e;e.dataset.marpVscodeHref=c,e.removeAttribute("href")})},"removeStyles"),H=r(()=>{const a=document.querySelectorAll("style[data-marp-vscode-body]"),l=document.querySelectorAll("link[data-marp-vscode-href]");a.forEach(e=>{e.textContent=e.dataset.marpVscodeBody||"",delete e.dataset.marpVscodeBody}),l.forEach(e=>{e.href=e.dataset.marpVscodeHref||"",delete e.dataset.marpVscodeHref})},"restoreStyles");F()})()})();})();
+
+</script>
+
+        </body>
+        </html>

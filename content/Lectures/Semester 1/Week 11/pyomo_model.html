@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>pyomo_model.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/*
+
+Visual Studio-like style based on original C# coloring by Jason Diamond <jason@diamond.name>
+
+*/
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: white;
+  color: black;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-variable {
+  color: #008000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #00f;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #a31515;
+}
+
+.hljs-deletion,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-meta {
+  color: #2b91af;
+}
+
+.hljs-doctag {
+  color: #808080;
+}
+
+.hljs-attr {
+  color: #f00;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #00b0e8;
+}
+
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///c%3A//Users//tcsr529//.vscode//styles" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pyomo-model-for-the-minimax-model-with-rotation">Pyomo Model for the Minimax Model with Rotation</h1>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> pyomo.environ <span class="hljs-keyword">import</span> *
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> scipy.special <span class="hljs-keyword">import</span> comb
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">import</span> matplotlib.patches <span class="hljs-keyword">as</span> patches
+<span class="hljs-keyword">import</span> matplotlib.cm <span class="hljs-keyword">as</span> cm
+
+<span class="hljs-comment"># Data</span>
+w = np.array([<span class="hljs-number">4</span>,<span class="hljs-number">3</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>])
+h = np.array([<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>])
+
+<span class="hljs-comment"># w = np.array([4,3,6,7])</span>
+<span class="hljs-comment"># h = np.array([5,7,4,7])</span>
+
+M = <span class="hljs-number">9999</span>
+
+no_items = len(w)
+no_binary = int(comb(no_items,<span class="hljs-number">2</span>))
+
+<span class="hljs-comment"># Model</span>
+model = ConcreteModel()
+
+<span class="hljs-comment"># Sets</span>
+model.I = RangeSet(no_items)
+model.J = RangeSet(no_items)
+
+<span class="hljs-comment"># Parameters</span>
+model.w = Param(model.I, initialize=<span class="hljs-keyword">lambda</span> model, i: w[i<span class="hljs-number">-1</span>])
+model.h = Param(model.I, initialize=<span class="hljs-keyword">lambda</span> model, i: h[i<span class="hljs-number">-1</span>])
+
+<span class="hljs-comment"># Variables</span>
+model.x = Var(model.I, within=NonNegativeReals)
+model.y = Var(model.I, within=NonNegativeReals)
+model.v = Var(within=NonNegativeReals)
+model.xij = Var(model.I, model.J, within=Binary)
+model.yij = Var(model.I, model.J, within=Binary)
+model.r = Var(model.I, within=Binary)
+
+<span class="hljs-comment"># Objective</span>
+model.obj = Objective(expr=model.v, sense=minimize)
+
+<span class="hljs-comment"># Constraints</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">overlap_xij_rule</span><span class="hljs-params">(model, i, j)</span>:</span>
+    <span class="hljs-keyword">if</span> i &lt; j:
+        <span class="hljs-keyword">return</span> model.x[i] + (<span class="hljs-number">1</span>-model.r[i])*model.w[i] + model.r[i]*model.h[i] &lt;= model.x[j] + M*(model.xij[i,j]+model.yij[i,j])
+    
+    <span class="hljs-keyword">return</span> Constraint.Skip
+    
+model.overlap_xij = Constraint(model.I, model.J, rule=overlap_xij_rule)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">overlap_xji_rule</span><span class="hljs-params">(model, i, j)</span>:</span>
+    <span class="hljs-keyword">if</span> i &lt; j:
+        <span class="hljs-keyword">return</span> model.x[j] + (<span class="hljs-number">1</span>-model.r[j])*model.w[j] + model.r[j]*model.h[j] &lt;= model.x[i] + M*(<span class="hljs-number">1</span>-model.xij[i,j]+model.yij[i,j])
+    
+    <span class="hljs-keyword">return</span> Constraint.Skip
+model.overlap_xji = Constraint(model.I, model.J, rule=overlap_xji_rule)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">overlap_yij_rule</span><span class="hljs-params">(model, i, j)</span>:</span>
+    <span class="hljs-keyword">if</span> i &lt; j:
+        <span class="hljs-keyword">return</span> model.y[i] + (<span class="hljs-number">1</span>-model.r[i])*model.h[i] + model.r[i]*model.w[i] &lt;= model.y[j] + M*(<span class="hljs-number">1</span>+model.xij[i,j]-model.yij[i,j])
+        
+    <span class="hljs-keyword">return</span> Constraint.Skip
+
+model.overlap_yij = Constraint(model.I, model.J, rule=overlap_yij_rule)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">overlap_yji_rule</span><span class="hljs-params">(model, i, j)</span>:</span>
+    <span class="hljs-keyword">if</span> i &lt; j:
+        <span class="hljs-keyword">return</span> model.y[j] + (<span class="hljs-number">1</span>-model.r[j])*model.h[j] + model.r[j]*model.w[j] &lt;= model.y[i] + M*(<span class="hljs-number">2</span>-model.xij[i,j]-model.yij[i,j])
+    
+    <span class="hljs-keyword">return</span> Constraint.Skip
+model.overlap_yji = Constraint(model.I, model.J, rule=overlap_yji_rule)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">box_xi_rule</span><span class="hljs-params">(model, i)</span>:</span>
+    <span class="hljs-keyword">return</span> model.x[i] + (<span class="hljs-number">1</span>-model.r[i])*model.w[i] + model.r[i]*model.h[i] &lt;= model.v
+model.box_xi = Constraint(model.I, rule=box_xi_rule)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">box_yi_rule</span><span class="hljs-params">(model, i)</span>:</span>
+    <span class="hljs-keyword">return</span> model.y[i] + (<span class="hljs-number">1</span>-model.r[i])*model.h[i] + model.r[i]*model.w[i] &lt;= model.v
+model.box_yi = Constraint(model.I, rule=box_yi_rule)
+
+<span class="hljs-comment"># used to switch off rotation</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rotation_off</span><span class="hljs-params">(model, i)</span>:</span>
+    <span class="hljs-keyword">return</span> model.r[i] &lt;= <span class="hljs-number">0</span>
+
+<span class="hljs-comment"># uncomment this to switch off rotation</span>
+<span class="hljs-comment">#model.rotation_off = Constraint(model.I, rule=rotation_off)</span>
+
+<span class="hljs-comment"># Solve</span>
+solver = SolverFactory(<span class="hljs-string">'glpk'</span>)
+solver.solve(model, tee=<span class="hljs-literal">True</span>)
+
+model.display()
+model.pprint()
+
+<span class="hljs-comment"># Print the value of the variables at the optimum</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> model.I:
+    print(<span class="hljs-string">"x["</span>,i,<span class="hljs-string">"]="</span>, model.x[i].value)
+    print(<span class="hljs-string">"y["</span>,i,<span class="hljs-string">"]="</span>, model.y[i].value)
+    print(<span class="hljs-string">"r["</span>,i,<span class="hljs-string">"]="</span>, model.r[i].value)
+print(<span class="hljs-string">"v="</span>, model.v.value)
+
+fig, ax = plt.subplots()
+
+cmap = cm.get_cmap(<span class="hljs-string">'Pastel1'</span>)  <span class="hljs-comment"># Can be any colormap available in matplotlib</span>
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, no_items+<span class="hljs-number">1</span>):
+    x = model.x[i].value
+    y = model.y[i].value
+    wi = w[i<span class="hljs-number">-1</span>]
+    hi = h[i<span class="hljs-number">-1</span>]
+    color = cmap(i/no_items)  <span class="hljs-comment"># Get the color from the colormap</span>
+    <span class="hljs-keyword">if</span> model.r[i].value:
+        print(<span class="hljs-string">'rotated'</span>)
+        rect = patches.Rectangle((x,y),hi,wi,linewidth=<span class="hljs-number">2</span>,edgecolor=<span class="hljs-string">'k'</span>,facecolor=color)
+    <span class="hljs-keyword">else</span>:
+        print(<span class="hljs-string">'not rotated'</span>)
+        rect = patches.Rectangle((x,y),wi,hi,linewidth=<span class="hljs-number">2</span>,edgecolor=<span class="hljs-string">'k'</span>,facecolor=color)
+    ax.add_patch(rect)
+
+plt.grid(<span class="hljs-literal">True</span>)
+plt.axis(<span class="hljs-string">'equal'</span>)
+plt.legend([str(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, no_items+<span class="hljs-number">1</span>)], loc=<span class="hljs-string">'lower left'</span>)
+plt.xlabel(<span class="hljs-string">'x'</span>)
+plt.ylabel(<span class="hljs-string">'y'</span>)
+plt.show()
+</div></code></pre>
+
+</body>
+</html>

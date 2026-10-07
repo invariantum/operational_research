@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Segment 3&colon; Machines with Breakdowns &lpar;Interrupts&rpar;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+html:has(body.marp-vscode) {
+  padding: 0;
+}
+
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.showEditorSelection {
+      --marp-vscode-highlight-color: rgb(255 255 255 / 40%);
+
+      &.vscode-light {
+        --marp-vscode-highlight-color: rgb(0 0 0 / 15%);
+      }
+
+      &.vscode-high-contrast {
+        --marp-vscode-highlight-color: rgb(255 160 0 / 70%);
+      }
+    }
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+    position: relative;
+
+    &.code-active-line,
+    &:has(.code-active-line) {
+      &::before {
+        position: absolute;
+        content: '';
+        inset: -7px;
+        border: 3px solid var(--marp-vscode-highlight-color, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    overflow-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="segment-3-machines-with-breakdowns-interrupts">Segment 3: Machines with Breakdowns (Interrupts)</h1>
+<h2 id="overview">Overview</h2>
+<p>In real manufacturing systems, machines don't run perfectly - they break down. When a machine fails during production, the current job is interrupted and must resume after repair. This segment introduces <strong>PreemptiveResource</strong> and <strong>Interrupts</strong> in SimPy.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>A manufacturing machine processes jobs. While processing a job:</p>
+<ul>
+<li>The machine might randomly break down</li>
+<li>The job is interrupted mid-processing</li>
+<li>Machine must be repaired (takes time)</li>
+<li>Job resumes where it left off</li>
+</ul>
+<p><strong>Key Questions:</strong></p>
+<ul>
+<li>How do breakdowns affect job completion times?</li>
+<li>What's the impact of Mean Time Between Failures (MTBF)?</li>
+<li>How do we model jobs resuming after interruption?</li>
+</ul>
+<h2 id="new-simpy-concepts">New SimPy Concepts</h2>
+<h3 id="preemptiveresource">PreemptiveResource</h3>
+<p>A <code>PreemptiveResource</code> allows higher-priority requests to <strong>interrupt</strong> lower-priority ones.</p>
+<pre><code class="language-python">machine = simpy.PreemptiveResource(env, capacity=<span class="hljs-number">1</span>)
+
+<span class="hljs-comment"># Lower number = higher priority</span>
+<span class="hljs-keyword">with</span> machine.request(priority=<span class="hljs-number">1</span>) <span class="hljs-keyword">as</span> req:  <span class="hljs-comment"># Normal job</span>
+    <span class="hljs-keyword">yield</span> req
+    <span class="hljs-comment"># Work...</span>
+
+<span class="hljs-keyword">with</span> machine.request(priority=<span class="hljs-number">0</span>, preempt=<span class="hljs-literal">True</span>) <span class="hljs-keyword">as</span> req:  <span class="hljs-comment"># Breakdown (interrupts jobs)</span>
+    <span class="hljs-keyword">yield</span> req
+    <span class="hljs-comment"># Repair...</span>
+</code></pre>
+<h3 id="handling-interrupts">Handling Interrupts</h3>
+<p>When a process is interrupted, it receives a <code>simpy.Interrupt</code> exception:</p>
+<pre><code class="language-python"><span class="hljs-keyword">try</span>:
+    <span class="hljs-keyword">yield</span> env.timeout(<span class="hljs-number">10</span>)  <span class="hljs-comment"># Try to work</span>
+<span class="hljs-keyword">except</span> simpy.Interrupt:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Got interrupted!&quot;</span>)
+    <span class="hljs-comment"># Handle the interruption</span>
+</code></pre>
+<h2 id="building-the-simulation">Building the Simulation</h2>
+<h3 id="complete-code">Complete Code</h3>
+<pre><code class="language-python"><span class="hljs-keyword">import</span> simpy
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+
+<span class="hljs-comment"># Data collection</span>
+job_completion_times = []
+job_interruptions = []
+total_interruptions = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">machine_breakdown_process</span>(<span class="hljs-params">env, machine, mtbf, mttr</span>):
+    <span class="hljs-string">&quot;&quot;&quot;
+    Randomly breaks the machine down.
+    
+    Args:
+        mtbf: Mean Time Between Failures (hours)
+        mttr: Mean Time To Repair (hours)
+    &quot;&quot;&quot;</span>
+    <span class="hljs-keyword">global</span> total_interruptions
+    
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># Work for some time before breaking</span>
+        uptime = random.expovariate(<span class="hljs-number">1.0</span> / mtbf)
+        <span class="hljs-keyword">yield</span> env.timeout(uptime)
+        
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: ⚠️  MACHINE BREAKDOWN!&quot;</span>)
+        total_interruptions += <span class="hljs-number">1</span>
+        
+        <span class="hljs-comment"># Request machine with highest priority to &quot;seize&quot; it for repairs</span>
+        <span class="hljs-keyword">with</span> machine.request(priority=-<span class="hljs-number">1</span>, preempt=<span class="hljs-literal">True</span>) <span class="hljs-keyword">as</span> req:
+            <span class="hljs-keyword">yield</span> req
+            
+            <span class="hljs-comment"># Repair the machine</span>
+            repair_time = random.expovariate(<span class="hljs-number">1.0</span> / mttr)
+            <span class="hljs-keyword">yield</span> env.timeout(repair_time)
+            
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: ✓  Machine repaired (took <span class="hljs-subst">{repair_time:<span class="hljs-number">.2</span>f}</span> hours)&quot;</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">job</span>(<span class="hljs-params">env, name, machine, processing_time</span>):
+    <span class="hljs-string">&quot;&quot;&quot;
+    A job that uses the machine and can be interrupted.
+    
+    Args:
+        processing_time: Total time needed to complete the job
+    &quot;&quot;&quot;</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> arrives (needs <span class="hljs-subst">{processing_time:<span class="hljs-number">.2</span>f}</span> hours)&quot;</span>)
+    
+    arrival_time = env.now
+    interruption_count = <span class="hljs-number">0</span>
+    remaining_time = processing_time
+    
+    <span class="hljs-comment"># Request machine with normal priority</span>
+    <span class="hljs-keyword">with</span> machine.request(priority=<span class="hljs-number">1</span>) <span class="hljs-keyword">as</span> req:
+        <span class="hljs-keyword">yield</span> req
+        
+        <span class="hljs-comment"># Keep trying to complete the job</span>
+        <span class="hljs-keyword">while</span> remaining_time &gt; <span class="hljs-number">0</span>:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> working (needs <span class="hljs-subst">{remaining_time:<span class="hljs-number">.2</span>f}</span> more hours)&quot;</span>)
+            
+            <span class="hljs-keyword">try</span>:
+                <span class="hljs-comment"># Try to complete remaining work</span>
+                start_time = env.now
+                <span class="hljs-keyword">yield</span> env.timeout(remaining_time)
+                
+                <span class="hljs-comment"># Success! Job completed</span>
+                completion_time = env.now - arrival_time
+                job_completion_times.append(completion_time)
+                job_interruptions.append(interruption_count)
+                
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> COMPLETED (total time: <span class="hljs-subst">{completion_time:<span class="hljs-number">.2</span>f}</span> hours, interruptions: <span class="hljs-subst">{interruption_count}</span>)&quot;</span>)
+                remaining_time = <span class="hljs-number">0</span>
+                
+            <span class="hljs-keyword">except</span> simpy.Interrupt <span class="hljs-keyword">as</span> interrupt:
+                <span class="hljs-comment"># Machine broke down!</span>
+                work_done = env.now - start_time
+                remaining_time -= work_done
+                interruption_count += <span class="hljs-number">1</span>
+                
+                <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> INTERRUPTED (completed <span class="hljs-subst">{work_done:<span class="hljs-number">.2</span>f}</span> hours, <span class="hljs-subst">{remaining_time:<span class="hljs-number">.2</span>f}</span> hours remaining)&quot;</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">job_generator</span>(<span class="hljs-params">env, machine, arrival_rate, processing_time_mean</span>):
+    <span class="hljs-string">&quot;&quot;&quot;Generate jobs arriving at the machine.&quot;&quot;&quot;</span>
+    
+    job_number = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># Wait for next job</span>
+        <span class="hljs-keyword">yield</span> env.timeout(random.expovariate(arrival_rate))
+        
+        job_number += <span class="hljs-number">1</span>
+        processing_time = random.expovariate(<span class="hljs-number">1.0</span> / processing_time_mean)
+        env.process(job(env, <span class="hljs-string">f&quot;Job <span class="hljs-subst">{job_number}</span>&quot;</span>, machine, processing_time))
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">run_simulation</span>(<span class="hljs-params">mtbf, mttr, sim_time=<span class="hljs-number">200</span>, arrival_rate=<span class="hljs-number">0.1</span>, processing_time=<span class="hljs-number">5.0</span>, random_seed=<span class="hljs-number">42</span></span>):
+    <span class="hljs-string">&quot;&quot;&quot;Run simulation with specified breakdown parameters.&quot;&quot;&quot;</span>
+    
+    <span class="hljs-comment"># Reset globals</span>
+    <span class="hljs-keyword">global</span> job_completion_times, job_interruptions, total_interruptions
+    job_completion_times = []
+    job_interruptions = []
+    total_interruptions = <span class="hljs-number">0</span>
+    
+    <span class="hljs-comment"># Setup</span>
+    random.seed(random_seed)
+    env = simpy.Environment()
+    machine = simpy.PreemptiveResource(env, capacity=<span class="hljs-number">1</span>)
+    
+    <span class="hljs-comment"># Start processes</span>
+    env.process(machine_breakdown_process(env, machine, mtbf, mttr))
+    env.process(job_generator(env, machine, arrival_rate, processing_time))
+    
+    <span class="hljs-comment"># Run</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Simulation: MTBF=<span class="hljs-subst">{mtbf}</span>h, MTTR=<span class="hljs-subst">{mttr}</span>h&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+    env.run(until=sim_time)
+    
+    <span class="hljs-comment"># Return statistics</span>
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">&#x27;mtbf&#x27;</span>: mtbf,
+        <span class="hljs-string">&#x27;mttr&#x27;</span>: mttr,
+        <span class="hljs-string">&#x27;jobs_completed&#x27;</span>: <span class="hljs-built_in">len</span>(job_completion_times),
+        <span class="hljs-string">&#x27;avg_completion_time&#x27;</span>: <span class="hljs-built_in">sum</span>(job_completion_times) / <span class="hljs-built_in">len</span>(job_completion_times) <span class="hljs-keyword">if</span> job_completion_times <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;max_completion_time&#x27;</span>: <span class="hljs-built_in">max</span>(job_completion_times) <span class="hljs-keyword">if</span> job_completion_times <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;avg_interruptions&#x27;</span>: <span class="hljs-built_in">sum</span>(job_interruptions) / <span class="hljs-built_in">len</span>(job_interruptions) <span class="hljs-keyword">if</span> job_interruptions <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;total_breakdowns&#x27;</span>: total_interruptions
+    }
+
+<span class="hljs-comment"># Run baseline: No breakdowns (MTBF = very high)</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;BASELINE: No Breakdowns&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+baseline = run_simulation(mtbf=<span class="hljs-number">10000</span>, mttr=<span class="hljs-number">1</span>, sim_time=<span class="hljs-number">200</span>)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nJobs completed: <span class="hljs-subst">{baseline[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>]}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Average completion time: <span class="hljs-subst">{baseline[<span class="hljs-string">&#x27;avg_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> hours&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Maximum completion time: <span class="hljs-subst">{baseline[<span class="hljs-string">&#x27;max_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> hours&quot;</span>)
+
+<span class="hljs-comment"># Run with moderate breakdowns</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;SCENARIO 1: Moderate Reliability (MTBF=50h)&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+scenario1 = run_simulation(mtbf=<span class="hljs-number">50</span>, mttr=<span class="hljs-number">5</span>, sim_time=<span class="hljs-number">200</span>)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nJobs completed: <span class="hljs-subst">{scenario1[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>]}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Average completion time: <span class="hljs-subst">{scenario1[<span class="hljs-string">&#x27;avg_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> hours&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Maximum completion time: <span class="hljs-subst">{scenario1[<span class="hljs-string">&#x27;max_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> hours&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Average interruptions per job: <span class="hljs-subst">{scenario1[<span class="hljs-string">&#x27;avg_interruptions&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Total breakdowns: <span class="hljs-subst">{scenario1[<span class="hljs-string">&#x27;total_breakdowns&#x27;</span>]}</span>&quot;</span>)
+
+<span class="hljs-comment"># Run with frequent breakdowns</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;SCENARIO 2: Poor Reliability (MTBF=20h)&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+scenario2 = run_simulation(mtbf=<span class="hljs-number">20</span>, mttr=<span class="hljs-number">5</span>, sim_time=<span class="hljs-number">200</span>)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nJobs completed: <span class="hljs-subst">{scenario2[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>]}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Average completion time: <span class="hljs-subst">{scenario2[<span class="hljs-string">&#x27;avg_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> hours&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Maximum completion time: <span class="hljs-subst">{scenario2[<span class="hljs-string">&#x27;max_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> hours&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Average interruptions per job: <span class="hljs-subst">{scenario2[<span class="hljs-string">&#x27;avg_interruptions&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Total breakdowns: <span class="hljs-subst">{scenario2[<span class="hljs-string">&#x27;total_breakdowns&#x27;</span>]}</span>&quot;</span>)
+</code></pre>
+<h2 id="analyzing-the-impact-of-breakdowns">Analyzing the Impact of Breakdowns</h2>
+<h3 id="comparing-scenarios">Comparing Scenarios</h3>
+<pre><code class="language-python"><span class="hljs-comment"># Compare different MTBF values</span>
+mtbf_values = [<span class="hljs-number">10000</span>, <span class="hljs-number">100</span>, <span class="hljs-number">50</span>, <span class="hljs-number">30</span>, <span class="hljs-number">20</span>, <span class="hljs-number">15</span>]  <span class="hljs-comment"># Decreasing reliability</span>
+results = []
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;COMPARING DIFFERENT RELIABILITY LEVELS&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+
+<span class="hljs-keyword">for</span> mtbf <span class="hljs-keyword">in</span> mtbf_values:
+    stats = run_simulation(mtbf=mtbf, mttr=<span class="hljs-number">5</span>, sim_time=<span class="hljs-number">200</span>, random_seed=<span class="hljs-number">42</span>)
+    results.append(stats)
+    
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nMTBF=<span class="hljs-subst">{mtbf}</span>h:&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Jobs completed: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>]}</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Avg completion time: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;avg_completion_time&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>h&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Avg interruptions: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;avg_interruptions&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+</code></pre>
+<h3 id="visualization">Visualization</h3>
+<pre><code class="language-python"><span class="hljs-comment"># Extract data</span>
+mtbf_vals = [r[<span class="hljs-string">&#x27;mtbf&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+avg_times = [r[<span class="hljs-string">&#x27;avg_completion_time&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+avg_interrupts = [r[<span class="hljs-string">&#x27;avg_interruptions&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+jobs_done = [r[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+
+fig, axes = plt.subplots(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">10</span>))
+
+<span class="hljs-comment"># Plot 1: Completion time vs reliability</span>
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].semilogx(mtbf_vals, avg_times, marker=<span class="hljs-string">&#x27;o&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].set_xlabel(<span class="hljs-string">&#x27;MTBF (hours, log scale)&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].set_ylabel(<span class="hljs-string">&#x27;Avg Completion Time (hours)&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].set_title(<span class="hljs-string">&#x27;Job Completion Time vs Machine Reliability&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].invert_xaxis()  <span class="hljs-comment"># Higher MTBF (better) on the right</span>
+
+<span class="hljs-comment"># Plot 2: Interruptions vs reliability</span>
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].semilogx(mtbf_vals, avg_interrupts, marker=<span class="hljs-string">&#x27;s&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>, color=<span class="hljs-string">&#x27;orange&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].set_xlabel(<span class="hljs-string">&#x27;MTBF (hours, log scale)&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].set_ylabel(<span class="hljs-string">&#x27;Avg Interruptions per Job&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x27;Job Interruptions vs Machine Reliability&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].invert_xaxis()
+
+<span class="hljs-comment"># Plot 3: Throughput vs reliability</span>
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].semilogx(mtbf_vals, jobs_done, marker=<span class="hljs-string">&#x27;^&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>, color=<span class="hljs-string">&#x27;green&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].set_xlabel(<span class="hljs-string">&#x27;MTBF (hours, log scale)&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].set_ylabel(<span class="hljs-string">&#x27;Jobs Completed&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].set_title(<span class="hljs-string">&#x27;Throughput vs Machine Reliability&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].invert_xaxis()
+
+<span class="hljs-comment"># Plot 4: Availability</span>
+<span class="hljs-comment"># Availability = MTBF / (MTBF + MTTR)</span>
+mttr = <span class="hljs-number">5</span>
+availabilities = [<span class="hljs-number">100</span> * mtbf / (mtbf + mttr) <span class="hljs-keyword">for</span> mtbf <span class="hljs-keyword">in</span> mtbf_vals]
+
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].semilogx(mtbf_vals, availabilities, marker=<span class="hljs-string">&#x27;d&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].set_xlabel(<span class="hljs-string">&#x27;MTBF (hours, log scale)&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].set_ylabel(<span class="hljs-string">&#x27;Availability (%)&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x27;Machine Availability&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].axhline(y=<span class="hljs-number">95</span>, color=<span class="hljs-string">&#x27;gray&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, label=<span class="hljs-string">&#x27;95% target&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].legend()
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].invert_xaxis()
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="understanding-reliability-metrics">Understanding Reliability Metrics</h2>
+<h3 id="key-concepts">Key Concepts</h3>
+<p><strong>MTBF (Mean Time Between Failures)</strong></p>
+<ul>
+<li>Average time the machine runs before breaking down</li>
+<li>Higher MTBF = more reliable</li>
+<li>Example: MTBF = 50 hours means average of 50 hours between failures</li>
+</ul>
+<p><strong>MTTR (Mean Time To Repair)</strong></p>
+<ul>
+<li>Average time to fix the machine after breakdown</li>
+<li>Lower MTTR = faster repairs</li>
+<li>Example: MTTR = 5 hours means average repair takes 5 hours</li>
+</ul>
+<p><strong>Availability</strong></p>
+<ul>
+<li>Percentage of time machine is operational</li>
+<li>Formula: A = MTBF / (MTBF + MTTR)</li>
+<li>Example: MTBF=50, MTTR=5 → A = 50/55 = 90.9%</li>
+</ul>
+<h3 id="impact-on-performance">Impact on Performance</h3>
+<pre><code>High Reliability (MTBF=100h, MTTR=5h)
+├─ Availability: 95.2%
+├─ Few interruptions
+├─ Jobs complete close to expected time
+└─ Predictable production
+
+Low Reliability (MTBF=20h, MTTR=5h)
+├─ Availability: 80%
+├─ Frequent interruptions
+├─ Jobs take much longer
+└─ Unpredictable production
+</code></pre>
+<h2 id="maintenance-strategies">Maintenance Strategies</h2>
+<h3 id="preventive-vs-reactive-maintenance">Preventive vs Reactive Maintenance</h3>
+<p><strong>Reactive (Run to Failure)</strong></p>
+<ul>
+<li>Wait for breakdowns, then repair</li>
+<li>What we simulated above</li>
+<li>Lower maintenance cost, higher downtime cost</li>
+</ul>
+<p><strong>Preventive (Scheduled Maintenance)</strong></p>
+<ul>
+<li>Regular maintenance before failures</li>
+<li>Prevents breakdowns but costs time/money</li>
+<li>Trade-off to optimize</li>
+</ul>
+<h3 id="modeling-preventive-maintenance">Modeling Preventive Maintenance</h3>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">preventive_maintenance_process</span>(<span class="hljs-params">env, machine, maintenance_interval, maintenance_time</span>):
+    <span class="hljs-string">&quot;&quot;&quot;Perform scheduled maintenance.&quot;&quot;&quot;</span>
+    
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># Wait for maintenance interval</span>
+        <span class="hljs-keyword">yield</span> env.timeout(maintenance_interval)
+        
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: Scheduled maintenance starting&quot;</span>)
+        
+        <span class="hljs-comment"># Request machine for maintenance</span>
+        <span class="hljs-keyword">with</span> machine.request(priority=<span class="hljs-number">0</span>) <span class="hljs-keyword">as</span> req:  <span class="hljs-comment"># Higher priority than jobs</span>
+            <span class="hljs-keyword">yield</span> req
+            <span class="hljs-keyword">yield</span> env.timeout(maintenance_time)
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: Maintenance complete&quot;</span>)
+
+<span class="hljs-comment"># To add to simulation:</span>
+<span class="hljs-comment"># env.process(preventive_maintenance_process(env, machine, interval=100, time=2))</span>
+</code></pre>
+<p><strong>Question for students:</strong> How do you find the optimal maintenance interval?</p>
+<h2 id="cost-analysis-with-breakdowns">Cost Analysis with Breakdowns</h2>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_production_cost</span>(<span class="hljs-params">stats, processing_time_mean=<span class="hljs-number">5.0</span></span>):
+    <span class="hljs-string">&quot;&quot;&quot;Calculate total production costs including breakdown impacts.&quot;&quot;&quot;</span>
+    
+    <span class="hljs-comment"># Direct costs</span>
+    breakdown_repair_cost = stats[<span class="hljs-string">&#x27;total_breakdowns&#x27;</span>] * <span class="hljs-number">500</span>  <span class="hljs-comment"># $500 per repair</span>
+    
+    <span class="hljs-comment"># Delay costs (jobs taking longer than planned)</span>
+    expected_completion = processing_time_mean
+    actual_completion = stats[<span class="hljs-string">&#x27;avg_completion_time&#x27;</span>]
+    delay = actual_completion - expected_completion
+    delay_cost_per_hour = <span class="hljs-number">100</span>  <span class="hljs-comment"># $100 per hour of delay</span>
+    total_delay_cost = stats[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>] * delay * delay_cost_per_hour
+    
+    <span class="hljs-comment"># Lost production (fewer jobs completed)</span>
+    <span class="hljs-comment"># Baseline would complete more jobs without breakdowns</span>
+    baseline_jobs = <span class="hljs-number">30</span>  <span class="hljs-comment"># Expected without breakdowns</span>
+    lost_jobs = <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, baseline_jobs - stats[<span class="hljs-string">&#x27;jobs_completed&#x27;</span>])
+    lost_revenue = lost_jobs * <span class="hljs-number">1000</span>  <span class="hljs-comment"># $1000 profit per job</span>
+    
+    total_cost = breakdown_repair_cost + total_delay_cost + lost_revenue
+    
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">&#x27;repair_cost&#x27;</span>: breakdown_repair_cost,
+        <span class="hljs-string">&#x27;delay_cost&#x27;</span>: total_delay_cost,
+        <span class="hljs-string">&#x27;lost_revenue&#x27;</span>: lost_revenue,
+        <span class="hljs-string">&#x27;total_cost&#x27;</span>: total_cost
+    }
+
+<span class="hljs-comment"># Calculate costs for each scenario</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;COST ANALYSIS&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+
+<span class="hljs-keyword">for</span> stats <span class="hljs-keyword">in</span> results:
+    costs = calculate_production_cost(stats)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nMTBF=<span class="hljs-subst">{stats[<span class="hljs-string">&#x27;mtbf&#x27;</span>]}</span>h:&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Repair costs: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;repair_cost&#x27;</span>]:,<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Delay costs: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;delay_cost&#x27;</span>]:,<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Lost revenue: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;lost_revenue&#x27;</span>]:,<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  TOTAL COST: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;total_cost&#x27;</span>]:,<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+</code></pre>
+<h2 id="real-world-applications">Real-World Applications</h2>
+<h3 id="manufacturing">Manufacturing</h3>
+<ul>
+<li>Assembly lines where stations can break</li>
+<li>CNC machines that require maintenance</li>
+<li>Conveyor systems with mechanical failures</li>
+</ul>
+<h3 id="transportation">Transportation</h3>
+<ul>
+<li>Buses/trains that break down mid-route</li>
+<li>Delivery vehicles requiring repairs</li>
+<li>Airport equipment failures</li>
+</ul>
+<h3 id="healthcare">Healthcare</h3>
+<ul>
+<li>Medical equipment (MRI, CT scanners) needing maintenance</li>
+<li>Operating rooms with equipment failures</li>
+<li>Lab equipment breakdowns</li>
+</ul>
+<h3 id="it-systems">IT Systems</h3>
+<ul>
+<li>Servers that crash during processing</li>
+<li>Network equipment failures</li>
+<li>Database systems requiring restarts</li>
+</ul>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>PreemptiveResource</strong> allows interruptions (priority-based)</li>
+<li><strong>Lower priority number = higher priority</strong> (-1 highest)</li>
+<li><strong>Try-except</strong> blocks handle interrupts gracefully</li>
+<li><strong>Jobs track remaining work</strong> and resume after interruption</li>
+<li><strong>Breakdowns significantly impact</strong> completion times and throughput</li>
+<li><strong>Availability</strong> = MTBF / (MTBF + MTTR) is key metric</li>
+<li><strong>Cost analysis</strong> reveals impact of reliability on business</li>
+</ol>
+<h2 id="discussion-questions">Discussion Questions</h2>
+<ol>
+<li>At what MTBF does the system become unacceptably unreliable?</li>
+<li>Is it better to have fast repairs (low MTTR) or fewer failures (high MTBF)?</li>
+<li>How would you decide between preventive and reactive maintenance?</li>
+<li>What if repairs take variable time (some failures worse than others)?</li>
+<li>How would you model a system with backup machines?</li>
+</ol>
+<h2 id="extension-exercises">Extension Exercises</h2>
+<ol>
+<li>
+<p><strong>Add preventive maintenance</strong></p>
+<ul>
+<li>Scheduled every X hours</li>
+<li>Reduces breakdown probability</li>
+<li>Find optimal maintenance schedule</li>
+</ul>
+</li>
+<li>
+<p><strong>Model spare parts</strong></p>
+<ul>
+<li>Repairs faster if parts in stock</li>
+<li>Inventory holding costs vs delay costs</li>
+</ul>
+</li>
+<li>
+<p><strong>Multiple machines</strong></p>
+<ul>
+<li>Jobs can use any available machine</li>
+<li>One breakdown doesn't stop all production</li>
+</ul>
+</li>
+<li>
+<p><strong>Priority jobs</strong></p>
+<ul>
+<li>Some jobs more important than others</li>
+<li>How to schedule when breakdowns occur?</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><strong>Next:</strong> Segment 4 - Hospital Optimization (Hands-On Exercise)</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var G=Object.defineProperty;var J=(f,u,_)=>u in f?G(f,u,{enumerable:!0,configurable:!0,writable:!0,value:_}):f[u]=_;var r=(f,u)=>G(f,"name",{value:u,configurable:!0});var w=(f,u,_)=>J(f,typeof u!="symbol"?u+"":u,_);(()=>{var f={32:(S,E,h)=>{S.exports=h(924)},924:(S,E)=>{"use strict";var h;h={value:!0};const b={h1:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:r(()=>HTMLSpanElement,"proto")},pre:{proto:r(()=>HTMLElement,"proto"),style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},z="data-marp-auto-scaling-wrapper",M="data-marp-auto-scaling-svg",T="data-marp-auto-scaling-container",j=class j extends HTMLElement{constructor(){super();w(this,"container");w(this,"containerSize");w(this,"containerObserver");w(this,"svg");w(this,"svgComputedStyle");w(this,"svgPreserveAspectRatio","xMinYMid meet");w(this,"wrapper");w(this,"wrapperSize");w(this,"wrapperObserver");const n=r(s=>([t])=>{const{width:i,height:o}=t.contentRect;this[s]={width:i,height:o},this.updateSVGRect()},"e");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(n("containerSize")),this.wrapperObserver=new ResizeObserver((...s)=>{n("wrapperSize")(...s),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`
+<style>
+  svg[${M}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${T}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${z}>
+  <svg part="svg" ${M}>
+    <foreignObject><span ${T}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${z}]`)??void 0;const n=this.svg;this.svg=this.wrapper?.querySelector(`svg[${M}]`)??void 0,this.svg!==n&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${T}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:n}=this;n&&(n.style.display="inline",requestAnimationFrame(()=>{n.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(n){const s=r(()=>{const t=(()=>{const i=n.getPropertyValue("--preserve-aspect-ratio");return i?i.trim():`x${(({textAlign:o,direction:p})=>{if(o.endsWith("left"))return"Min";if(o.endsWith("right"))return"Max";if(o==="start"||o==="end"){let m=p==="rtl";return o==="end"&&(m=!m),m?"Max":"Min"}return"Mid"})(n)}YMid meet`})();t!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=t,this.updateSVGRect()),n===this.svgComputedStyle&&requestAnimationFrame(s)},"t");s()}updateSVGRect(){let n=Math.ceil(this.containerSize?.width??0);const s=Math.ceil(this.containerSize?.height??0);this.dataset.downscaleOnly!==void 0&&(n=Math.max(n,this.wrapperSize?.width??0));const t=this.svg?.querySelector(":scope > foreignObject");if(t?.setAttribute("width",`${n}`),t?.setAttribute("height",`${s}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${n} ${s}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=n<=0||s<=0?"0":""),this.container){const i=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=i.startsWith("xmid")||i.startsWith("xmax")?"auto":"0",this.container.style.marginRight=i.startsWith("xmi")?"auto":"0"}}};r(j,"s");let k=j;const F=r((d,{attrs:v={},style:n})=>class extends d{constructor(...s){super(...s);for(const[t,i]of Object.entries(v))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(s){if(!(s instanceof Error&&s.name==="NotSupportedError"))throw s}return this.shadowRoot}_update(){const s=this._shadow();if(s){const t=n?`<style>:host { ${n} }</style>`:"";let i="<slot></slot>";const{autoScaling:o}=this.dataset;o!==void 0&&(i=`<marp-auto-scaling exportparts="svg:auto-scaling" ${o==="downscale-only"?"data-downscale-only":""}>${i}</marp-auto-scaling>`),s.innerHTML=t+i}}},"r");let L;const R=Symbol();let H;const C="marpitSVGPolyfill:setZoomFactor,",a=Symbol(),l=Symbol(),e=r(()=>{const d=navigator.vendor==="Apple Computer, Inc.",v=d?[g]:[],n={then:r(s=>(d?(async()=>{if(H===void 0){const t=document.createElement("canvas");t.width=10,t.height=10;const i=t.getContext("2d"),o=new Image(10,10),p=new Promise(m=>{o.addEventListener("load",()=>m())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await p,i.drawImage(o,0,0),H=i.getImageData(5,5,1,1).data[3]<128}return H})().then(t=>{s?.(t?[g]:[])}):s?.([]),n),"then")};return Object.assign(v,n)},"g");let c,y;function g(d){const v=typeof d=="object"&&d.target||document,n=typeof d=="object"?d.zoom:d;window[l]||(Object.defineProperty(window,l,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:i})=>{if(i===window.origin)try{if(t&&typeof t=="string"&&t.startsWith(C)){const[,o]=t.split(","),p=Number.parseFloat(o);Number.isNaN(p)||(y=p)}}catch(o){console.error(o)}}));let s=!1;Array.from(v.querySelectorAll("svg[data-marpit-svg]"),t=>{var i,o,p,m;t.style.transform||(t.style.transform="translateZ(0)");const x=n||y||t.currentScale||1;c!==x&&(c=x,s=x);const B=t.getBoundingClientRect(),{length:Y}=t.children;for(let N=0;N<Y;N+=1){const $=t.children[N];if($.getScreenCTM){const A=$.getScreenCTM();if(A){const Z=(o=(i=$.x)===null||i===void 0?void 0:i.baseVal.value)!==null&&o!==void 0?o:0,U=(m=(p=$.y)===null||p===void 0?void 0:p.baseVal.value)!==null&&m!==void 0?m:0,X=$.children.length;for(let P=0;P<X;P+=1){const W=$.children[P];if(W.tagName==="SECTION"){const{style:D}=W;D.transformOrigin||(D.transformOrigin=`${-Z}px ${-U}px`),D.transform=`scale(${x}) matrix(${A.a}, ${A.b}, ${A.c}, ${A.d}, ${A.e-B.left}, ${A.f-B.top}) translateZ(0.0001px)`;break}}}}}}),s!==!1&&Array.from(v.querySelectorAll("iframe"),({contentWindow:t})=>{t?.postMessage(`${C}${s}`,window.origin==="null"?"*":window.origin)})}r(g,"u");function O({once:d=!1,target:v=document}={}){const n=function(s=document){if(s[a])return s[a];let t=!0;const i=r(()=>{t=!1,delete s[a]},"i");Object.defineProperty(s,a,{configurable:!0,value:i});let o=[],p=!1;(async()=>{try{o=await e()}finally{p=!0}})();const m=r(()=>{for(const x of o)x({target:s});p&&o.length===0||t&&window.requestAnimationFrame(m)},"r");return m(),i}(v);return d?(n(),()=>{}):n}r(O,"v"),c=1,y=void 0;const I=O,q=Symbol(),V=r((d=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((t=document)=>{const i=window[R];i||customElements.define("marp-auto-scaling",k);for(const o of Object.keys(b)){const p=`marp-${o}`,m=b[o].proto();(L??(L=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),L))&&m!==HTMLElement?i||customElements.define(p,F(m,{style:b[o].style}),{extends:o}):(i||customElements.define(p,F(HTMLElement,b[o])),t.querySelectorAll(`${o}[is="${p}"]`).forEach(x=>{x.outerHTML=x.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${p}`).replace(new RegExp(`</${o}>$`,"i"),`</${p}>`)}))}window[R]=!0})(d),d[q])return d[q];const v=O({target:d}),n=r(()=>{v(),delete d[q]},"n"),s=Object.assign(n,{cleanup:n,update:r(()=>V(d),"update")});return Object.defineProperty(d,q,{configurable:!0,value:s}),s},"y");E.browser=V,h=V,h=I}},u={};function _(S){var E=u[S];if(E!==void 0)return E.exports;var h=u[S]={exports:{}};return f[S](h,h.exports,_),h.exports}r(_,"__webpack_require__");var K={};(()=>{"use strict";var S=_(32);const E="marp_vscode_content_section",h="data-marp-vscode-content-start-line",b="data-marp-vscode-content-end-line";function z(a){a.core.ruler.push(E,l=>{if(l.inlineMode)return;let e=null,c=0,y=0;for(const g of l.tokens)g.map&&(c=g.map[0],y=Math.max(y,...g.map)),g.type==="marpit_slide_open"&&(e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,c-1)),e=g);e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,y))})}r(z,"marpVSCodeContentSection");const M="marp-vscode.overflowTracker",T=r(a=>typeof a=="object"&&a!=null&&"type"in a&&a.type===M&&"overflowElements"in a&&Array.isArray(a.overflowElements),"isOverflowTrackerEvent"),C=class C{constructor(l){this.postMessage=l,this.delay=150,this.update()}update(){window.setTimeout(()=>this.detectOverflowElements(),this.delay)}cleanup(){}detectOverflowElements(){const l=[];for(const e of document.querySelectorAll(`section[${h}][${b}]`)){const c=e.scrollWidth-e.clientWidth,y=e.scrollHeight-e.clientHeight;if(c<=0&&y<=0)continue;const g=parseInt(e.getAttribute(h)||"",10),O=parseInt(e.getAttribute(b)||"",10);Number.isNaN(g)||Number.isNaN(O)||l.push({startLine:g,endLine:O})}this.postMessage(M,{overflowElements:l})}};r(C,"OverflowTracker");let k=C;function F(){let a;const l=window.cspAlerter?._messaging?.postMessage||window.styleLoadingMonitor?._poster?.postMessage,e=r(()=>{const c=document.getElementById("__marp-vscode");!!a!=!!c?(document.body.classList.toggle("marp-vscode",!!c),c?a={browser:(0,S.browser)(),overflowTracker:l?new k(l):void 0}:(a?.browser.cleanup(),a?.overflowTracker?.cleanup(),a=void 0)):(a?.browser.update(),a?.overflowTracker?.update()),a?(c&&L(c),R()):H()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(e,100)),window.addEventListener("vscode.markdown.updateContent",e),e()}r(F,"preview");const L=r(a=>{a.querySelectorAll("[is]").forEach(l=>{if(l.nodeName.includes("-")||document.createElement(l.nodeName).constructor!==l.constructor)return;const{outerHTML:c}=l;l.outerHTML=c,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",c.slice(0,c.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),R=r(()=>{const a=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),l=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');a.forEach(e=>{e.closest("#__marp-vscode")||(e.dataset.marpVscodeBody=e.textContent??"",e.textContent="")}),l.forEach(e=>{if(e.closest("#__marp-vscode"))return;const{href:c}=e;e.dataset.marpVscodeHref=c,e.removeAttribute("href")})},"removeStyles"),H=r(()=>{const a=document.querySelectorAll("style[data-marp-vscode-body]"),l=document.querySelectorAll("link[data-marp-vscode-href]");a.forEach(e=>{e.textContent=e.dataset.marpVscodeBody||"",delete e.dataset.marpVscodeBody}),l.forEach(e=>{e.href=e.dataset.marpVscodeHref||"",delete e.dataset.marpVscodeHref})},"restoreStyles");F()})()})();})();
+
+</script>
+
+        </body>
+        </html>

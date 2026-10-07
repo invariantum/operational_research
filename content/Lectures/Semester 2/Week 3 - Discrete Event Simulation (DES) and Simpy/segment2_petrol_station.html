@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Segment 2&colon; Petrol Station with Multiple Pumps</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+html:has(body.marp-vscode) {
+  padding: 0;
+}
+
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    &.showEditorSelection {
+      --marp-vscode-highlight-color: rgb(255 255 255 / 40%);
+
+      &.vscode-light {
+        --marp-vscode-highlight-color: rgb(0 0 0 / 15%);
+      }
+
+      &.vscode-high-contrast {
+        --marp-vscode-highlight-color: rgb(255 160 0 / 70%);
+      }
+    }
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+    position: relative;
+
+    &.code-active-line,
+    &:has(.code-active-line) {
+      &::before {
+        position: absolute;
+        content: '';
+        inset: -7px;
+        border: 3px solid var(--marp-vscode-highlight-color, transparent);
+        pointer-events: none;
+      }
+    }
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    overflow-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="segment-2-petrol-station-with-multiple-pumps">Segment 2: Petrol Station with Multiple Pumps</h1>
+<h2 id="overview">Overview</h2>
+<p>In this segment, we extend the basic M/M/1 queue to model a petrol (gas) station with multiple pumps. This introduces the concept of <strong>parallel servers</strong> and demonstrates how capacity affects system performance.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>A petrol station has several fuel pumps. Cars arrive randomly, use an available pump to refuel, then leave. If all pumps are busy, cars wait in a queue.</p>
+<p><strong>Key Questions:</strong></p>
+<ul>
+<li>How many pumps should the station have?</li>
+<li>What's the trade-off between pump costs and customer wait times?</li>
+<li>How does utilization change with different numbers of pumps?</li>
+</ul>
+<h2 id="mmc-queue">M/M/c Queue</h2>
+<p>This is an <strong>M/M/c</strong> queue:</p>
+<ul>
+<li><strong>First M:</strong> Markovian (exponential) arrivals</li>
+<li><strong>Second M:</strong> Markovian (exponential) service times</li>
+<li><strong>c:</strong> Number of servers (pumps)</li>
+</ul>
+<p>When c &gt; 1, we have <strong>parallel servers</strong> serving from a single queue.</p>
+<h2 id="building-the-simulation">Building the Simulation</h2>
+<h3 id="complete-code">Complete Code</h3>
+<pre><code class="language-python"><span class="hljs-keyword">import</span> simpy
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+
+<span class="hljs-comment"># Data collection</span>
+wait_times = []
+system_times = []
+queue_lengths = []
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">car</span>(<span class="hljs-params">env, name, gas_station, fuel_time_mean</span>):
+    <span class="hljs-string">&quot;&quot;&quot;A car arrives, waits for pump, refuels, and leaves.&quot;&quot;&quot;</span>
+    
+    arrival_time = env.now
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> arrives&quot;</span>)
+    
+    <span class="hljs-comment"># Record queue length at arrival</span>
+    queue_lengths.append(<span class="hljs-built_in">len</span>(gas_station.queue))
+    
+    <span class="hljs-comment"># Request a pump</span>
+    <span class="hljs-keyword">with</span> gas_station.request() <span class="hljs-keyword">as</span> request:
+        <span class="hljs-keyword">yield</span> request
+        
+        <span class="hljs-comment"># Record wait time</span>
+        wait_time = env.now - arrival_time
+        wait_times.append(wait_time)
+        
+        <span class="hljs-keyword">if</span> wait_time &gt; <span class="hljs-number">0</span>:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> starts refueling (waited <span class="hljs-subst">{wait_time:<span class="hljs-number">.2</span>f}</span> min)&quot;</span>)
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> starts refueling (no wait)&quot;</span>)
+        
+        <span class="hljs-comment"># Refuel (exponential service time)</span>
+        fuel_time = random.expovariate(<span class="hljs-number">1.0</span> / fuel_time_mean)
+        <span class="hljs-keyword">yield</span> env.timeout(fuel_time)
+        
+        <span class="hljs-comment"># Record total system time</span>
+        system_time = env.now - arrival_time
+        system_times.append(system_time)
+        
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{env.now:<span class="hljs-number">.2</span>f}</span>: <span class="hljs-subst">{name}</span> finishes and leaves&quot;</span>)
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">car_generator</span>(<span class="hljs-params">env, gas_station, arrival_rate, fuel_time_mean</span>):
+    <span class="hljs-string">&quot;&quot;&quot;Generate cars arriving at the station.&quot;&quot;&quot;</span>
+    
+    car_number = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># Wait for next car</span>
+        <span class="hljs-keyword">yield</span> env.timeout(random.expovariate(arrival_rate))
+        
+        car_number += <span class="hljs-number">1</span>
+        env.process(car(env, <span class="hljs-string">f&quot;Car <span class="hljs-subst">{car_number}</span>&quot;</span>, gas_station, fuel_time_mean))
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">run_simulation</span>(<span class="hljs-params">num_pumps, sim_time, arrival_rate, fuel_time_mean, random_seed=<span class="hljs-number">42</span></span>):
+    <span class="hljs-string">&quot;&quot;&quot;Run a single simulation and return statistics.&quot;&quot;&quot;</span>
+    
+    <span class="hljs-comment"># Reset data collection</span>
+    <span class="hljs-keyword">global</span> wait_times, system_times, queue_lengths
+    wait_times = []
+    system_times = []
+    queue_lengths = []
+    
+    <span class="hljs-comment"># Setup</span>
+    random.seed(random_seed)
+    env = simpy.Environment()
+    gas_station = simpy.Resource(env, capacity=num_pumps)
+    
+    <span class="hljs-comment"># Start generator</span>
+    env.process(car_generator(env, gas_station, arrival_rate, fuel_time_mean))
+    
+    <span class="hljs-comment"># Run</span>
+    env.run(until=sim_time)
+    
+    <span class="hljs-comment"># Return statistics</span>
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">&#x27;num_pumps&#x27;</span>: num_pumps,
+        <span class="hljs-string">&#x27;total_cars&#x27;</span>: <span class="hljs-built_in">len</span>(wait_times),
+        <span class="hljs-string">&#x27;avg_wait&#x27;</span>: <span class="hljs-built_in">sum</span>(wait_times) / <span class="hljs-built_in">len</span>(wait_times) <span class="hljs-keyword">if</span> wait_times <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;max_wait&#x27;</span>: <span class="hljs-built_in">max</span>(wait_times) <span class="hljs-keyword">if</span> wait_times <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;avg_system_time&#x27;</span>: <span class="hljs-built_in">sum</span>(system_times) / <span class="hljs-built_in">len</span>(system_times) <span class="hljs-keyword">if</span> system_times <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;avg_queue_length&#x27;</span>: <span class="hljs-built_in">sum</span>(queue_lengths) / <span class="hljs-built_in">len</span>(queue_lengths) <span class="hljs-keyword">if</span> queue_lengths <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;max_queue_length&#x27;</span>: <span class="hljs-built_in">max</span>(queue_lengths) <span class="hljs-keyword">if</span> queue_lengths <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>,
+        <span class="hljs-string">&#x27;pct_waited&#x27;</span>: <span class="hljs-number">100</span> * <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> w <span class="hljs-keyword">in</span> wait_times <span class="hljs-keyword">if</span> w &gt; <span class="hljs-number">0</span>) / <span class="hljs-built_in">len</span>(wait_times) <span class="hljs-keyword">if</span> wait_times <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
+    }
+
+<span class="hljs-comment"># Simulation parameters</span>
+SIM_TIME = <span class="hljs-number">500</span>        <span class="hljs-comment"># Minutes</span>
+ARRIVAL_RATE = <span class="hljs-number">0.4</span>    <span class="hljs-comment"># Cars per minute (1 every 2.5 minutes)</span>
+FUEL_TIME = <span class="hljs-number">5.0</span>       <span class="hljs-comment"># Average refueling time (minutes)</span>
+
+<span class="hljs-comment"># Run with different numbers of pumps</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;PETROL STATION SIMULATION&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+
+results = []
+<span class="hljs-keyword">for</span> num_pumps <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">6</span>):
+    stats = run_simulation(num_pumps, SIM_TIME, ARRIVAL_RATE, FUEL_TIME)
+    results.append(stats)
+    
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">{num_pumps}</span> Pump(s):&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Cars served: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;total_cars&#x27;</span>]}</span>&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Average wait: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;avg_wait&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> min&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Maximum wait: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;max_wait&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> min&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Average queue length: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;avg_queue_length&#x27;</span>]:<span class="hljs-number">.2</span>f}</span> cars&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Cars that waited: <span class="hljs-subst">{stats[<span class="hljs-string">&#x27;pct_waited&#x27;</span>]:<span class="hljs-number">.1</span>f}</span>%&quot;</span>)
+</code></pre>
+<h2 id="analyzing-results">Analyzing Results</h2>
+<h3 id="visualizing-performance-vs-capacity">Visualizing Performance vs Capacity</h3>
+<pre><code class="language-python"><span class="hljs-comment"># Extract data for plotting</span>
+pump_counts = [r[<span class="hljs-string">&#x27;num_pumps&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+avg_waits = [r[<span class="hljs-string">&#x27;avg_wait&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+avg_queues = [r[<span class="hljs-string">&#x27;avg_queue_length&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+pct_waited = [r[<span class="hljs-string">&#x27;pct_waited&#x27;</span>] <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> results]
+
+<span class="hljs-comment"># Create visualizations</span>
+fig, axes = plt.subplots(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, figsize=(<span class="hljs-number">12</span>, <span class="hljs-number">10</span>))
+
+<span class="hljs-comment"># Plot 1: Average wait time</span>
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].plot(pump_counts, avg_waits, marker=<span class="hljs-string">&#x27;o&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].set_xlabel(<span class="hljs-string">&#x27;Number of Pumps&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].set_ylabel(<span class="hljs-string">&#x27;Average Wait Time (min)&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].set_title(<span class="hljs-string">&#x27;Wait Time vs Number of Pumps&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+
+<span class="hljs-comment"># Plot 2: Average queue length</span>
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].plot(pump_counts, avg_queues, marker=<span class="hljs-string">&#x27;s&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>, color=<span class="hljs-string">&#x27;orange&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].set_xlabel(<span class="hljs-string">&#x27;Number of Pumps&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].set_ylabel(<span class="hljs-string">&#x27;Average Queue Length (cars)&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x27;Queue Length vs Number of Pumps&#x27;</span>)
+axes[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+
+<span class="hljs-comment"># Plot 3: Percentage who waited</span>
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].bar(pump_counts, pct_waited, color=<span class="hljs-string">&#x27;green&#x27;</span>, alpha=<span class="hljs-number">0.7</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].set_xlabel(<span class="hljs-string">&#x27;Number of Pumps&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].set_ylabel(<span class="hljs-string">&#x27;% of Cars That Waited&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].set_title(<span class="hljs-string">&#x27;Percentage of Cars That Waited&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">0</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>, axis=<span class="hljs-string">&#x27;y&#x27;</span>)
+
+<span class="hljs-comment"># Plot 4: Utilization</span>
+lambda_rate = ARRIVAL_RATE
+mu_rate = <span class="hljs-number">1</span> / FUEL_TIME
+utilizations = [<span class="hljs-number">100</span> * lambda_rate / (num_pumps * mu_rate) <span class="hljs-keyword">for</span> num_pumps <span class="hljs-keyword">in</span> pump_counts]
+
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].plot(pump_counts, utilizations, marker=<span class="hljs-string">&#x27;^&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">8</span>, color=<span class="hljs-string">&#x27;red&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].axhline(y=<span class="hljs-number">100</span>, color=<span class="hljs-string">&#x27;black&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>, label=<span class="hljs-string">&#x27;100% (unstable)&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].set_xlabel(<span class="hljs-string">&#x27;Number of Pumps&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].set_ylabel(<span class="hljs-string">&#x27;Utilization (%)&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x27;System Utilization&#x27;</span>)
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].legend()
+axes[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>].grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="understanding-the-results">Understanding the Results</h2>
+<h3 id="system-utilization">System Utilization</h3>
+<p><strong>Utilization (ρ)</strong> measures how busy the system is:</p>
+<p>ρ = λ / (c × μ)</p>
+<p>Where:</p>
+<ul>
+<li>λ = arrival rate (cars/minute)</li>
+<li>c = number of servers (pumps)</li>
+<li>μ = service rate (1/average service time)</li>
+</ul>
+<p>In our example:</p>
+<ul>
+<li>λ = 0.4 cars/min</li>
+<li>μ = 1/5 = 0.2 cars/min per pump</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Pumps</th>
+<th>Utilization</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>200%</td>
+<td>Unstable! Queue grows forever</td>
+</tr>
+<tr>
+<td>2</td>
+<td>100%</td>
+<td>Critical - right at limit</td>
+</tr>
+<tr>
+<td>3</td>
+<td>67%</td>
+<td>Stable</td>
+</tr>
+<tr>
+<td>4</td>
+<td>50%</td>
+<td>Stable, low utilization</td>
+</tr>
+<tr>
+<td>5</td>
+<td>40%</td>
+<td>Stable, very low utilization</td>
+</tr>
+</tbody>
+</table>
+<h3 id="diminishing-returns">Diminishing Returns</h3>
+<p>Notice how adding pumps helps, but with diminishing returns:</p>
+<ul>
+<li><strong>1 → 2 pumps:</strong> Huge improvement (system becomes stable)</li>
+<li><strong>2 → 3 pumps:</strong> Significant improvement</li>
+<li><strong>3 → 4 pumps:</strong> Moderate improvement</li>
+<li><strong>4 → 5 pumps:</strong> Small improvement</li>
+</ul>
+<p><strong>Question:</strong> Is the 5th pump worth the cost?</p>
+<h2 id="cost-benefit-analysis">Cost-Benefit Analysis</h2>
+<p>Let's add costs to understand the optimal number of pumps.</p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_daily_cost</span>(<span class="hljs-params">num_pumps, avg_wait_time, total_cars</span>):
+    <span class="hljs-string">&quot;&quot;&quot;Calculate total daily operating cost.&quot;&quot;&quot;</span>
+    
+    <span class="hljs-comment"># Pump costs</span>
+    pump_lease_cost = <span class="hljs-number">50</span>  <span class="hljs-comment"># $ per pump per day</span>
+    pump_maintenance = <span class="hljs-number">20</span>  <span class="hljs-comment"># $ per pump per day</span>
+    total_pump_cost = num_pumps * (pump_lease_cost + pump_maintenance)
+    
+    <span class="hljs-comment"># Customer wait time cost (lost goodwill, future business)</span>
+    wait_cost_per_minute = <span class="hljs-number">0.50</span>  <span class="hljs-comment"># $ value per minute of customer wait</span>
+    total_wait_cost = total_cars * avg_wait_time * wait_cost_per_minute
+    
+    <span class="hljs-comment"># Total cost</span>
+    total_cost = total_pump_cost + total_wait_cost
+    
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">&#x27;pump_cost&#x27;</span>: total_pump_cost,
+        <span class="hljs-string">&#x27;wait_cost&#x27;</span>: total_wait_cost,
+        <span class="hljs-string">&#x27;total_cost&#x27;</span>: total_cost
+    }
+
+<span class="hljs-comment"># Calculate costs for each configuration</span>
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span> + <span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;COST ANALYSIS&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;=&quot;</span>*<span class="hljs-number">70</span>)
+
+<span class="hljs-keyword">for</span> stats <span class="hljs-keyword">in</span> results:
+    <span class="hljs-comment"># Scale to full day (24 hours = 1440 minutes)</span>
+    daily_cars = stats[<span class="hljs-string">&#x27;total_cars&#x27;</span>] * (<span class="hljs-number">1440</span> / SIM_TIME)
+    
+    costs = calculate_daily_cost(
+        stats[<span class="hljs-string">&#x27;num_pumps&#x27;</span>],
+        stats[<span class="hljs-string">&#x27;avg_wait&#x27;</span>],
+        daily_cars
+    )
+    
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n<span class="hljs-subst">{stats[<span class="hljs-string">&#x27;num_pumps&#x27;</span>]}</span> Pump(s):&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Pump costs: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;pump_cost&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>/day&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  Wait costs: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;wait_cost&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>/day&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;  TOTAL COST: $<span class="hljs-subst">{costs[<span class="hljs-string">&#x27;total_cost&#x27;</span>]:<span class="hljs-number">.2</span>f}</span>/day&quot;</span>)
+</code></pre>
+<h3 id="visualizing-cost-trade-offs">Visualizing Cost Trade-offs</h3>
+<pre><code class="language-python"><span class="hljs-comment"># Prepare cost data</span>
+pump_costs = []
+wait_costs = []
+total_costs = []
+
+<span class="hljs-keyword">for</span> stats <span class="hljs-keyword">in</span> results:
+    daily_cars = stats[<span class="hljs-string">&#x27;total_cars&#x27;</span>] * (<span class="hljs-number">1440</span> / SIM_TIME)
+    costs = calculate_daily_cost(stats[<span class="hljs-string">&#x27;num_pumps&#x27;</span>], stats[<span class="hljs-string">&#x27;avg_wait&#x27;</span>], daily_cars)
+    pump_costs.append(costs[<span class="hljs-string">&#x27;pump_cost&#x27;</span>])
+    wait_costs.append(costs[<span class="hljs-string">&#x27;wait_cost&#x27;</span>])
+    total_costs.append(costs[<span class="hljs-string">&#x27;total_cost&#x27;</span>])
+
+<span class="hljs-comment"># Plot cost breakdown</span>
+fig, (ax1, ax2) = plt.subplots(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, figsize=(<span class="hljs-number">14</span>, <span class="hljs-number">5</span>))
+
+<span class="hljs-comment"># Stacked bar chart</span>
+ax1.bar(pump_counts, pump_costs, label=<span class="hljs-string">&#x27;Pump Costs&#x27;</span>, alpha=<span class="hljs-number">0.8</span>)
+ax1.bar(pump_counts, wait_costs, bottom=pump_costs, label=<span class="hljs-string">&#x27;Wait Costs&#x27;</span>, alpha=<span class="hljs-number">0.8</span>)
+ax1.set_xlabel(<span class="hljs-string">&#x27;Number of Pumps&#x27;</span>)
+ax1.set_ylabel(<span class="hljs-string">&#x27;Daily Cost ($)&#x27;</span>)
+ax1.set_title(<span class="hljs-string">&#x27;Cost Breakdown by Number of Pumps&#x27;</span>)
+ax1.legend()
+ax1.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>, axis=<span class="hljs-string">&#x27;y&#x27;</span>)
+
+<span class="hljs-comment"># Total cost curve</span>
+ax2.plot(pump_counts, total_costs, marker=<span class="hljs-string">&#x27;o&#x27;</span>, linewidth=<span class="hljs-number">2</span>, markersize=<span class="hljs-number">10</span>, color=<span class="hljs-string">&#x27;purple&#x27;</span>)
+optimal_idx = total_costs.index(<span class="hljs-built_in">min</span>(total_costs))
+ax2.plot(pump_counts[optimal_idx], total_costs[optimal_idx], 
+         marker=<span class="hljs-string">&#x27;*&#x27;</span>, markersize=<span class="hljs-number">20</span>, color=<span class="hljs-string">&#x27;gold&#x27;</span>, 
+         label=<span class="hljs-string">f&#x27;Optimal: <span class="hljs-subst">{pump_counts[optimal_idx]}</span> pumps&#x27;</span>)
+ax2.set_xlabel(<span class="hljs-string">&#x27;Number of Pumps&#x27;</span>)
+ax2.set_ylabel(<span class="hljs-string">&#x27;Total Daily Cost ($)&#x27;</span>)
+ax2.set_title(<span class="hljs-string">&#x27;Total Cost vs Number of Pumps&#x27;</span>)
+ax2.legend()
+ax2.grid(<span class="hljs-literal">True</span>, alpha=<span class="hljs-number">0.3</span>)
+
+plt.tight_layout()
+plt.show()
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\nOptimal configuration: <span class="hljs-subst">{pump_counts[optimal_idx]}</span> pumps&quot;</span>)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Minimum daily cost: $<span class="hljs-subst">{<span class="hljs-built_in">min</span>(total_costs):<span class="hljs-number">.2</span>f}</span>&quot;</span>)
+</code></pre>
+<h2 id="key-insights">Key Insights</h2>
+<h3 id="the-optimization-problem">The Optimization Problem</h3>
+<p>This is a classic <strong>capacity planning</strong> problem:</p>
+<ul>
+<li><strong>Too few pumps:</strong> High wait costs (unhappy customers)</li>
+<li><strong>Too many pumps:</strong> High capital/operating costs (wasted capacity)</li>
+<li><strong>Goal:</strong> Find the sweet spot that minimizes total cost</li>
+</ul>
+<h3 id="parallel-servers-vs-single-server">Parallel Servers vs Single Server</h3>
+<p><strong>Single fast server vs Multiple slower servers:</strong></p>
+<ul>
+<li>Multiple servers provide <strong>redundancy</strong> (one can break, others still work)</li>
+<li>Multiple servers <strong>reduce variability</strong> in wait times</li>
+<li>But multiple servers have <strong>higher capital costs</strong></li>
+</ul>
+<h3 id="real-world-extensions">Real-World Extensions</h3>
+<p>In practice, you'd also consider:</p>
+<ul>
+<li><strong>Peak vs off-peak hours</strong> (time-varying arrival rates)</li>
+<li><strong>Different customer types</strong> (cars vs trucks need different service times)</li>
+<li><strong>Service level agreements</strong> (&quot;95% of customers wait &lt;5 minutes&quot;)</li>
+<li><strong>Space constraints</strong> (physical room for pumps)</li>
+<li><strong>Revenue considerations</strong> (lost sales if customers leave due to long waits)</li>
+</ul>
+<h2 id="experimentation">Experimentation</h2>
+<h3 id="try-these-variations">Try These Variations</h3>
+<ol>
+<li>
+<p><strong>Higher arrival rate (0.6 cars/min)</strong></p>
+<ul>
+<li>What happens to the optimal number of pumps?</li>
+<li>At what point does the system become unstable?</li>
+</ul>
+</li>
+<li>
+<p><strong>Variability in service times</strong></p>
+<ul>
+<li>What if some cars take much longer? (Use <code>random.uniform(3, 8)</code>)</li>
+<li>How does this affect wait times?</li>
+</ul>
+</li>
+<li>
+<p><strong>Customer abandonment</strong></p>
+<ul>
+<li>What if customers leave if queue is &gt;3 cars?</li>
+<li>How much revenue is lost?</li>
+</ul>
+</li>
+<li>
+<p><strong>Time-varying arrivals</strong></p>
+<ul>
+<li>More cars during morning/evening rush (6-9am, 4-7pm)</li>
+<li>Should you staff differently during peaks?</li>
+</ul>
+</li>
+</ol>
+<h2 id="key-takeaways">Key Takeaways</h2>
+<ol>
+<li><strong>Parallel servers</strong> are modeled with <code>capacity=c</code> in SimPy</li>
+<li><strong>Utilization must be &lt;100%</strong> for system stability: ρ = λ/(cμ) &lt; 1</li>
+<li><strong>Diminishing returns</strong> - each additional server helps less</li>
+<li><strong>Optimization</strong> balances capacity costs vs waiting costs</li>
+<li><strong>Cost models</strong> turn simulation into business decisions</li>
+</ol>
+<h2 id="discussion-questions">Discussion Questions</h2>
+<ol>
+<li>What is the optimal number of pumps for this petrol station?</li>
+<li>How would the optimal number change if wait costs doubled?</li>
+<li>What if the station is open 24 hours but most traffic is during daytime?</li>
+<li>How would you model a situation where some pumps are diesel-only?</li>
+</ol>
+<hr>
+<p><strong>Next:</strong> Segment 3 - Machines with Breakdowns (Interrupts)</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var G=Object.defineProperty;var J=(f,u,_)=>u in f?G(f,u,{enumerable:!0,configurable:!0,writable:!0,value:_}):f[u]=_;var r=(f,u)=>G(f,"name",{value:u,configurable:!0});var w=(f,u,_)=>J(f,typeof u!="symbol"?u+"":u,_);(()=>{var f={32:(S,E,h)=>{S.exports=h(924)},924:(S,E)=>{"use strict";var h;h={value:!0};const b={h1:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:r(()=>HTMLHeadingElement,"proto"),attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:r(()=>HTMLSpanElement,"proto")},pre:{proto:r(()=>HTMLElement,"proto"),style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},z="data-marp-auto-scaling-wrapper",M="data-marp-auto-scaling-svg",T="data-marp-auto-scaling-container",j=class j extends HTMLElement{constructor(){super();w(this,"container");w(this,"containerSize");w(this,"containerObserver");w(this,"svg");w(this,"svgComputedStyle");w(this,"svgPreserveAspectRatio","xMinYMid meet");w(this,"wrapper");w(this,"wrapperSize");w(this,"wrapperObserver");const n=r(s=>([t])=>{const{width:i,height:o}=t.contentRect;this[s]={width:i,height:o},this.updateSVGRect()},"e");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(n("containerSize")),this.wrapperObserver=new ResizeObserver((...s)=>{n("wrapperSize")(...s),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){this.shadowRoot.innerHTML=`
+<style>
+  svg[${M}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${T}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${z}>
+  <svg part="svg" ${M}>
+    <foreignObject><span ${T}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=this.shadowRoot.querySelector(`div[${z}]`)??void 0;const n=this.svg;this.svg=this.wrapper?.querySelector(`svg[${M}]`)??void 0,this.svg!==n&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=this.svg?.querySelector(`span[${T}]`)??void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:n}=this;n&&(n.style.display="inline",requestAnimationFrame(()=>{n.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(n){const s=r(()=>{const t=(()=>{const i=n.getPropertyValue("--preserve-aspect-ratio");return i?i.trim():`x${(({textAlign:o,direction:p})=>{if(o.endsWith("left"))return"Min";if(o.endsWith("right"))return"Max";if(o==="start"||o==="end"){let m=p==="rtl";return o==="end"&&(m=!m),m?"Max":"Min"}return"Mid"})(n)}YMid meet`})();t!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=t,this.updateSVGRect()),n===this.svgComputedStyle&&requestAnimationFrame(s)},"t");s()}updateSVGRect(){let n=Math.ceil(this.containerSize?.width??0);const s=Math.ceil(this.containerSize?.height??0);this.dataset.downscaleOnly!==void 0&&(n=Math.max(n,this.wrapperSize?.width??0));const t=this.svg?.querySelector(":scope > foreignObject");if(t?.setAttribute("width",`${n}`),t?.setAttribute("height",`${s}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${n} ${s}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=n<=0||s<=0?"0":""),this.container){const i=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=i.startsWith("xmid")||i.startsWith("xmax")?"auto":"0",this.container.style.marginRight=i.startsWith("xmi")?"auto":"0"}}};r(j,"s");let k=j;const F=r((d,{attrs:v={},style:n})=>class extends d{constructor(...s){super(...s);for(const[t,i]of Object.entries(v))this.hasAttribute(t)||this.setAttribute(t,i);this._shadow()}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_shadow(){if(!this.shadowRoot)try{this.attachShadow({mode:"open"})}catch(s){if(!(s instanceof Error&&s.name==="NotSupportedError"))throw s}return this.shadowRoot}_update(){const s=this._shadow();if(s){const t=n?`<style>:host { ${n} }</style>`:"";let i="<slot></slot>";const{autoScaling:o}=this.dataset;o!==void 0&&(i=`<marp-auto-scaling exportparts="svg:auto-scaling" ${o==="downscale-only"?"data-downscale-only":""}>${i}</marp-auto-scaling>`),s.innerHTML=t+i}}},"r");let L;const R=Symbol();let H;const C="marpitSVGPolyfill:setZoomFactor,",a=Symbol(),l=Symbol(),e=r(()=>{const d=navigator.vendor==="Apple Computer, Inc.",v=d?[g]:[],n={then:r(s=>(d?(async()=>{if(H===void 0){const t=document.createElement("canvas");t.width=10,t.height=10;const i=t.getContext("2d"),o=new Image(10,10),p=new Promise(m=>{o.addEventListener("load",()=>m())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await p,i.drawImage(o,0,0),H=i.getImageData(5,5,1,1).data[3]<128}return H})().then(t=>{s?.(t?[g]:[])}):s?.([]),n),"then")};return Object.assign(v,n)},"g");let c,y;function g(d){const v=typeof d=="object"&&d.target||document,n=typeof d=="object"?d.zoom:d;window[l]||(Object.defineProperty(window,l,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:t,origin:i})=>{if(i===window.origin)try{if(t&&typeof t=="string"&&t.startsWith(C)){const[,o]=t.split(","),p=Number.parseFloat(o);Number.isNaN(p)||(y=p)}}catch(o){console.error(o)}}));let s=!1;Array.from(v.querySelectorAll("svg[data-marpit-svg]"),t=>{var i,o,p,m;t.style.transform||(t.style.transform="translateZ(0)");const x=n||y||t.currentScale||1;c!==x&&(c=x,s=x);const B=t.getBoundingClientRect(),{length:Y}=t.children;for(let N=0;N<Y;N+=1){const $=t.children[N];if($.getScreenCTM){const A=$.getScreenCTM();if(A){const Z=(o=(i=$.x)===null||i===void 0?void 0:i.baseVal.value)!==null&&o!==void 0?o:0,U=(m=(p=$.y)===null||p===void 0?void 0:p.baseVal.value)!==null&&m!==void 0?m:0,X=$.children.length;for(let P=0;P<X;P+=1){const W=$.children[P];if(W.tagName==="SECTION"){const{style:D}=W;D.transformOrigin||(D.transformOrigin=`${-Z}px ${-U}px`),D.transform=`scale(${x}) matrix(${A.a}, ${A.b}, ${A.c}, ${A.d}, ${A.e-B.left}, ${A.f-B.top}) translateZ(0.0001px)`;break}}}}}}),s!==!1&&Array.from(v.querySelectorAll("iframe"),({contentWindow:t})=>{t?.postMessage(`${C}${s}`,window.origin==="null"?"*":window.origin)})}r(g,"u");function O({once:d=!1,target:v=document}={}){const n=function(s=document){if(s[a])return s[a];let t=!0;const i=r(()=>{t=!1,delete s[a]},"i");Object.defineProperty(s,a,{configurable:!0,value:i});let o=[],p=!1;(async()=>{try{o=await e()}finally{p=!0}})();const m=r(()=>{for(const x of o)x({target:s});p&&o.length===0||t&&window.requestAnimationFrame(m)},"r");return m(),i}(v);return d?(n(),()=>{}):n}r(O,"v"),c=1,y=void 0;const I=O,q=Symbol(),V=r((d=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((t=document)=>{const i=window[R];i||customElements.define("marp-auto-scaling",k);for(const o of Object.keys(b)){const p=`marp-${o}`,m=b[o].proto();(L??(L=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is"),L))&&m!==HTMLElement?i||customElements.define(p,F(m,{style:b[o].style}),{extends:o}):(i||customElements.define(p,F(HTMLElement,b[o])),t.querySelectorAll(`${o}[is="${p}"]`).forEach(x=>{x.outerHTML=x.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${p}`).replace(new RegExp(`</${o}>$`,"i"),`</${p}>`)}))}window[R]=!0})(d),d[q])return d[q];const v=O({target:d}),n=r(()=>{v(),delete d[q]},"n"),s=Object.assign(n,{cleanup:n,update:r(()=>V(d),"update")});return Object.defineProperty(d,q,{configurable:!0,value:s}),s},"y");E.browser=V,h=V,h=I}},u={};function _(S){var E=u[S];if(E!==void 0)return E.exports;var h=u[S]={exports:{}};return f[S](h,h.exports,_),h.exports}r(_,"__webpack_require__");var K={};(()=>{"use strict";var S=_(32);const E="marp_vscode_content_section",h="data-marp-vscode-content-start-line",b="data-marp-vscode-content-end-line";function z(a){a.core.ruler.push(E,l=>{if(l.inlineMode)return;let e=null,c=0,y=0;for(const g of l.tokens)g.map&&(c=g.map[0],y=Math.max(y,...g.map)),g.type==="marpit_slide_open"&&(e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,c-1)),e=g);e&&(e.map&&e.attrSet(h,e.map[0]),e.attrSet(b,y))})}r(z,"marpVSCodeContentSection");const M="marp-vscode.overflowTracker",T=r(a=>typeof a=="object"&&a!=null&&"type"in a&&a.type===M&&"overflowElements"in a&&Array.isArray(a.overflowElements),"isOverflowTrackerEvent"),C=class C{constructor(l){this.postMessage=l,this.delay=150,this.update()}update(){window.setTimeout(()=>this.detectOverflowElements(),this.delay)}cleanup(){}detectOverflowElements(){const l=[];for(const e of document.querySelectorAll(`section[${h}][${b}]`)){const c=e.scrollWidth-e.clientWidth,y=e.scrollHeight-e.clientHeight;if(c<=0&&y<=0)continue;const g=parseInt(e.getAttribute(h)||"",10),O=parseInt(e.getAttribute(b)||"",10);Number.isNaN(g)||Number.isNaN(O)||l.push({startLine:g,endLine:O})}this.postMessage(M,{overflowElements:l})}};r(C,"OverflowTracker");let k=C;function F(){let a;const l=window.cspAlerter?._messaging?.postMessage||window.styleLoadingMonitor?._poster?.postMessage,e=r(()=>{const c=document.getElementById("__marp-vscode");!!a!=!!c?(document.body.classList.toggle("marp-vscode",!!c),c?a={browser:(0,S.browser)(),overflowTracker:l?new k(l):void 0}:(a?.browser.cleanup(),a?.overflowTracker?.cleanup(),a=void 0)):(a?.browser.update(),a?.overflowTracker?.update()),a?(c&&L(c),R()):H()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(e,100)),window.addEventListener("vscode.markdown.updateContent",e),e()}r(F,"preview");const L=r(a=>{a.querySelectorAll("[is]").forEach(l=>{if(l.nodeName.includes("-")||document.createElement(l.nodeName).constructor!==l.constructor)return;const{outerHTML:c}=l;l.outerHTML=c,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",c.slice(0,c.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),R=r(()=>{const a=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),l=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');a.forEach(e=>{e.closest("#__marp-vscode")||(e.dataset.marpVscodeBody=e.textContent??"",e.textContent="")}),l.forEach(e=>{if(e.closest("#__marp-vscode"))return;const{href:c}=e;e.dataset.marpVscodeHref=c,e.removeAttribute("href")})},"removeStyles"),H=r(()=>{const a=document.querySelectorAll("style[data-marp-vscode-body]"),l=document.querySelectorAll("link[data-marp-vscode-href]");a.forEach(e=>{e.textContent=e.dataset.marpVscodeBody||"",delete e.dataset.marpVscodeBody}),l.forEach(e=>{e.href=e.dataset.marpVscodeHref||"",delete e.dataset.marpVscodeHref})},"restoreStyles");F()})()})();})();
+
+</script>
+
+        </body>
+        </html>
