@@ -2,7 +2,7 @@
 
 Lecture slides, tutorials, worked answers and code for the **Operational Research** module, covering optimisation in Semester 1 and simulation in Semester 2.
 
-[![Open in JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://christsall99.github.io/operational_research/lab/index.html)
+[![Open in JupyterLite](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://invariantum.github.io/operational_research/lab/index.html)
 
 Click the badge to open the materials in **JupyterLite**, a full Jupyter environment that runs in your web browser. You don't need to install anything or create an account.
 
