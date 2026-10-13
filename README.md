@@ -81,8 +81,7 @@ The same notebooks also run in Google Colab and in Anaconda Jupyter. The first c
 .github/workflows/deploy.yml          builds the site and publishes it to GitHub Pages on every push to main
 .github/workflows/test-notebooks.yml  runs every notebook in Pyodide and reports failures
 requirements.txt                      packages used to BUILD the site (not the course code)
-jupyter_lite_config.json              site build settings (hidden files such as .gitignore stay off the site)
-repl/jupyter-lite.json                settings for the JupyterLite REPL view
+jupyter_lite_config.json              site build settings (keeps .vscode/ folders off the site; .git* files are excluded by default)
 tools/convert_to_notebooks.py         turns course .py scripts into browser-ready notebooks
 tools/test_notebooks_pyodide.mjs      the notebook tester used by test-notebooks.yml
 content/                              everything here appears on the site
