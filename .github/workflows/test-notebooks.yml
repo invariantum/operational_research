@@ -49,5 +49,4 @@ jobs:
           node tools/test_notebooks_pyodide.mjs --pyodide pyodide --summary "$GITHUB_STEP_SUMMARY" \
             content/00_START_HERE.ipynb \
             content/Lectures \
-            content/Assignments/5cm522-operational-research-public \
-            content/Assignments/5cm522-operational-research-staff-only
+            content/Assignments
