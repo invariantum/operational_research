@@ -1,0 +1,9 @@
+{
+  "LiteBuildConfig": {
+    "extra_ignore_contents": [
+      "/\\.gitignore$",
+      "/\\.gitattributes$",
+      "/\\.vscode/"
+    ]
+  }
+}

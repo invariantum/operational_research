@@ -1,0 +1,1075 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+
+\definecolor{bookletblue}{RGB}{30,70,120}
+\definecolor{bookletgrey}{RGB}{90,90,90}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[enumerate,1]{label=(\alph*), leftmargin=1.1cm, itemsep=0.55em, topsep=0.4em}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries\color{bookletblue} Full Revision Booklet}\\[0.4em]
+{\large Worked Solutions}\\[0.3em]
+{\color{bookletgrey} Combined and renumbered from Practice Papers A and B}
+\end{center}
+
+\vspace{0.8em}
+\hrule
+\vspace{1em}
+\textbf{1. Linear Programming}
+
+\textit{Source: Practice Paper A, original Question 1.}
+
+
+
+Let $D$ be desks and $S$ be shelving units.
+
+\begin{enumerate}
+\item A suitable model is
+\[
+\max Z = 58D + 46S
+\]
+subject to
+\[
+5D + 3S \le 120
+\]
+\[
+2D + 4S \le 96
+\]
+\[
+S \ge 8
+\]
+\[
+D,S \ge 0
+\]
+
+\item At the optimum, carpentry and finishing are both binding:
+\[
+5D+3S=120,\qquad 2D+4S=96
+\]
+Hence
+\[
+D=\frac{96}{7}\approx 13.71,\qquad S=\frac{120}{7}\approx 17.14
+\]
+Maximum contribution:
+\[
+Z=58D+46S=1584
+\]
+
+\item Binding constraints: carpentry and finishing.
+
+Slack values:
+\[
+5D+3S=120 \Rightarrow 0 \text{ carpentry slack}
+\]
+\[
+2D+4S=96 \Rightarrow 0 \text{ finishing slack}
+\]
+\[
+S-8=\frac{64}{7}\approx 9.14
+\]
+So the minimum shelving requirement is not binding.
+
+\item If shelving contribution rises to \pounds52, the objective becomes
+\[
+\max Z=58D+52S
+\]
+The optimal corner remains the same:
+\[
+\left(D,S\right)=\left(\frac{96}{7},\frac{120}{7}\right)
+\]
+with revised contribution
+\[
+Z=\frac{11808}{7}\approx 1686.86
+\]
+So the basis does not change.
+
+\item The new condition is
+\[
+S \ge 0.3(D+S)
+\]
+which simplifies to
+\[
+3D-7S \le 0
+\]
+At the original optimum,
+\[
+\frac{S}{D+S}=\frac{17.14}{30.86}\approx 55.6\%
+\]
+so the original solution remains feasible. The optimal plan is unchanged.
+\end{enumerate}
+
+\newpage
+
+\textbf{2. Binary Integer Programming}
+
+\textit{Source: Practice Paper A, original Question 2.}
+
+
+
+Let $x_A,\ldots,x_F \in \{0,1\}$ where $x_i=1$ if project $i$ is selected.
+
+\begin{enumerate}
+\item A suitable model is
+\[
+\max B = 14x_A+17x_B+11x_C+20x_D+9x_E+15x_F
+\]
+subject to the budget constraint
+\[
+6x_A+8x_B+5x_C+9x_D+4x_E+7x_F \le 21
+\]
+and the logical constraints
+\[
+x_D \le x_B
+\]
+\[
+x_A+x_F \le 1
+\]
+\[
+x_C+x_E \ge 1
+\]
+\[
+x_i \in \{0,1\}
+\]
+
+\item The optimal solution is
+\[
+x_B=x_D=x_E=1,\qquad x_A=x_C=x_F=0
+\]
+Total cost:
+\[
+8+9+4=21
+\]
+Maximum benefit:
+\[
+17+20+9=46
+\]
+
+\item Binary variables are needed because a project cannot be partly selected in any practical sense. A continuous LP could return fractional values such as ``0.4 of project $D$'', which would not be meaningful here.
+
+\item Add
+\[
+x_A+x_B+x_C+x_D+x_E+x_F = 4
+\]
+There is no feasible solution satisfying all rules, the budget and the requirement to choose exactly four projects.
+
+\item Example extension: allow projects to be staged over several years with different annual budgets and inter-year dependencies.
+\end{enumerate}
+
+\newpage
+
+\textbf{3. Minimum Spanning Tree}
+
+\textit{Source: Practice Paper A, original Question 3.}
+
+
+
+\begin{enumerate}
+\item A minimum spanning tree connects all nodes at minimum total cost without forming cycles.
+
+\begin{center}
+\begin{tikzpicture}[
+	depot/.style={circle,draw,minimum size=8mm,inner sep=0pt,font=\small},
+	edge label/.style={fill=white,inner sep=1pt,font=\scriptsize},
+	nonmst/.style={draw=black!45,line width=0.7pt},
+	mst/.style={draw=black,line width=1.4pt}
+]
+	\node[depot] (A) at (0,2) {$A$};
+	\node[depot] (B) at (2,3.4) {$B$};
+	\node[depot] (C) at (3.4,2) {$C$};
+	\node[depot] (D) at (3.4,0.3) {$D$};
+	\node[depot] (E) at (5.5,3.1) {$E$};
+	\node[depot] (F) at (6.8,1.4) {$F$};
+	\node[depot] (G) at (7.8,3.1) {$G$};
+
+	\draw[nonmst] (A) -- (B) node[midway,above left,edge label] {6};
+	\draw[mst] (A) -- (C) node[midway,above,edge label] {4};
+	\draw[nonmst] (A) -- (D) node[midway,below left,edge label] {9};
+	\draw[mst] (B) -- (C) node[midway,above right,edge label] {5};
+	\draw[nonmst] (B) -- (E) node[midway,above,edge label] {7};
+	\draw[mst] (C) -- (D) node[midway,right,edge label] {6};
+	\draw[nonmst] (C) -- (E) node[midway,above,edge label] {8};
+	\draw[nonmst] (C) -- (F) node[midway,below right,edge label] {6};
+	\draw[mst] (D) -- (E) node[midway,above right,edge label] {5};
+	\draw[nonmst] (D) -- (F) node[midway,below,edge label] {7};
+	\draw[nonmst] (D) -- (G) node[midway,below right,edge label] {8};
+	\draw[mst] (E) -- (F) node[midway,right,edge label] {3};
+	\draw[mst] (E) -- (G) node[midway,above,edge label] {4};
+	\draw[nonmst] (F) -- (G) node[midway,right,edge label] {5};
+\end{tikzpicture}
+\end{center}
+
+\item One correct Kruskal solution selects:
+\[
+EF(3),\ AC(4),\ EG(4),\ BC(5),\ DE(5),\ CD(6)
+\]
+
+\item Total installation cost:
+\[
+3+4+4+5+5+6=27
+\]
+
+\item The cheapest extra non-tree link has cost 5, for example $FG$.
+
+So one cheapest backup addition is $FG$, giving revised total cost
+\[
+27+5=32
+\]
+
+\item Limitation: an MST gives no built-in redundancy, so a single link failure can disconnect part of the network.
+\end{enumerate}
+
+\newpage
+
+\textbf{4. Simulation}
+
+\textit{Source: Practice Paper A, original Question 4.}
+
+
+
+\begin{enumerate}
+\item A suitable simulation model would treat weekly deliveries and weekly demand as random inputs. State variables would include opening stock, ending stock and overflow stock. Key outputs would be average weekly cost, overflow frequency and the average size of overflow inventory.
+
+\item One valid 12-week simulation can be produced using seed 2026, giving:
+
+Deliveries:
+\[
+7,8,8,9,7,7,8,8,9,8,9,9
+\]
+Demands:
+\[
+8,7,6,7,5,8,7,8,7,7,6,6
+\]
+
+Assume opening stock is 0 and ending stock carries forward week to week.
+
+For capacity 7:
+
+\begin{center}
+\begin{tabular}{cccccccc}
+\toprule
+Week & Open & Delivered & Demand & Sales & End Stock & Overflow & Cost \\
+\midrule
+1 & 0 & 7 & 8 & 7 & 0 & 0 & 126 \\
+2 & 0 & 8 & 7 & 7 & 1 & 0 & 126 \\
+3 & 1 & 8 & 6 & 6 & 3 & 0 & 126 \\
+4 & 3 & 9 & 7 & 7 & 5 & 0 & 126 \\
+5 & 5 & 7 & 5 & 5 & 7 & 0 & 126 \\
+6 & 7 & 7 & 8 & 8 & 6 & 0 & 126 \\
+7 & 6 & 8 & 7 & 7 & 7 & 0 & 126 \\
+8 & 7 & 8 & 8 & 8 & 7 & 0 & 126 \\
+9 & 7 & 9 & 7 & 7 & 9 & 2 & 186 \\
+10 & 9 & 8 & 7 & 7 & 10 & 3 & 216 \\
+11 & 10 & 9 & 6 & 6 & 13 & 6 & 306 \\
+12 & 13 & 9 & 6 & 6 & 16 & 9 & 396 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item Total 12-week cost for capacity 7:
+\[
+2112
+\]
+Estimated average weekly cost:
+\[
+\frac{2112}{12}=176.0
+\]
+
+\item Using the same 12-week random stream:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Capacity & Total Cost & Average Weekly Cost \\
+\midrule
+6 & 2106 & 175.5 \\
+7 & 2112 & 176.0 \\
+8 & 2208 & 184.0 \\
+9 & 2304 & 192.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+On this run, capacity 6 gives the lowest average weekly cost of \pounds175.5. The other averages are \pounds176.0 for capacity 7, \pounds184.0 for capacity 8 and \pounds192.0 for capacity 9. Therefore, 6 bays appears to be the optimal capacity from this simulation. Increasing capacity beyond 6 raises the fixed bay cost faster than it reduces overflow cost on this run.
+
+\item Two reasons to run a longer or repeated simulation:
+
+The 12-week result may be strongly affected by random variation.
+
+Longer runs or replications would give a more stable estimate of average cost and better evidence for comparing capacities.
+\end{enumerate}
+
+\newpage
+
+\textbf{5. Forecasting}
+
+\textit{Source: Practice Paper A, original Question 5.}
+
+
+
+\begin{enumerate}
+\item Using periods 1--12 only, centred 4-quarter moving averages are available for periods 3--10:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Period & Demand & CMA \\
+\midrule
+3 & 570 & 602.25 \\
+4 & 690 & 612.25 \\
+5 & 548 & 622.25 \\
+6 & 662 & 633.50 \\
+7 & 608 & 645.25 \\
+8 & 742 & 656.25 \\
+9 & 590 & 666.75 \\
+10 & 708 & 677.75 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A linear trend fitted to these centred moving averages is
+\[
+\hat{T}_t = 568.75 + 10.89t
+\]
+where $t=1$ corresponds to 2020 Q1.
+
+\item Seasonal indices:
+
+Additive:
+\[
+Q1=-75.72,\quad Q2=29.16,\quad Q3=-34.97,\quad Q4=81.53
+\]
+
+Multiplicative:
+\[
+Q1=0.8826,\quad Q2=1.0446,\quad Q3=0.9442,\quad Q4=1.1286
+\]
+
+\item Validation forecasts for 2023:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Quarter & Actual & Additive Forecast & Multiplicative Forecast \\
+\midrule
+2023 Q1 & 636 & 634.60 & 626.93 \\
+2023 Q2 & 760 & 750.36 & 753.38 \\
+2023 Q3 & 692 & 697.13 & 691.23 \\
+2023 Q4 & 852 & 824.52 & 838.54 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Using MAD:
+\[
+\text{MAD}_{\text{add}} \approx 10.91,\qquad \text{MAD}_{\text{mult}} \approx 7.48
+\]
+where absolute error is calculated as $|\text{Actual} - \text{Forecast}|$.
+
+For the multiplicative model:
+\[
+|636-626.93|=9.07,\quad |760-753.38|=6.62,\quad |692-691.23|=0.77,\quad |852-838.54|=13.46
+\]
+so
+\[
+\text{MAD}_{\text{mult}}=\frac{9.07+6.62+0.77+13.46}{4}\approx 7.48
+\]
+
+For the additive model:
+\[
+|636-634.60|=1.40,\quad |760-750.36|=9.64,\quad |692-697.13|=5.13,\quad |852-824.52|=27.48
+\]
+so
+\[
+\text{MAD}_{\text{add}}=\frac{1.40+9.64+5.13+27.48}{4}\approx 10.91
+\]
+The multiplicative model is better.
+
+\item Forecasts for 2024 using the multiplicative model:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Quarter & Forecast \\
+\midrule
+2024 Q1 & 665.38 \\
+2024 Q2 & 798.88 \\
+2024 Q3 & 732.35 \\
+2024 Q4 & 887.70 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+\newpage
+
+\textbf{6. Transhipment}
+
+\textit{Source: Practice Paper A, original Question 6.}
+
+
+
+\begin{enumerate}
+\item Use a network flow model with variables defined on the links of the network.
+
+Let the node sets be:
+\[
+S=\{D_1,D_2,D_3\}, \qquad H=\{H_1,H_2\}, \qquad C=\{C_1,C_2,C_3,C_4\}
+\]
+and let the arc set be
+\[
+A=\{(i,h): i \in S,\ h \in H\} \cup \{(h,j): h \in H,\ j \in C\}.
+\]
+
+Let
+\[
+x_{uv}=\text{flow on arc }(u,v)\text{ for each }(u,v)\in A
+\]
+and let $k_{uv}$ be the corresponding unit transportation cost.
+
+Objective:
+\[
+\min Z=\sum_{(u,v)\in A} k_{uv}x_{uv}
+\]
+
+Supply constraints for each depot $i \in S$:
+\[
+\sum_{h \in H} x_{ih} \le s_i
+\]
+
+Demand constraints for each clinic $j \in C$:
+\[
+\sum_{h \in H} x_{hj} = r_j
+\]
+
+Flow-balance constraints for each hub $h \in H$:
+\[
+\sum_{i \in S} x_{ih} - \sum_{j \in C} x_{hj} = 0
+\]
+
+Non-negativity:
+\[
+x_{uv} \ge 0 \qquad \text{for all } (u,v)\in A
+\]
+
+This is the same network-flow style used in Pyomo when variables are indexed over arcs and flow conservation is written at each transhipment node.
+
+\item One optimal shipment plan is:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Link & Quantity & Unit Cost \\
+\midrule
+$D_1 \to H_2$ & 85 & 7 \\
+$D_2 \to H_1$ & 60 & 4 \\
+$D_2 \to H_2$ & 30 & 6 \\
+$D_3 \to H_2$ & 110 & 3 \\
+$H_1 \to C_1$ & 60 & 4 \\
+$H_2 \to C_2$ & 70 & 4 \\
+$H_2 \to C_3$ & 80 & 3 \\
+$H_2 \to C_4$ & 75 & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Total transportation cost:
+\[
+2480
+\]
+Unused supply: 15 units at $D_1$.
+
+\item Revised model changes:
+\[
+\text{flow through }H_1 \le 130
+\]
+and
+\[
+x_{H_2,C_3}=0.
+\]
+
+One revised optimal plan is:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Link & Quantity & Unit Cost \\
+\midrule
+$D_1 \to H_1$ & 40 & 5 \\
+$D_1 \to H_2$ & 45 & 7 \\
+$D_2 \to H_1$ & 90 & 4 \\
+$D_3 \to H_2$ & 110 & 3 \\
+$H_1 \to C_1$ & 50 & 4 \\
+$H_1 \to C_3$ & 80 & 5 \\
+$H_2 \to C_1$ & 10 & 6 \\
+$H_2 \to C_2$ & 70 & 4 \\
+$H_2 \to C_4$ & 75 & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Revised total cost:
+\[
+2520
+\]
+
+\item With 20 extra units at $H_1$, the cost falls back to 2480. One optimal link-flow solution is:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Link & Quantity & Unit Cost \\
+\midrule
+$D_1 \to H_1$ & 85 & 5 \\
+$D_2 \to H_1$ & 55 & 4 \\
+$D_2 \to H_2$ & 35 & 6 \\
+$D_3 \to H_2$ & 110 & 3 \\
+$H_1 \to C_1$ & 60 & 4 \\
+$H_1 \to C_3$ & 80 & 5 \\
+$H_2 \to C_2$ & 70 & 4 \\
+$H_2 \to C_4$ & 75 & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Saving:
+\[
+2520-2480=40
+\]
+Extra capacity cost:
+\[
+50
+\]
+So it is not worthwhile.
+\end{enumerate}
+
+\newpage
+
+\textbf{7. Scheduling}
+
+\textit{Source: Practice Paper B, original Question 1.}
+
+
+
+\begin{enumerate}
+\item Applying Johnson's Rule gives the sequence
+\[
+J_4,\ J_2,\ J_5,\ J_1,\ J_3
+\]
+
+Main steps:
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Step & Smallest time remaining & Placement rule & Partial sequence \\
+\midrule
+1 & $2$ on $J_4$ for $M_1$ & place first & $J_4,\_,\_,\_,\_$ \\
+2 & $3$ on $J_2$ for $M_1$ & next from front & $J_4,J_2,\_,\_,\_$ \\
+3 & $4$ on $J_3$ for $M_2$ & place last & $J_4,J_2,\_,\_,J_3$ \\
+4 & $5$ on $J_1$ for $M_2$ & next from back & $J_4,J_2,\_,J_1,J_3$ \\
+5 & $5$ on $J_5$ for $M_1$ & fill remaining front slot & $J_4,J_2,J_5,J_1,J_3$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item Gantt timings:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Job & Machine 1 & Machine 2 \\
+\midrule
+$J_4$ & 0--2 & 2--11 \\
+$J_2$ & 2--5 & 11--19 \\
+$J_5$ & 5--10 & 19--25 \\
+$J_1$ & 10--17 & 25--30 \\
+$J_3$ & 17--23 & 30--34 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Minimum makespan:
+\[
+34
+\]
+
+\item The original order $J_1,J_2,J_3,J_4,J_5$ gives makespan 39.
+
+So Johnson's Rule improves the schedule by
+\[
+39-34=5
+\]
+time units.
+
+\item Solving the job shop problem gives an optimal schedule with makespan
+\[
+19
+\]
+
+One optimal schedule is:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Job & Task & Machine & Start & End \\
+\midrule
+$A$ & 1 & $M_1$ & 0 & 4 \\
+$A$ & 2 & $M_3$ & 5 & 10 \\
+$A$ & 3 & $M_2$ & 13 & 16 \\
+$B$ & 1 & $M_2$ & 0 & 3 \\
+$B$ & 2 & $M_1$ & 6 & 10 \\
+$B$ & 3 & $M_3$ & 10 & 16 \\
+$C$ & 1 & $M_3$ & 0 & 5 \\
+$C$ & 2 & $M_2$ & 5 & 7 \\
+$C$ & 3 & $M_1$ & 10 & 14 \\
+$D$ & 1 & $M_1$ & 4 & 6 \\
+$D$ & 2 & $M_2$ & 7 & 13 \\
+$D$ & 3 & $M_3$ & 16 & 19 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This can be obtained using a job shop formulation or an OR-Tools interval-variable model with precedence constraints within each job and \texttt{NoOverlap} constraints on each machine.
+
+\item Add a due-date constraint for job $C$:
+\[
+C_C \le 15
+\]
+where $C_C$ is the completion time of job $C$.
+
+In the schedule above, job $C$ already finishes at time 14, so this additional constraint is satisfied and one optimal makespan-19 schedule remains feasible. In other instances, such a due-date constraint could force resequencing or even cause infeasibility.
+\end{enumerate}
+
+\newpage
+
+\textbf{8. Binary Integer Programming}
+
+\textit{Source: Practice Paper B, original Question 2.}
+
+
+
+\begin{enumerate}
+\item Let $x_i=1$ if base $i$ is opened and 0 otherwise.
+Let $y_j=1$ if district $j$ is covered and 0 otherwise.
+
+\[
+\max Z = 9000y_1+12000y_2+14000y_3+10000y_4+11000y_5+8000y_6
+\]
+subject to
+\[
+14x_A+11x_B+13x_C+10x_D+12x_E+9x_F \le 31
+\]
+\[
+x_A+x_B+x_C+x_D+x_E+x_F \le 3
+\]
+\[
+y_1 \le x_A+x_B
+\]
+\[
+y_2 \le x_A+x_C+x_E
+\]
+\[
+y_3 \le x_B+x_C+x_F
+\]
+\[
+y_4 \le x_A+x_D+x_F
+\]
+\[
+y_5 \le x_C+x_D+x_E
+\]
+\[
+y_6 \le x_E+x_F
+\]
+\[
+x_i,y_j \in \{0,1\}
+\]
+
+\item The optimal solution is
+\[
+x_A=x_C=1,\qquad x_B=x_D=x_E=x_F=0
+\]
+Total cost:
+\[
+14+13=27
+\]
+Covered districts:
+\[
+1,2,3,4,5
+\]
+Total covered population:
+\[
+9000+12000+14000+10000+11000=56000
+\]
+
+\item Yes. In the optimal solution above, district 6 remains uncovered. This is acceptable in a maximum-coverage model because the objective is to maximise covered population subject to tight resources. In a set covering model, complete coverage would be mandatory.
+
+\item Revised model changes:
+
+District 6 must be covered:
+\[
+y_6 = 1
+\]
+or equivalently
+\[
+x_E+x_F \ge 1
+\]
+
+Bases $B$ and $F$ cannot both be chosen:
+\[
+x_B+x_F \le 1
+\]
+
+Under these revised conditions, one optimal solution is
+\[
+x_E=x_F=1,\qquad x_A=x_B=x_C=x_D=0
+\]
+with covered districts $2,3,4,5,6$ and total covered population
+\[
+12000+14000+10000+11000+8000=55000
+\]
+There are multiple optimal solutions with the same covered population; for example, $x_C=x_F=1$ is also optimal.
+\end{enumerate}
+
+\newpage
+
+\textbf{9. Simulation}
+
+\textit{Source: Practice Paper B, original Question 3.}
+
+
+
+\begin{enumerate}
+\item Main components:
+
+Entities: students.
+
+Resource: advisers.
+
+Events: arrival, service start, service completion.
+
+Stochastic inputs: interarrival and service times.
+
+Measures: number served, average wait, maximum wait, percentage waiting less than 8 minutes.
+
+\item One run with seed 24 gave:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Measure & Result \\
+\midrule
+Students served & 41 \\
+Average wait & 1.17 minutes \\
+Maximum wait & 10.32 minutes \\
+\% waiting less than 8 minutes & 95.12\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item Peak-period results:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Advisers & Served & Avg wait & Max wait & \% below 8 min \\
+\midrule
+2 & 70 & 1.88 & 12.99 & 95.71\% \\
+3 & 73 & 0.32 & 3.22 & 100\% \\
+4 & 70 & 0.08 & 2.23 & 100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+From this run, the minimum staffing level meeting the target is 3 advisers.
+
+\item A \texttt{PriorityResource} can be used in place of a standard \texttt{Resource}. Each arriving student would be labelled priority or standard, for example with probability 0.10 of being priority, and then would request service with a smaller priority number if they are priority users.
+
+In SimPy terms, the main change is from a standard request such as
+\[
+\texttt{with desk.request() as req:}
+\]
+to a priority request such as
+\[
+\texttt{with desk.request(priority=0) as req:}
+\]
+for priority users and a larger number such as \texttt{priority=1} for standard users.
+
+This would usually reduce priority-user waits and increase the waits experienced by standard users.
+
+\item Replications are needed because a single run may be unusually good or bad. If the model represented a continuing system rather than a finite session, a warm-up period might also be appropriate.
+\end{enumerate}
+
+\newpage
+
+\textbf{10. Forecasting}
+
+\textit{Source: Practice Paper B, original Question 4.}
+
+
+
+\begin{enumerate}
+\item Using periods 1--12 only, centred 4-quarter moving averages are available for periods 3--10:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Period & Demand & CMA \\
+\midrule
+3 & 470 & 491.250 \\
+4 & 560 & 499.500 \\
+5 & 450 & 507.750 \\
+6 & 536 & 516.500 \\
+7 & 500 & 525.875 \\
+8 & 600 & 535.125 \\
+9 & 485 & 544.375 \\
+10 & 575 & 554.375 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A linear trend fitted to these centred moving averages is
+\[
+\hat{T}_t = 463.21 + 9.02t
+\]
+where $t=1$ corresponds to 2019 Q1.
+
+\item Seasonal indices:
+
+Additive:
+\[
+Q1=-58.72,\quad Q2=19.91,\quad Q3=-23.72,\quad Q4=62.53
+\]
+
+Multiplicative:
+\[
+Q1=0.8884,\quad Q2=1.0372,\quad Q3=0.9535,\quad Q4=1.1209
+\]
+
+\item Validation forecasts for 2022:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Quarter & Actual & Additive Forecast & Multiplicative Forecast \\
+\midrule
+2022 Q1 & 522 & 521.76 & 515.68 \\
+2022 Q2 & 618 & 609.41 & 611.44 \\
+2022 Q3 & 572 & 574.80 & 570.71 \\
+2022 Q4 & 694 & 670.07 & 680.99 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Using MAD:
+\[
+\text{MAD}_{\text{add}} \approx 8.89,\qquad \text{MAD}_{\text{mult}} \approx 6.80
+\]
+where absolute error is calculated as $|\text{Actual} - \text{Forecast}|$.
+
+For the multiplicative model:
+\[
+|522-515.68|=6.32,\quad |618-611.44|=6.56,\quad |572-570.71|=1.29,\quad |694-680.99|=13.01
+\]
+so
+\[
+\text{MAD}_{\text{mult}}=\frac{6.32+6.56+1.29+13.01}{4}\approx 6.80
+\]
+
+For the additive model:
+\[
+|522-521.76|=0.24,\quad |618-609.41|=8.59,\quad |572-574.80|=2.80,\quad |694-670.07|=23.93
+\]
+so
+\[
+\text{MAD}_{\text{add}}=\frac{0.24+8.59+2.80+23.93}{4}\approx 8.89
+\]
+The multiplicative model is better.
+
+\item Forecasts for 2023 using the multiplicative model:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Quarter & Forecast \\
+\midrule
+2023 Q1 & 547.74 \\
+2023 Q2 & 648.86 \\
+2023 Q3 & 605.11 \\
+2023 Q4 & 721.43 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+\newpage
+
+\textbf{11. Linear Programming}
+
+\textit{Source: Practice Paper B, original Question 5.}
+
+
+
+Let $C$ be casings and $I$ be inserts.
+
+\begin{enumerate}
+\item A suitable model is
+\[
+\max Z = 40C + 34I
+\]
+subject to
+\[
+4C + 2I \le 100
+\]
+\[
+C + 3I \le 90
+\]
+\[
+I \le 24
+\]
+\[
+C,I \ge 0
+\]
+
+\item The optimal solution is
+\[
+C=13,\qquad I=24
+\]
+Maximum contribution:
+\[
+Z=40(13)+34(24)=1336
+\]
+
+\item Binding constraints: moulding and insert demand cap.
+
+Slack values:
+\[
+4(13)+2(24)=100 \Rightarrow 0 \text{ moulding slack}
+\]
+\[
+13+3(24)=85 \Rightarrow 5 \text{ assembly hours unused}
+\]
+\[
+24-24=0
+\]
+
+\item The new condition is
+\[
+I \ge 0.25(C+I)
+\]
+which simplifies to
+\[
+C-3I \le 0
+\]
+At the original optimum,
+\[
+13-3(24)=-59 \le 0
+\]
+so the original solution remains feasible and optimal.
+
+\item With 12 extra assembly hours, the assembly constraint becomes less restrictive, but the current solution already has 5 hours of assembly slack and is limited by moulding plus the insert cap. The optimal plan therefore does not change.
+
+Extra contribution gained:
+\[
+0
+\]
+Maximum cost of buying all 12 hours:
+\[
+12 \times 3 = 36
+\]
+So the extra hours should not be bought.
+\end{enumerate}
+
+\newpage
+
+\textbf{12. Transportation}
+
+\textit{Source: Practice Paper B, original Question 6.}
+
+
+
+\begin{enumerate}
+\item Let $x_{ij}$ be the quantity shipped from warehouse $i$ to store $j$.
+
+A suitable model is
+\[
+\min Z = \sum_i \sum_j c_{ij}x_{ij}
+\]
+subject to the supply constraints for each warehouse $i$:
+\[
+\sum_j x_{ij} = s_i
+\]
+demand constraints for each store $j$:
+\[
+\sum_i x_{ij} = d_j
+\]
+and non-negativity:
+\[
+x_{ij}\ge 0
+\]
+
+\item One optimal plan is:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Route & Quantity \\
+\midrule
+$W_1 \to S_1$ & 20 \\
+$W_1 \to S_4$ & 60 \\
+$W_2 \to S_2$ & 60 \\
+$W_2 \to S_3$ & 40 \\
+$W_3 \to S_1$ & 50 \\
+$W_3 \to S_3$ & 40 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Total transportation cost:
+\[
+1560
+\]
+
+\item With $W_2 \not\to S_2$ and at least 20 units from $W_1$ to $S_4$, one optimal revised plan is:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Route & Quantity \\
+\midrule
+$W_1 \to S_2$ & 60 \\
+$W_1 \to S_4$ & 20 \\
+$W_2 \to S_3$ & 60 \\
+$W_2 \to S_4$ & 40 \\
+$W_3 \to S_1$ & 70 \\
+$W_3 \to S_3$ & 20 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Revised cost:
+\[
+1680
+\]
+Increase in cost:
+\[
+1680-1560=120
+\]
+
+\item Example extension: add vehicle capacities or delivery time windows so the model reflects route feasibility as well as shipping cost.
+\end{enumerate}
+\end{document}

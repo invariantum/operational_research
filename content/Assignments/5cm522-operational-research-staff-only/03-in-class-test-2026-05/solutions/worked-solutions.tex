@@ -1,0 +1,707 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{verbatim}
+
+\newcommand{\universityname}{UNIVERSITY OF DERBY}
+\newcommand{\college}{College of Science and Engineering}
+\newcommand{\examtitle}{Timed In-Class Test Worked Solutions}
+\newcommand{\moduletitle}{OPERATIONAL RESEARCH}
+\newcommand{\modulecode}{5CM522}
+\newcommand{\examdate}{MAY 2026}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[itemize]{leftmargin=1.1cm, itemsep=0.25em, topsep=0.25em}
+\setlist[enumerate,1]{label=(\alph*), leftmargin=1.1cm, itemsep=0.4em, topsep=0.3em}
+
+\begin{document}
+
+\begin{center}
+{\large \textbf{\universityname}}\\
+{\college}\\[0.4em]
+{\Large \textbf{\examtitle}}\\
+{\large \textbf{\moduletitle} -- \textbf{\modulecode}}\\[0.3em]
+\textbf{DATE:} \examdate
+\end{center}
+
+These solutions match the current live paper.
+
+Source paper:
+\begin{itemize}
+\item \texttt{paper/in-class-test-2026-05.tex}
+\end{itemize}
+
+Runnable verification helpers are in:
+\begin{itemize}
+\item \texttt{solutions/in\_class\_test\_code.py}
+\item \texttt{solutions/worked\_solution\_snippets.py}
+\end{itemize}
+
+To verify the whole solution pack quickly:
+\begin{verbatim}
+python solutions/worked_solution_snippets.py
+\end{verbatim}
+
+\textbf{1. Linear Programming}
+
+\textbf{a) Model formulation}
+
+Let:
+\[
+x = \text{number of Standard panels}, \qquad y = \text{number of Premium panels}
+\]
+
+Model:
+\[
+\max Z = 42x + 36y
+\]
+subject to
+\[
+4x + 2y \le 84
+\]
+\[
+2x + 3y \le 60
+\]
+\[
+y \le 18
+\]
+\[
+x, y \ge 0
+\]
+
+For marking, either assumption should be accepted if stated clearly:
+\begin{itemize}
+\item continuous non-negative decision variables, giving the LP solution below
+\item whole-number decision variables, since panels are indivisible in practice
+\end{itemize}
+
+\textbf{b) Optimal weekly production plan}
+
+At the optimum, printing and finishing are both binding:
+\[
+4x + 2y = 84, \qquad 2x + 3y = 60
+\]
+
+Solving gives:
+\[
+x = 16.5, \qquad y = 9
+\]
+
+Maximum weekly contribution:
+\[
+Z = 42(16.5) + 36(9) = 1017
+\]
+
+\textbf{c) Binding constraints and unused capacity}
+
+Binding/slack:
+\begin{itemize}
+\item Printing slack = 0
+\item Finishing slack = 0
+\item Premium market slack = $18 - 9 = 9$
+\end{itemize}
+
+\textbf{d) Value of extra capacity}
+
+Extra-capacity interpretation:
+\begin{itemize}
+\item With 6 extra printing hours, contribution rises to 1057.5
+\item Improvement = 40.5, so value per printing hour = 6.75
+\item With 6 extra finishing hours, contribution rises to 1062
+\item Improvement = 45, so value per finishing hour = 7.50
+\end{itemize}
+
+So finishing is more valuable at the current optimum, and the maximum worthwhile price is:
+\[
+\pounds 7.50 \text{ per finishing hour, for up to the first 6 hours}
+\]
+
+\textbf{e) Premium-share requirement}
+
+Premium-share requirement:
+\[
+y \ge 0.3(x + y)
+\]
+which rearranges to
+\[
+0.7y \ge 0.3x \qquad \Longleftrightarrow \qquad y \ge \frac{3x}{7}
+\]
+
+At the original optimum:
+\[
+\frac{y}{x+y} = \frac{9}{16.5 + 9} = \frac{9}{25.5} \approx 35.29\%
+\]
+
+So the original optimum is still feasible, and the optimal plan remains unchanged.
+
+If a student explicitly assumes integer production quantities, the corresponding answers are:
+\begin{itemize}
+\item Optimal whole-number plan: $x = 17$, $y = 8$
+\item Contribution: $Z = 42(17) + 36(8) = 1002$
+\item Slack values:
+\begin{itemize}
+\item Printing slack = 0
+\item Finishing slack = $60 - (2(17) + 3(8)) = 2$
+\item Premium market slack = $18 - 8 = 10$
+\end{itemize}
+\item With 6 extra printing hours, the best integer contribution is 1050
+\item With 6 extra finishing hours, the best integer contribution is 1062
+\item So finishing is still more valuable over this 6-hour comparison. The average gain is \pounds 8 per printing hour versus \pounds 10 per finishing hour, but this should not be treated as a constant shadow price in the integer model.
+\item The 30\% Premium requirement is still satisfied because $\frac{8}{17+8} = 32\%$, so the integer optimum also remains unchanged.
+\end{itemize}
+
+Verification snippet:
+\begin{verbatim}
+from worked_solution_snippets import q1_results
+print(q1_results())
+\end{verbatim}
+
+\textbf{2. Binary Integer Programming}
+
+\textbf{a) Model formulation}
+
+Let $x_A, \ldots, x_F$ be binary variables where $x_s = 1$ if site $s$ is opened.
+
+Baseline model:
+\[
+\min Z = 16x_A + 11x_B + 15x_C + 14x_D + 13x_E + 10x_F
+\]
+
+Coverage constraints:
+\[
+x_A + x_B \ge 1
+\]
+\[
+x_A + x_C + x_E \ge 1
+\]
+\[
+x_B + x_C + x_F \ge 1
+\]
+\[
+x_A + x_D + x_F \ge 1
+\]
+\[
+x_C + x_D + x_E \ge 1
+\]
+\[
+x_D + x_E + x_F \ge 1
+\]
+\[
+x_s \in \{0,1\}
+\]
+
+\textbf{b) Baseline optimal solution}
+
+Baseline optimum:
+\[
+\text{Open } B, E, F
+\]
+Minimum weekly cost:
+\[
+34
+\]
+
+\textbf{c) Redundant coverage in the baseline solution}
+
+Redundancy in the baseline solution:
+\begin{itemize}
+\item District 3 is covered by $B$ and $F$
+\item District 6 is covered by $E$ and $F$
+\end{itemize}
+
+Operational value:
+\begin{itemize}
+\item This redundancy gives resilience if one selected site is temporarily unavailable.
+\end{itemize}
+
+\textbf{d) Revised model and impact of restrictions}
+
+Revised model adds:
+\[
+x_D + x_E + x_F \ge 2
+\]
+\[
+x_B + x_F \le 1
+\]
+
+Revised optimum:
+\[
+\text{Open } B, D, E
+\]
+Minimum weekly cost:
+\[
+38
+\]
+
+\textbf{e) One realistic extension}
+
+One realistic extension:
+\begin{itemize}
+\item Add site capacity limits or maximum response times.
+\end{itemize}
+
+Extra data needed:
+\begin{itemize}
+\item expected demand by district
+\item travel times from each site to each district
+\item maximum launch capacity at each site
+\end{itemize}
+
+Verification snippet:
+\begin{verbatim}
+from worked_solution_snippets import q2_results
+print(q2_results())
+\end{verbatim}
+
+\textbf{3. Transhipment}
+
+\textbf{a) Transhipment model formulation}
+
+Let:
+\[
+x_{ph} = \text{flow from depot } p \text{ to hub } h
+\]
+\[
+y_{hc} = \text{flow from hub } h \text{ to clinic } c
+\]
+
+Objective:
+\begin{itemize}
+\item Minimise total inbound and outbound transport cost.
+\end{itemize}
+
+Constraints:
+\begin{itemize}
+\item Supply constraints at depots
+\item Demand constraints at clinics
+\item Flow balance at each hub
+\item Non-negativity
+\end{itemize}
+
+\textbf{b) Baseline optimal shipment plan}
+
+Baseline optimal solution:
+\begin{itemize}
+\item $P_1 \to H_1 = 100$
+\item $P_2 \to H_2 = 120$
+\item $P_3 \to H_2 = 40$
+\item $H_1 \to C_1 = 70$
+\item $H_1 \to C_4 = 30$
+\item $H_2 \to C_2 = 60$
+\item $H_2 \to C_3 = 80$
+\item $H_2 \to C_4 = 20$
+\end{itemize}
+
+Baseline total cost:
+\[
+1950
+\]
+
+Unused supply:
+\[
+40 \text{ units at } P_3
+\]
+
+\textbf{c) Disrupted scenario}
+
+Disrupted model adds:
+\[
+\sum_c y_{H_1 c} \le 130
+\]
+\[
+y_{H_1 C_2} \ge 30
+\]
+
+Revised optimal solution:
+\begin{itemize}
+\item $P_1 \to H_1 = 100$
+\item $P_2 \to H_2 = 120$
+\item $P_3 \to H_2 = 40$
+\item $H_1 \to C_1 = 20$
+\item $H_1 \to C_2 = 30$
+\item $H_1 \to C_4 = 50$
+\item $H_2 \to C_1 = 50$
+\item $H_2 \to C_2 = 30$
+\item $H_2 \to C_3 = 80$
+\end{itemize}
+
+Revised total cost:
+\[
+2040
+\]
+
+Interpretation:
+\begin{itemize}
+\item Forcing at least 30 units for clinic $C_2$ through $H_1$ changes the network pattern and increases cost.
+\end{itemize}
+
+\textbf{d) Emergency direct route from $P_3$ to $C_4$}
+
+Emergency direct route extension:
+\begin{itemize}
+\item Add direct decision variable $d$ for $P_3 \to C_4$
+\item Bounds: $0 \le d \le 20$
+\item Add $9d$ to the objective
+\item The 50 comes from clinic $C_4$'s original demand, so replace the $C_4$ demand constraint with $y_{H_1 C_4} + y_{H_2 C_4} + d = 50$
+\item Reduce available $P_3$ hub shipments accordingly, so $x_{P_3 H_1} + x_{P_3 H_2} + d \le 80$
+\end{itemize}
+
+Optimal direct-shipping decision:
+\[
+d = 20
+\]
+
+Revised non-zero shipments:
+\begin{itemize}
+\item $P_1 \to H_1 = 100$
+\item $P_2 \to H_2 = 120$
+\item $P_3 \to H_2 = 20$
+\item $P_3 \to C_4 = 20$
+\item $H_1 \to C_1 = 70$
+\item $H_1 \to C_2 = 30$
+\item $H_2 \to C_2 = 30$
+\item $H_2 \to C_3 = 80$
+\item $H_2 \to C_4 = 30$
+\end{itemize}
+
+Revised total cost with emergency direct route:
+\[
+2020
+\]
+
+So the direct route is worthwhile because it reduces cost by 20. It is cheaper than sending those units via $H_2$, since $P_3 \to H_2 \to C_4$ costs $4 + 6 = 10$ per unit while the emergency route costs 9 per unit.
+
+Verification snippet:
+\begin{verbatim}
+from worked_solution_snippets import q3_results
+print(q3_results())
+\end{verbatim}
+
+\textbf{4. Simulation}
+
+\textbf{a) Main DES elements}
+
+Main DES elements:
+\begin{itemize}
+\item Entities: students
+\item Resource: technicians
+\item Events: arrivals, service start, service completion
+\item Stochastic inputs: interarrival times and service times
+\item Measures: number served, average wait, maximum wait, percentage waiting less than 10 minutes
+\end{itemize}
+
+\textbf{b) Baseline SimPy run with 2 technicians}
+
+Baseline one-run results with 2 technicians:
+\begin{itemize}
+\item Students served = 71
+\item Average wait = 5.2208 minutes
+\item Maximum wait = 46.4285 minutes
+\item Percentage under 10 minutes = 87.3239\%
+\end{itemize}
+
+\textbf{c) Busy-period staffing comparison}
+
+Busy-period results at 13 students per hour:
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+Technicians & Served & Avg wait & Max wait & \% under 10 min \\
+\midrule
+2 & 110 & 43.8859 & 170.5482 & 30.9091 \\
+3 & 105 & 4.0800 & 28.1272 & 83.8095 \\
+4 & 105 & 0.1727 & 3.2712 & 100.0000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Recommendation from part (c):
+\begin{itemize}
+\item 3 technicians is the minimum staffing level that meets the primary target of average wait below 8 minutes.
+\item It does not meet the secondary target of at least 85\% under 10 minutes.
+\end{itemize}
+
+\textbf{d) Mixed service-time extension}
+
+Mixed-service extension:
+\begin{itemize}
+\item Standard queries: 75\%, mean service 6 minutes
+\item Complex queries: 25\%, mean service 14 minutes
+\item Keep arrivals at 13 per hour
+\item For each arrival, sample whether the case is standard or complex
+\item Then sample service time from the corresponding exponential distribution
+\end{itemize}
+
+One run with 3 technicians gives:
+\begin{itemize}
+\item Students served = 84
+\item Complex cases = 29
+\item Average wait = 2.1404 minutes
+\item Maximum wait = 14.5512 minutes
+\item Percentage under 10 minutes = 91.6667\%
+\end{itemize}
+
+So the 3-technician recommendation still looks reasonable on this run.
+
+\textbf{e) Why one simulation run is not enough}
+
+Why one run is not enough:
+\begin{itemize}
+\item Output depends on random variation.
+\item One run can be unusually good or bad.
+\item Repeated runs allow a mean estimate and confidence interval.
+\end{itemize}
+
+Verification snippet:
+\begin{verbatim}
+from worked_solution_snippets import q4_results
+print(q4_results())
+\end{verbatim}
+
+\textbf{5. Forecasting}
+
+\textbf{a) Centred moving averages and trend}
+
+Using periods 1--12, the centred 4-quarter moving averages can be calculated only for periods 3--10:
+
+\begin{center}
+\begin{tabular}{rrrr}
+\toprule
+Period & Actual & MA4 & CMA \\
+\midrule
+2  & 505 & 482.5000 &  \\
+3  & 455 & 490.0000 & 486.2500 \\
+4  & 590 & 501.2500 & 495.6250 \\
+5  & 410 & 512.5000 & 506.8750 \\
+6  & 550 & 526.2500 & 519.3750 \\
+7  & 500 & 535.0000 & 530.6250 \\
+8  & 645 & 547.5000 & 541.2500 \\
+9  & 445 & 557.5000 & 552.5000 \\
+10 & 600 & 572.5000 & 565.0000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Fitting a straight line to the CMA values for periods 3--10 gives the estimated trend:
+\[
+\text{Trend} = 451.1756 + 11.3095t
+\]
+
+\textbf{b) Seasonal indices}
+
+Estimated seasonal indices:
+
+Additive:
+\[
+Q1 = -101.8750, \quad Q2 = 33.1250, \quad Q3 = -30.6250, \quad Q4 = 99.3750
+\]
+
+Multiplicative:
+\[
+Q1 = 0.8076, \quad Q2 = 1.0611, \quad Q3 = 0.9396, \quad Q4 = 1.1917
+\]
+
+\textbf{c) Validation-set comparison using MSE}
+
+Validation-set accuracy on periods 13--16 uses:
+\[
+\mathrm{MSE} = \frac{1}{n}\sum_{t=1}^{n} e_t^2
+\]
+where
+\[
+e_t = \text{Actual}_t - \text{Forecast}_t
+\]
+
+Results:
+\[
+\mathrm{MSE}_{\text{additive}} = 558.4018
+\]
+\[
+\mathrm{MSE}_{\text{multiplicative}} = 184.4082
+\]
+
+So the better model is multiplicative.
+
+\textbf{d) Forecasts for 2023 and recommendation}
+
+Forecasts for 2023 using the multiplicative model:
+
+\begin{center}
+\begin{tabular}{lcr}
+\toprule
+Period & Quarter & Forecast \\
+\midrule
+17 & Q1 & 519.6556 \\
+18 & Q2 & 694.7350 \\
+19 & Q3 & 625.7974 \\
+20 & Q4 & 807.2476 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Recommendation:
+\begin{itemize}
+\item Use the multiplicative model.
+\item It gives the lower validation MSE.
+\item The seasonal swing appears to rise with the level of the series, which supports a multiplicative interpretation.
+\end{itemize}
+
+Observation to check:
+\begin{itemize}
+\item Period 16 with demand 775 is the largest observation and worth checking before operational use.
+\end{itemize}
+
+Verification snippet:
+\begin{verbatim}
+from worked_solution_snippets import q5_results
+print(q5_results())
+\end{verbatim}
+
+\textbf{6. Scheduling}
+
+\textbf{Part A: Johnson's Rule}
+
+\textbf{a) Johnson's Rule sequence}
+
+Processing times:
+\[
+J_1 = (8,4), \quad J_2 = (3,9), \quad J_3 = (6,5), \quad J_4 = (7,2), \quad J_5 = (4,6)
+\]
+
+Johnson steps:
+\begin{enumerate}
+\item Smallest time is 2 on $J_4$ on Machine 2, so place $J_4$ last.
+\item Next smallest is 3 on $J_2$ on Machine 1, so place $J_2$ first.
+\item Next smallest is 4 on $J_5$ on Machine 1, so place $J_5$ next.
+\item Next smallest remaining is 4 on $J_1$ on Machine 2, so place $J_1$ in the latest remaining slot.
+\item $J_3$ fills the remaining middle slot.
+\end{enumerate}
+
+Optimal Johnson sequence:
+\[
+J_2, J_5, J_3, J_1, J_4
+\]
+
+\textbf{b) Gantt chart and minimum makespan}
+
+Gantt-style timing:
+
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+Job & M1 start & M1 finish & M2 start & M2 finish \\
+\midrule
+$J_2$ & 0  & 3  & 3  & 12 \\
+$J_5$ & 3  & 7  & 12 & 18 \\
+$J_3$ & 7  & 13 & 18 & 23 \\
+$J_1$ & 13 & 21 & 23 & 27 \\
+$J_4$ & 21 & 28 & 28 & 30 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Minimum makespan:
+\[
+30
+\]
+
+\textbf{c) Comparison with the original order}
+
+Original-order schedule $J_1, J_2, J_3, J_4, J_5$ gives makespan:
+\[
+34
+\]
+
+Improvement:
+\[
+4 \text{ time units}
+\]
+
+\textbf{Part B: Job Shop Solution}
+
+\textbf{d) Job shop model, schedule and makespan}
+
+Use an optimisation model such as OR-Tools CP-SAT with:
+\begin{itemize}
+\item Objective: minimise makespan
+\item Decision variables: start times, end times, or interval tasks for each operation
+\item Precedence constraints: each task must follow the previous task in the same job
+\item Machine-capacity constraints: no overlap on each machine
+\end{itemize}
+
+One optimal baseline schedule is:
+\begin{center}
+\begin{tabular}{lrlrr}
+\toprule
+Job & Task & Machine & Start & End \\
+\midrule
+$A$ & 1 & $M_1$ & 0  & 3  \\
+$B$ & 1 & $M_2$ & 0  & 4  \\
+$C$ & 1 & $M_3$ & 0  & 3  \\
+$A$ & 2 & $M_3$ & 3  & 8  \\
+$B$ & 2 & $M_1$ & 4  & 6  \\
+$C$ & 2 & $M_2$ & 4  & 8  \\
+$D$ & 1 & $M_1$ & 6  & 8  \\
+$B$ & 3 & $M_3$ & 8  & 14 \\
+$C$ & 3 & $M_1$ & 8  & 11 \\
+$D$ & 2 & $M_2$ & 8  & 14 \\
+$A$ & 3 & $M_2$ & 14 & 16 \\
+$D$ & 3 & $M_3$ & 14 & 18 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+So the minimum makespan is:
+\[
+18
+\]
+
+Short interpretation:
+\begin{itemize}
+\item Precedence is enforced because each job's next operation cannot start before the previous one finishes.
+\item Non-overlap is enforced because each machine can process at most one operation at a time.
+\end{itemize}
+
+\textbf{e) Revised feasibility with deadline and machine downtime}
+
+Part (e) revised model:
+\begin{itemize}
+\item Add due-date constraint: completion time of job $D$ must be $\le 15$
+\item Add machine downtime on $M_2$ from time 6 to 9, for example by inserting a blocking interval
+\end{itemize}
+
+Re-solving the model gives:
+\[
+\text{infeasible}
+\]
+
+Operational interpretation:
+\begin{itemize}
+\item The new restrictions remove too much flexibility from the schedule.
+\item Job $D$ needs 6 uninterrupted time units on $M_2$ after first visiting $M_1$.
+\item Because $M_2$ is unavailable from time 6 to 9, job $D$ cannot both complete its $M_2$ operation and still finish the full job by time 15.
+\item A solver reporting infeasibility means there is no schedule that satisfies all constraints simultaneously.
+\end{itemize}
+
+Verification snippet:
+\begin{verbatim}
+from worked_solution_snippets import q6_results
+print(q6_results())
+\end{verbatim}
+
+\end{document}

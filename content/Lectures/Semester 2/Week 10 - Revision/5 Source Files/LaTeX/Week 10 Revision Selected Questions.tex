@@ -1,0 +1,311 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+
+\definecolor{packblue}{RGB}{26,68,114}
+\definecolor{packgrey}{RGB}{85,85,85}
+
+\newcommand{\markalloc}[1]{\nobreak\hfill\mbox{(#1 Marks)}}
+\newcommand{\questiontotal}[1]{\begin{flushright}\textbf{Total #1 Marks}\end{flushright}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[enumerate,1]{label=(\alph*), leftmargin=1.1cm, itemsep=0.55em, topsep=0.4em}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries\color{packblue} Week 10 Revision Selected Questions}\\[0.4em]
+{\large 5CM522 Operational Research}\\[0.3em]
+{\color{packgrey} Reformatted from \texttt{Sem 2 Week 10 - Revision.pdf}}
+\end{center}
+
+\vspace{0.8em}
+\hrule
+\vspace{0.8em}
+
+This document contains all selected questions from the Week 10 revision sheet, reformatted as a clean booklet.
+The questions have been renumbered so that the pack reads continuously.
+
+\newpage
+
+\textbf{1.}
+
+GreenGrid Energy is choosing a set of improvement projects for a regional depot network.
+Each project is either undertaken in full or not undertaken at all.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Project & Cost (\pounds m) & Annual Benefit Score \\
+\midrule
+$A$ & 6 & 14 \\
+$B$ & 8 & 17 \\
+$C$ & 5 & 11 \\
+$D$ & 9 & 20 \\
+$E$ & 4 & 9 \\
+$F$ & 7 & 15 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The total budget is \pounds21 million.
+
+The following additional conditions apply:
+\begin{itemize}[leftmargin=0.95cm, itemsep=0.25em]
+\item if project $D$ is selected, project $B$ must also be selected;
+\item projects $A$ and $F$ cannot both be selected;
+\item at least one of projects $C$ and $E$ must be selected.
+\end{itemize}
+
+\begin{enumerate}
+\item Formulate a binary integer programming model to maximise total annual benefit subject to the budget and project-selection rules. Clearly define all decision variables. \markalloc{8}
+
+\item Solve the model in Python or by systematic analysis, and determine which projects should be selected and the maximum total annual benefit score. \markalloc{7}
+
+\item Explain why this problem requires binary decision variables rather than the continuous variables used in ordinary linear programming. \markalloc{3}
+
+\item Modify the model so that exactly four projects must be selected, then resolve or explain how the optimal solution would change. \markalloc{4}
+
+\item Suggest one realistic extension that would make this capital-selection model more useful in practice. No full formulation is required. \markalloc{3}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{2.}
+
+Hock-Brooke (Automobiles), the main dealer in Ceeham, receives its new stock on Monday.
+Most customers collect their new cars on Friday or Saturday.
+New cars are stored initially in an old warehouse to be prepared for display in the showroom or, when the warehouse is full, in a secure parking area.
+
+The dealership is about to replace its old large warehouse with a modern purpose-built warehouse and needs to know the most suitable size for this new warehouse.
+
+The following data are available:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Number of Cars Delivered & 7 & 8 & 9 & 10 \\
+\midrule
+Frequency (\%) & 10 & 20 & 50 & 20 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+Weekly Demand & 6 & 7 & 8 & 9 & 10 & 11 \\
+\midrule
+Frequency (\%) & 5 & 20 & 30 & 10 & 20 & 15 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The cost of providing a single warehouse space is \pounds10 per week, and the cost of hiring an additional parking space is \pounds20 per week.
+
+\begin{enumerate}
+\item Simulate the operation of this dealership with a warehouse capacity of 9 cars and hence determine the average cost of using the warehouse per week. \markalloc{15}
+
+\item Is 9 the best capacity? If not, determine the best possible capacity for the warehouse. \markalloc{10}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{3.}
+
+A university library help desk is modelled as a queueing system.
+Students arrive randomly and service times are assumed to follow an exponential distribution.
+You should adapt the SimPy structures used in class, but tailor the model to this setting.
+
+Use the following assumptions:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Quantity & Value \\
+\midrule
+Simulation length & 360 minutes \\
+Average service time & 7 minutes \\
+Baseline arrival rate & 10 students per hour \\
+Peak arrival rate & 15 students per hour \\
+Service target & 97\% wait less than 8 minutes \\
+Priority users & 10\% of arrivals \\
+Suggested random seed & 24 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Describe the main elements of a discrete-event simulation model for this system: entities, resources, events, stochastic inputs and performance measures. \markalloc{5}
+
+\item Adapt a SimPy model to represent the baseline system with 2 advisers and an arrival rate of 10 students per hour. Report the total served, average wait, maximum wait and percentage waiting less than 8 minutes. \markalloc{6}
+
+\item Investigate the peak-period scenario with 2, 3 and 4 advisers. Present your results in a clearly labelled table and determine the minimum number of advisers needed to meet the service target. \markalloc{4}
+
+\item Extend the model so that 10\% of users are priority users who should be served ahead of standard users. Explain how the model should be changed and discuss the likely effect on standard-user waits. \markalloc{6}
+
+\item Explain why a single run is not enough to support a staffing decision and describe how you would use replications and/or a warm-up period to improve the analysis. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{4.}
+
+F.B. Knight (Deliveries) distributes goods from its warehouses to the WalShop supermarkets throughout the East Midlands.
+To optimise profits for this fixed-price contract, the company needs to determine its best delivery schedule from warehouse to shop.
+
+\begin{enumerate}
+\item Use the following data to determine F.B. Knight's optimal distribution plan.
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Warehouse & $A$ & $B$ & $C$ \\
+\midrule
+Available Stock & 100 & 100 & 100 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Shop & $X$ & $Y$ & $Z$ \\
+\midrule
+Demand & 70 & 80 & 150 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The shipping costs per 10 items are:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+ & $X$ & $Y$ & $Z$ \\
+\midrule
+$A$ & 8 & 7 & 5 \\
+$B$ & 12 & 3 & 9 \\
+$C$ & 10 & 11 & 7 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\markalloc{10}
+
+\item Determine how the solution changes if the following additional restrictions are imposed:
+\[
+B \text{ cannot deliver to } Y
+\]
+and
+\[
+A \text{ must deliver at least 5 items to } Y.
+\]
+\markalloc{5}
+
+\item Two new distribution locations act as intermediary nodes between the warehouses and shops and become available for use.
+Determine whether you should use one or both locations.
+Assume that if you use the locations, you do not ship directly from warehouses to shops.
+
+Warehouse to intermediary costs per 10 items:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & $D_1$ & $D_2$ \\
+\midrule
+$A$ & 4 & 5 \\
+$B$ & 3 & 2 \\
+$C$ & 6 & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Intermediary to shop costs per 10 items:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & $D_1$ & $D_2$ \\
+\midrule
+$X$ & 4 & 2 \\
+$Y$ & 5 & 4 \\
+$Z$ & 2 & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\markalloc{10}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{5.}
+
+The data analyst at N\&F has started an initial analysis of sales data within the firm.
+The following table shows quarterly sales data over a 4-year period.
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Period & Season & Sales Data \\
+\midrule
+1 & Spring & 1013 \\
+2 & Summer & 1025 \\
+3 & Autumn & 1002 \\
+4 & Winter & 1021 \\
+5 & Spring & 1053 \\
+6 & Summer & 1067 \\
+7 & Autumn & 1042 \\
+8 & Winter & 1060 \\
+9 & Spring & 1093 \\
+10 & Summer & 1106 \\
+11 & Autumn & 1083 \\
+12 & Winter & 1101 \\
+13 & Spring & 1134 \\
+14 & Summer & 1147 \\
+15 & Autumn & 1123 \\
+16 & Winter & 1139 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Use this data to compare and contrast the use of both additive and multiplicative models to forecast sales.
+
+\begin{enumerate}
+\item Plot the sales data and smoothed (trend) data. \markalloc{2}
+
+\item Calculate seasonal variations using both additive and multiplicative models for seasonal variation. \markalloc{8}
+
+\item Produce sales forecasts for next year using both models. \markalloc{12}
+
+\item Evaluate the results from these forecasting models and make a recommendation concerning the most appropriate model to be used to forecast future sales. \markalloc{3}
+\end{enumerate}
+
+\questiontotal{25}
+
+\vfill
+
+\begin{center}
+\textit{End of Selected Questions}
+\end{center}
+
+\end{document}

@@ -1,0 +1,516 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\newcommand{\universityname}{UNIVERSITY OF DERBY}
+\newcommand{\college}{College of Science and Engineering}
+\newcommand{\examtitle}{Practice Paper B Solutions}
+\newcommand{\moduletitle}{OPERATIONAL RESEARCH}
+\newcommand{\modulecode}{5CM522}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[enumerate,1]{label=(\alph*), leftmargin=1.1cm, itemsep=0.4em, topsep=0.3em}
+
+\begin{document}
+
+\begin{center}
+{\large \textbf{\universityname}}\\
+{\college}\\[0.4em]
+{\Large \textbf{\examtitle}}\\
+{\large \textbf{\moduletitle} -- \textbf{\modulecode}}
+\end{center}
+
+\textbf{1. Scheduling}
+
+\begin{enumerate}
+\item Applying Johnson's Rule gives the sequence
+\[
+J_4,\ J_2,\ J_5,\ J_1,\ J_3
+\]
+
+Main steps:
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Step & Smallest time remaining & Placement rule & Partial sequence \\
+\midrule
+1 & $2$ on $J_4$ for $M_1$ & place first & $J_4,\_,\_,\_,\_$ \\
+2 & $3$ on $J_2$ for $M_1$ & next from front & $J_4,J_2,\_,\_,\_$ \\
+3 & $4$ on $J_3$ for $M_2$ & place last & $J_4,J_2,\_,\_,J_3$ \\
+4 & $5$ on $J_1$ for $M_2$ & next from back & $J_4,J_2,\_,J_1,J_3$ \\
+5 & $5$ on $J_5$ for $M_1$ & fill remaining front slot & $J_4,J_2,J_5,J_1,J_3$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item Gantt timings:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Job & Machine 1 & Machine 2 \\
+\midrule
+$J_4$ & 0--2 & 2--11 \\
+$J_2$ & 2--5 & 11--19 \\
+$J_5$ & 5--10 & 19--25 \\
+$J_1$ & 10--17 & 25--30 \\
+$J_3$ & 17--23 & 30--34 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Minimum makespan:
+\[
+34
+\]
+
+\item The original order $J_1,J_2,J_3,J_4,J_5$ gives makespan 39.
+
+So Johnson's Rule improves the schedule by
+\[
+39-34=5
+\]
+time units.
+
+\item Solving the job shop problem gives an optimal schedule with makespan
+\[
+19
+\]
+
+One optimal schedule is:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Job & Task & Machine & Start & End \\
+\midrule
+$A$ & 1 & $M_1$ & 0 & 4 \\
+$A$ & 2 & $M_3$ & 5 & 10 \\
+$A$ & 3 & $M_2$ & 13 & 16 \\
+$B$ & 1 & $M_2$ & 0 & 3 \\
+$B$ & 2 & $M_1$ & 6 & 10 \\
+$B$ & 3 & $M_3$ & 10 & 16 \\
+$C$ & 1 & $M_3$ & 0 & 5 \\
+$C$ & 2 & $M_2$ & 5 & 7 \\
+$C$ & 3 & $M_1$ & 10 & 14 \\
+$D$ & 1 & $M_1$ & 4 & 6 \\
+$D$ & 2 & $M_2$ & 7 & 13 \\
+$D$ & 3 & $M_3$ & 16 & 19 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This can be obtained using a job shop formulation or an OR-Tools interval-variable model with precedence constraints within each job and \texttt{NoOverlap} constraints on each machine.
+
+\item Add a due-date constraint for job $C$:
+\[
+C_C \le 15
+\]
+where $C_C$ is the completion time of job $C$.
+
+In the schedule above, job $C$ already finishes at time 14, so this additional constraint is satisfied and one optimal makespan-19 schedule remains feasible. In other instances, such a due-date constraint could force resequencing or even cause infeasibility.
+\end{enumerate}
+
+\textbf{2. Binary Integer Programming}
+
+\begin{enumerate}
+\item Let $x_i=1$ if base $i$ is opened and 0 otherwise.
+Let $y_j=1$ if district $j$ is covered and 0 otherwise.
+
+\[
+\max Z = 9000y_1+12000y_2+14000y_3+10000y_4+11000y_5+8000y_6
+\]
+subject to
+\[
+14x_A+11x_B+13x_C+10x_D+12x_E+9x_F \le 31
+\]
+\[
+x_A+x_B+x_C+x_D+x_E+x_F \le 3
+\]
+\[
+y_1 \le x_A+x_B
+\]
+\[
+y_2 \le x_A+x_C+x_E
+\]
+\[
+y_3 \le x_B+x_C+x_F
+\]
+\[
+y_4 \le x_A+x_D+x_F
+\]
+\[
+y_5 \le x_C+x_D+x_E
+\]
+\[
+y_6 \le x_E+x_F
+\]
+\[
+x_i,y_j \in \{0,1\}
+\]
+
+\item The optimal solution is
+\[
+x_A=x_C=1,\qquad x_B=x_D=x_E=x_F=0
+\]
+Total cost:
+\[
+14+13=27
+\]
+Covered districts:
+\[
+1,2,3,4,5
+\]
+Total covered population:
+\[
+9000+12000+14000+10000+11000=56000
+\]
+
+\item Yes. In the optimal solution above, district 6 remains uncovered. This is acceptable in a maximum-coverage model because the objective is to maximise covered population subject to tight resources. In a set covering model, complete coverage would be mandatory.
+
+\item Revised model changes:
+
+District 6 must be covered:
+\[
+y_6 = 1
+\]
+or equivalently
+\[
+x_E+x_F \ge 1
+\]
+
+Bases $B$ and $F$ cannot both be chosen:
+\[
+x_B+x_F \le 1
+\]
+
+Under these revised conditions, one optimal solution is
+\[
+x_E=x_F=1,\qquad x_A=x_B=x_C=x_D=0
+\]
+with covered districts $2,3,4,5,6$ and total covered population
+\[
+12000+14000+10000+11000+8000=55000
+\]
+There are multiple optimal solutions with the same covered population; for example, $x_C=x_F=1$ is also optimal.
+\end{enumerate}
+
+\textbf{3. Simulation}
+
+\begin{enumerate}
+\item Main components:
+
+Entities: students.
+
+Resource: advisers.
+
+Events: arrival, service start, service completion.
+
+Stochastic inputs: interarrival and service times.
+
+Measures: number served, average wait, maximum wait, percentage waiting less than 8 minutes.
+
+\item One run with seed 24 gave:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Measure & Result \\
+\midrule
+Students served & 41 \\
+Average wait & 1.17 minutes \\
+Maximum wait & 10.32 minutes \\
+\% waiting less than 8 minutes & 95.12\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item Peak-period results:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Advisers & Served & Avg wait & Max wait & \% below 8 min \\
+\midrule
+2 & 70 & 1.88 & 12.99 & 95.71\% \\
+3 & 73 & 0.32 & 3.22 & 100\% \\
+4 & 70 & 0.08 & 2.23 & 100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+From this run, the minimum staffing level meeting the target is 3 advisers.
+
+\item A \texttt{PriorityResource} can be used in place of a standard \texttt{Resource}. Each arriving student would be labelled priority or standard, for example with probability 0.10 of being priority, and then would request service with a smaller priority number if they are priority users.
+
+In SimPy terms, the main change is from a standard request such as
+\[
+\texttt{with desk.request() as req:}
+\]
+to a priority request such as
+\[
+\texttt{with desk.request(priority=0) as req:}
+\]
+for priority users and a larger number such as \texttt{priority=1} for standard users.
+
+This would usually reduce priority-user waits and increase the waits experienced by standard users.
+
+\item Replications are needed because a single run may be unusually good or bad. If the model represented a continuing system rather than a finite session, a warm-up period might also be appropriate.
+\end{enumerate}
+
+\textbf{4. Forecasting}
+
+\begin{enumerate}
+\item Using periods 1--12 only, centred 4-quarter moving averages are available for periods 3--10:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Period & Demand & CMA \\
+\midrule
+3 & 470 & 491.250 \\
+4 & 560 & 499.500 \\
+5 & 450 & 507.750 \\
+6 & 536 & 516.500 \\
+7 & 500 & 525.875 \\
+8 & 600 & 535.125 \\
+9 & 485 & 544.375 \\
+10 & 575 & 554.375 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A linear trend fitted to these centred moving averages is
+\[
+\hat{T}_t = 463.21 + 9.02t
+\]
+where $t=1$ corresponds to 2019 Q1.
+
+\item Seasonal indices:
+
+Additive:
+\[
+Q1=-58.72,\quad Q2=19.91,\quad Q3=-23.72,\quad Q4=62.53
+\]
+
+Multiplicative:
+\[
+Q1=0.8884,\quad Q2=1.0372,\quad Q3=0.9535,\quad Q4=1.1209
+\]
+
+\item Validation forecasts for 2022:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Quarter & Actual & Additive Forecast & Multiplicative Forecast \\
+\midrule
+2022 Q1 & 522 & 521.76 & 515.68 \\
+2022 Q2 & 618 & 609.41 & 611.44 \\
+2022 Q3 & 572 & 574.80 & 570.71 \\
+2022 Q4 & 694 & 670.07 & 680.99 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Using MAD:
+\[
+\text{MAD}_{\text{add}} \approx 8.89,\qquad \text{MAD}_{\text{mult}} \approx 6.80
+\]
+where absolute error is calculated as $|\text{Actual} - \text{Forecast}|$.
+
+For the multiplicative model:
+\[
+|522-515.68|=6.32,\quad |618-611.44|=6.56,\quad |572-570.71|=1.29,\quad |694-680.99|=13.01
+\]
+so
+\[
+\text{MAD}_{\text{mult}}=\frac{6.32+6.56+1.29+13.01}{4}\approx 6.80
+\]
+
+For the additive model:
+\[
+|522-521.76|=0.24,\quad |618-609.41|=8.59,\quad |572-574.80|=2.80,\quad |694-670.07|=23.93
+\]
+so
+\[
+\text{MAD}_{\text{add}}=\frac{0.24+8.59+2.80+23.93}{4}\approx 8.89
+\]
+The multiplicative model is better.
+
+\item Forecasts for 2023 using the multiplicative model:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Quarter & Forecast \\
+\midrule
+2023 Q1 & 547.74 \\
+2023 Q2 & 648.86 \\
+2023 Q3 & 605.11 \\
+2023 Q4 & 721.43 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+\textbf{5. Linear Programming}
+
+Let $C$ be casings and $I$ be inserts.
+
+\begin{enumerate}
+\item A suitable model is
+\[
+\max Z = 40C + 34I
+\]
+subject to
+\[
+4C + 2I \le 100
+\]
+\[
+C + 3I \le 90
+\]
+\[
+I \le 24
+\]
+\[
+C,I \ge 0
+\]
+
+\item The optimal solution is
+\[
+C=13,\qquad I=24
+\]
+Maximum contribution:
+\[
+Z=40(13)+34(24)=1336
+\]
+
+\item Binding constraints: moulding and insert demand cap.
+
+Slack values:
+\[
+4(13)+2(24)=100 \Rightarrow 0 \text{ moulding slack}
+\]
+\[
+13+3(24)=85 \Rightarrow 5 \text{ assembly hours unused}
+\]
+\[
+24-24=0
+\]
+
+\item The new condition is
+\[
+I \ge 0.25(C+I)
+\]
+which simplifies to
+\[
+C-3I \le 0
+\]
+At the original optimum,
+\[
+13-3(24)=-59 \le 0
+\]
+so the original solution remains feasible and optimal.
+
+\item With 12 extra assembly hours, the assembly constraint becomes less restrictive, but the current solution already has 5 hours of assembly slack and is limited by moulding plus the insert cap. The optimal plan therefore does not change.
+
+Extra contribution gained:
+\[
+0
+\]
+Maximum cost of buying all 12 hours:
+\[
+12 \times 3 = 36
+\]
+So the extra hours should not be bought.
+\end{enumerate}
+
+\textbf{6. Transportation}
+
+\begin{enumerate}
+\item Let $x_{ij}$ be the quantity shipped from warehouse $i$ to store $j$.
+
+A suitable model is
+\[
+\min Z = \sum_i \sum_j c_{ij}x_{ij}
+\]
+subject to the supply constraints for each warehouse $i$:
+\[
+\sum_j x_{ij} = s_i
+\]
+demand constraints for each store $j$:
+\[
+\sum_i x_{ij} = d_j
+\]
+and non-negativity:
+\[
+x_{ij}\ge 0
+\]
+
+\item One optimal plan is:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Route & Quantity \\
+\midrule
+$W_1 \to S_1$ & 20 \\
+$W_1 \to S_4$ & 60 \\
+$W_2 \to S_2$ & 60 \\
+$W_2 \to S_3$ & 40 \\
+$W_3 \to S_1$ & 50 \\
+$W_3 \to S_3$ & 40 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Total transportation cost:
+\[
+1560
+\]
+
+\item With $W_2 \not\to S_2$ and at least 20 units from $W_1$ to $S_4$, one optimal revised plan is:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Route & Quantity \\
+\midrule
+$W_1 \to S_2$ & 60 \\
+$W_1 \to S_4$ & 20 \\
+$W_2 \to S_3$ & 60 \\
+$W_2 \to S_4$ & 40 \\
+$W_3 \to S_1$ & 70 \\
+$W_3 \to S_3$ & 20 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Revised cost:
+\[
+1680
+\]
+Increase in cost:
+\[
+1680-1560=120
+\]
+
+\item Example extension: add vehicle capacities or delivery time windows so the model reflects route feasibility as well as shipping cost.
+\end{enumerate}
+
+\end{document}

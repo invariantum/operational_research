@@ -1,0 +1,366 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usetikzlibrary{arrows.meta,positioning}
+
+\newcommand{\universityname}{UNIVERSITY OF DERBY}
+\newcommand{\college}{College of Science and Engineering}
+\newcommand{\examtitle}{Timed In-Class Test}
+\newcommand{\moduletitle}{OPERATIONAL RESEARCH}
+\newcommand{\modulecode}{5CM522}
+\newcommand{\examdate}{MAY 2026}
+\newcommand{\timeallowed}{4 HOURS}
+
+\newcommand{\markalloc}[1]{\nobreak\hfill\mbox{(#1 Marks)}}
+\newcommand{\questiontotal}[1]{\begin{flushright}\textbf{Total #1 Marks}\end{flushright}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+\setlist[enumerate,1]{label=(\alph*), leftmargin=1.1cm, itemsep=0.55em, topsep=0.4em}
+
+\begin{document}
+
+\begin{center}
+{\large \textbf{\universityname}}\\
+{\college}
+\end{center}
+
+\vspace{0.5em}
+
+\begin{center}
+{\Large \textbf{\examtitle}}\\[0.5em]
+\rule{\textwidth}{0.4pt}\\[0.6em]
+{\large \textbf{\moduletitle}}\\
+{\large \textbf{\modulecode}}\\[0.4em]
+\textbf{DATE:} \examdate\\
+\textbf{TIME ALLOWED:} \timeallowed\\[0.3em]
+\rule{\textwidth}{0.4pt}
+\end{center}
+
+\textbf{Instructions to Candidates}
+
+You are required to answer a total of 4 questions:
+
+However, you can provide answers to all 6 and the best 4 will be considered.
+
+All work must be submitted before the END TIME.
+
+Answers should be given or labelled as per the instructions within the submission template and submitted on Course Resources.
+
+Please submit any accompanying handwritten or typed answers.
+
+You may use Excel or Python, but you must submit all files, and files and answers must be clearly labelled and where necessary, written explanation given.
+
+You may access material on the module and search on the internet to clarify terms or concepts.
+
+You MUST NOT collude with other students, students suspected of collusion may be penalised subject to the academic regulations.
+
+You MUST NOT use any AI/Generative AI such as ChatGPT, Claude, Copilot, BING etc. Any use is considered an academic offence and will mean immediate exclusion from the examination. This includes using built-in AI features in software such as Excel, VS Code and Google Colab.
+
+\textbf{DO NOT TURN OVER UNTIL INSTRUCTED}
+
+\newpage
+
+\textbf{1.}
+
+Riverside Signs produces two display products each week: Standard panels and Premium panels.
+
+Each Standard panel requires 4 hours in printing and 2 hours in finishing.
+Each Premium panel requires 2 hours in printing and 3 hours in finishing.
+Printing has 84 hours available per week and finishing has 60 hours available per week.
+Data shows that at most 18 Premium panels can be sold per week.
+
+The weekly contribution made by each Standard panel is \pounds42 and by each Premium panel is \pounds36.
+
+\begin{enumerate}
+\item Formulate a linear programming model for this problem, clearly defining the decision variables, objective function and constraints. \markalloc{6}
+
+\item Solve the model to determine the weekly production plan that maximises contribution. You may use a graphical method, algebra or Python, but your work must be clear. \markalloc{6}
+
+\item Using your answer from part (b), identify the binding constraints and the unused capacity in each department. State whether the market cap on Premium panels is active. \markalloc{3}
+
+\item Management can obtain extra capacity for one week only, either in printing or in finishing.
+State which department's extra capacity is more valuable and determine the maximum price per hour Riverside Signs should be willing to pay for the chosen extra capacity. Justify your answer clearly. \markalloc{6}
+
+\item A retailer now requires that at least 30\% of all panels produced each week must be Premium panels.
+Reformulate the model and determine whether the original optimal solution remains feasible or state the revised optimal plan. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{2.}
+
+Southvale Council wants to open a minimum-cost set of drone launch sites so that every rural district is covered by at least one site.
+If a site is opened, it is either fully open or fully closed.
+
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+Site & Weekly Cost & Districts Covered \\
+\midrule
+$A$ & 16 & $\{1,2,4\}$ \\
+$B$ & 11 & $\{1,3\}$ \\
+$C$ & 15 & $\{2,3,5\}$ \\
+$D$ & 14 & $\{4,5,6\}$ \\
+$E$ & 13 & $\{2,5,6\}$ \\
+$F$ & 10 & $\{3,4,6\}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Formulate a model to minimise total weekly cost while ensuring that every district is covered by at least one open site. \markalloc{8}
+
+\item Solve the model in Python and determine which sites should be opened and the minimum weekly cost. \markalloc{7}
+
+\item For your baseline solution, identify any districts that are covered by more than one selected site and comment briefly on the operational value of this redundancy. \markalloc{2}
+
+\item Modify the model so that:
+\begin{itemize}[leftmargin=0.9cm, itemsep=0.25em]
+\item district 6 must have backup coverage, meaning it must be covered by at least two open sites, and
+\item sites $B$ and $F$ cannot both be opened because of airspace interference.
+\end{itemize}
+Resolve the revised model and comment on the impact of the new restrictions. \markalloc{5}
+
+\item Suggest one realistic way in which this model could be extended to make it more useful for a real emergency-planning application.
+State clearly what extra data would be needed to support your proposed extension. No full formulation is required, but your answer should be specific. \markalloc{3}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{3.}
+
+PolarAid ships medical kits from three supply depots to four clinics via two cross-docking hubs.
+Kits may only travel from a supply depot to a hub and then from a hub to a clinic.
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Supply Depot & Supply & Cost to $H_1$ & Cost to $H_2$ \\
+\midrule
+$P_1$ & 100 & 4 & 6 \\
+$P_2$ & 120 & 5 & 3 \\
+$P_3$ & 80  & 6 & 4 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Hub & Cost to $C_1$ & Cost to $C_2$ & Cost to $C_3$ & Cost to $C_4$ & Total Demand \\
+\midrule
+$H_1$ & 4 & 6 & 7 & 5 & \\
+$H_2$ & 5 & 4 & 3 & 6 & \\
+\midrule
+Demand & 70 & 60 & 80 & 50 & 260 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Formulate a transhipment model for this problem. Your answer should define the decision variables, objective function, supply constraints, demand constraints and the flow-balance constraints at the hubs. \markalloc{8}
+
+\item Solve the model in Python and determine the optimal shipment plan, the total transportation cost and any unused supply. Report only the non-zero shipments. \markalloc{7}
+
+\item A disruption occurs and:
+\begin{itemize}[leftmargin=0.9cm, itemsep=0.25em]
+\item hub $H_1$ can process at most 130 units, and
+\item at least 30 units for clinic $C_2$ must pass through hub $H_1$ because a specialist inspection step is only available there.
+\end{itemize}
+Show clearly how the model must be changed and determine the revised total cost. State only the revised non-zero shipments or the flows that change from part (b), and comment briefly on why the network pattern changes. \markalloc{6}
+
+\item In the disrupted scenario, PolarAid may use an emergency direct route from depot $P_3$ to clinic $C_4$ at a cost of \pounds9 per unit, up to a maximum of 20 units.
+Explain how the model would need to be extended to represent this option and determine whether any direct shipments should be used. State the revised total cost and justify your answer briefly. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{4.}
+
+The university IT walk-in desk is modelled as a queueing system.
+Students arrive randomly, and service times are assumed to follow an exponential distribution.
+
+Use the following assumptions:
+
+\begin{center}
+\begin{tabularx}{0.92\textwidth}{>{\raggedright\arraybackslash}X>{\raggedleft\arraybackslash}p{6.2cm}}
+\toprule
+Quantity & Value \\
+\midrule
+Simulation length & 420 minutes \\
+Average service time & 8 minutes \\
+Baseline arrival rate & 9 students per hour throughout \\
+Busy-period arrival rate & 13 students per hour throughout \\
+Extension service mix & 75\% standard queries with mean service time 6 minutes, 25\% complex queries with mean service time 14 minutes \\
+Primary service target & average waiting time below 8 minutes \\
+Secondary service target & at least 85\% of students wait less than 10 minutes \\
+Random seed & 42 \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{enumerate}
+\item Describe the main elements of a discrete-event simulation model for this system:
+entities, resources, events, stochastic inputs and the performance measures you would collect. \markalloc{5}
+
+\item Create a suitable SimPy model to represent the baseline system with 2 technicians and an arrival rate of 9 students per hour.
+Report the total number of students served, the average wait, the maximum wait and the percentage of students who wait less than 10 minutes. \markalloc{6}
+
+\item Investigate a busier period in which the arrival rate is 13 students per hour throughout the 420 minutes.
+Test staffing levels of 2, 3 and 4 technicians, present your results in a clearly labelled table and determine the minimum number of technicians needed to meet the primary service target. Comment briefly on whether the secondary target is also met. \markalloc{4}
+
+\item Now consider a more realistic service mix in which 75\% of arrivals are standard queries with mean service time 6 minutes, while 25\% are complex queries with mean service time 14 minutes.
+Using the staffing level you recommended in part (c), explain how the SimPy model should be adapted to represent this mix and report the results from one run. State whether your recommendation from part (c) still appears reasonable. \markalloc{6}
+
+\item Explain why a single simulation run is not enough to support a staffing decision and describe how you would use replications and/or confidence intervals to improve the quality of the analysis. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{5.}
+
+The operations analyst at Northshore Retail has collected the following quarterly demand data for a fast-growing product line.
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Period & Year & Quarter & Demand \\
+\midrule
+1  & 2019 & Q1 & 380 \\
+2  & 2019 & Q2 & 505 \\
+3  & 2019 & Q3 & 455 \\
+4  & 2019 & Q4 & 590 \\
+5  & 2020 & Q1 & 410 \\
+6  & 2020 & Q2 & 550 \\
+7  & 2020 & Q3 & 500 \\
+8  & 2020 & Q4 & 645 \\
+9  & 2021 & Q1 & 445 \\
+10 & 2021 & Q2 & 600 \\
+11 & 2021 & Q3 & 540 \\
+12 & 2021 & Q4 & 705 \\
+13 & 2022 & Q1 & 490 \\
+14 & 2022 & Q2 & 660 \\
+15 & 2022 & Q3 & 590 \\
+16 & 2022 & Q4 & 775 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Using periods 1--12 only, calculate suitable centred 4-quarter moving averages and estimate the trend values where possible.
+Plot the original data together with the estimated trend. \markalloc{8}
+
+\item Using periods 1--12 only, calculate seasonal indices using both additive and multiplicative decomposition models. \markalloc{7}
+
+\item Use the 2022 data (periods 13--16) as a validation set.
+Generate forecasts for these four periods using both models and compare their accuracy using mean squared error (MSE), where
+\[
+\mathrm{MSE} = \frac{1}{n}\sum_{t=1}^{n} e_t^2
+\]
+and $e_t = \text{Actual}_t - \text{Forecast}_t$. \markalloc{6}
+
+\item Using the better model, produce forecasts for the four quarters of 2023.
+Your final recommendation must consider both forecast accuracy and model suitability for this data set, not accuracy alone.
+Comment briefly on any feature of the data that supports your recommendation, and state whether any single historical observation appears influential enough that you would want to check it before adopting the model operationally. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{6.}
+
+Brightmetal Engineering is studying two scheduling problems.
+
+\textbf{Part A: Flow Shop Scheduling}
+
+All five jobs must be processed first on Machine 1 and then on Machine 2.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Job & Machine 1 Time & Machine 2 Time \\
+\midrule
+$J_1$ & 8 & 4 \\
+$J_2$ & 3 & 9 \\
+$J_3$ & 6 & 5 \\
+$J_4$ & 7 & 2 \\
+$J_5$ & 4 & 6 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Part B: Job Shop Scheduling}
+
+Each job has its own machine order and must follow that order exactly.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Job & Sequence on Machines & Processing Times \\
+\midrule
+$A$ & $M_1, M_3, M_2$ & $3, 5, 2$ \\
+$B$ & $M_2, M_1, M_3$ & $4, 2, 6$ \\
+$C$ & $M_3, M_2, M_1$ & $3, 4, 3$ \\
+$D$ & $M_1, M_2, M_3$ & $2, 6, 4$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Use Johnson's Rule to determine an optimal production sequence for the flow shop problem in Part A. Show the main steps of the rule. \markalloc{6}
+
+\item Draw a Gantt chart for your Part A sequence and calculate the minimum makespan. \markalloc{5}
+
+\item Compare the makespan from your Johnson schedule with the makespan obtained from the original order $J_1,J_2,J_3,J_4,J_5$. Comment briefly on the size of the improvement. \markalloc{4}
+
+\item For the job shop problem in Part B, use a suitable optimisation approach such as OR-Tools to solve the problem.
+Report the minimum makespan and present a clearly labelled schedule or Gantt chart.
+Briefly explain how your model enforces:
+\begin{itemize}[leftmargin=0.9cm, itemsep=0.25em]
+\item the precedence constraints within each job, and
+\item the machine-capacity or non-overlap constraints.
+\end{itemize}
+\markalloc{6}
+
+\item Suppose job $D$ must be completed by time 15 and Machine $M_2$ is unavailable from time 6 to time 9.
+State clearly whether the revised problem is feasible.
+If it is feasible, report the revised makespan and any important schedule changes.
+If it is infeasible, explain why this is the case. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\vfill
+
+\begin{center}
+\textbf{End of Paper}
+
+\copyright\ University of Derby
+\end{center}
+
+\end{document}

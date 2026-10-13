@@ -1,0 +1,338 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usetikzlibrary{arrows.meta,positioning}
+
+\newcommand{\universityname}{UNIVERSITY OF DERBY}
+\newcommand{\college}{College of Science and Engineering}
+\newcommand{\examtitle}{Practice Paper A}
+\newcommand{\moduletitle}{OPERATIONAL RESEARCH}
+\newcommand{\modulecode}{5CM522}
+\newcommand{\examdate}{REVISION MATERIAL}
+\newcommand{\timeallowed}{4 HOURS}
+
+\newcommand{\continuednotice}{%
+    \vfill
+    \begin{center}
+    \textit{Continued on Next Page}
+    \end{center}
+    \newpage
+}
+
+\newcommand{\markalloc}[1]{\nobreak\hfill\mbox{(#1 Marks)}}
+\newcommand{\questiontotal}[1]{\begin{flushright}\textbf{Total #1 Marks}\end{flushright}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+\setlist[enumerate,1]{label=(\alph*), leftmargin=1.1cm, itemsep=0.55em, topsep=0.4em}
+
+\begin{document}
+
+\begin{center}
+{\large \textbf{\universityname}}\\
+{\college}
+\end{center}
+
+\vspace{0.5em}
+
+\begin{center}
+{\Large \textbf{\examtitle}}\\[0.5em]
+\rule{\textwidth}{0.4pt}\\[0.6em]
+{\large \textbf{\moduletitle}}\\
+{\large \textbf{\modulecode}}\\[0.4em]
+\textbf{DATE:} \examdate\\
+\textbf{TIME ALLOWED:} \timeallowed\\[0.3em]
+\rule{\textwidth}{0.4pt}
+\end{center}
+
+\textbf{Instructions to Candidates}
+
+You are required to answer a total of 4 questions.
+
+However, you may attempt all 6 and your best 4 will be considered.
+
+This is a practice paper designed to support preparation for the timed in-class test.
+
+You may use Excel or Python, but your workings, files and interpretations must be clear and well labelled.
+
+You may access code, notes and module files while practising.
+
+You must not use AI tools if you want the practice to reflect the conditions of the real in-class test.
+
+\newpage
+
+\textbf{1.}
+
+Elmbridge Furniture makes two products each week: desks and shelving units.
+
+Each desk uses 5 carpentry hours and 2 finishing hours.
+Each shelving unit uses 3 carpentry hours and 4 finishing hours.
+At most 120 carpentry hours and 96 finishing hours are available each week.
+At least 8 shelving units must be produced to satisfy an online retailer.
+
+The weekly contribution is \pounds58 per desk and \pounds46 per shelving unit.
+
+\begin{enumerate}
+\item Formulate a linear programming model for this problem, clearly defining the decision variables, objective function and constraints. \markalloc{6}
+
+\item Solve the model to determine the weekly production plan that maximises contribution. You may use a graphical method, algebra or Python, but your work must be clear. \markalloc{6}
+
+\item Identify the binding constraints and determine the slack in each constraint at the optimum. \markalloc{4}
+
+\item The contribution on shelving units rises to \pounds52. Determine whether the optimal basis changes and justify your answer clearly. \markalloc{5}
+
+\item A new agreement requires shelving units to make up at least 30\% of total weekly output. Reformulate the model and determine whether the original optimum remains feasible. If not, find the revised optimal plan. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\continuednotice
+
+\textbf{2.}
+
+GreenGrid Energy is choosing a set of improvement projects for a regional depot network.
+Each project is either undertaken in full or not undertaken at all.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Project & Cost (\pounds m) & Annual Benefit Score \\
+\midrule
+$A$ & 6 & 14 \\
+$B$ & 8 & 17 \\
+$C$ & 5 & 11 \\
+$D$ & 9 & 20 \\
+$E$ & 4 & 9 \\
+$F$ & 7 & 15 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The total budget is \pounds21 million.
+
+The following additional conditions apply:
+\begin{itemize}[leftmargin=0.9cm, itemsep=0.25em]
+\item if project $D$ is selected, project $B$ must also be selected;
+\item projects $A$ and $F$ cannot both be selected;
+\item at least one of projects $C$ and $E$ must be selected.
+\end{itemize}
+
+\begin{enumerate}
+\item Formulate a binary integer programming model to maximise total annual benefit subject to the budget and project-selection rules. Clearly define all decision variables. \markalloc{8}
+
+\item Solve the model in Python or by systematic analysis, and determine which projects should be selected and the maximum total annual benefit score. \markalloc{7}
+
+\item Explain why this problem requires binary decision variables rather than the continuous variables used in ordinary linear programming. \markalloc{3}
+
+\item Modify the model so that exactly four projects must be selected, then resolve or explain how the optimal solution would change. \markalloc{4}
+
+\item Suggest one realistic extension that would make this capital-selection model more useful in practice. No full formulation is required. \markalloc{3}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{3.}
+
+The network below represents proposed communication links between seven depots.
+The number on each edge is the installation cost in thousands of pounds.
+
+\begin{center}
+\begin{tabular}{lclc}
+\toprule
+Link & Cost & Link & Cost \\
+\midrule
+$A$--$B$ & 6 & $C$--$F$ & 6 \\
+$A$--$C$ & 4 & $D$--$E$ & 5 \\
+$A$--$D$ & 9 & $D$--$F$ & 7 \\
+$B$--$C$ & 5 & $D$--$G$ & 8 \\
+$B$--$E$ & 7 & $E$--$F$ & 3 \\
+$C$--$D$ & 6 & $E$--$G$ & 4 \\
+$C$--$E$ & 8 & $F$--$G$ & 5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Explain what is meant by a minimum spanning tree and why it is useful in network design. \markalloc{4}
+
+\item Use either Prim's algorithm or Kruskal's algorithm to determine a minimum spanning tree for this network. Show the main steps of the algorithm. \markalloc{10}
+
+\item State the selected links and the total installation cost of the spanning tree. \markalloc{4}
+
+\item The firm now requires one additional backup link so that there is exactly one cycle in the final design. Identify the cheapest such addition and state the revised total cost. \markalloc{4}
+
+\item Comment briefly on one limitation of using only an MST for a real logistics or telecoms network. \markalloc{3}
+\end{enumerate}
+
+\questiontotal{25}
+
+\continuednotice
+
+\textbf{4.}
+
+Westmoor Cars is deciding how many display bays to provide for newly delivered vehicles.
+Each week, the number of cars delivered and the number of cars requested by customers are uncertain.
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Cars Delivered & 6 & 7 & 8 & 9 & 10 \\
+\midrule
+Probability & 0.10 & 0.20 & 0.35 & 0.25 & 0.10 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Weekly Demand & 5 & 6 & 7 & 8 & 9 \\
+\midrule
+Probability & 0.15 & 0.25 & 0.30 & 0.20 & 0.10 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Each permanent display bay costs \pounds18 per week.
+Any cars that cannot be placed in a display bay must be held in overflow storage at a cost of \pounds30 per car per week.
+
+For consistency, use the following random numbers for a 12-week simulation:
+
+\begin{center}
+\scriptsize
+\begin{tabular}{lcccccccccccc}
+\toprule
+Week & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+\midrule
+Delivery RN & 0.119 & 0.503 & 0.512 & 0.860 & 0.103 & 0.223 & 0.601 & 0.557 & 0.783 & 0.548 & 0.731 & 0.768 \\
+Demand RN & 0.751 & 0.587 & 0.240 & 0.614 & 0.111 & 0.817 & 0.450 & 0.815 & 0.685 & 0.679 & 0.210 & 0.252 \\
+\bottomrule
+\end{tabular}
+\normalsize
+\end{center}
+
+\begin{enumerate}
+\item Describe how you would model this problem as a simulation study. Your answer should identify the stochastic inputs, state variables and performance measures. \markalloc{5}
+
+\item Simulate 12 weeks of operation for a capacity of 7 display bays using the random numbers above. You may use Excel or Python to carry out the calculations, but your logic must be clear. \markalloc{8}
+
+\item Estimate the average weekly cost for a capacity of 7 bays. \markalloc{3}
+
+\item Repeat the analysis for capacities of 6, 8 and 9 bays using the same random numbers, then recommend a capacity. Present your results in a clearly labelled table. \markalloc{6}
+
+\item State two reasons why a much longer simulation or repeated runs would improve confidence in the recommendation. \markalloc{3}
+\end{enumerate}
+
+\questiontotal{25}
+
+\newpage
+
+\textbf{5.}
+
+The demand analyst at Calder Kitchens has collected the following quarterly sales data for one of its product ranges.
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+Period & Year & Quarter & Demand \\
+\midrule
+1  & 2020 & Q1 & 510 \\
+2  & 2020 & Q2 & 620 \\
+3  & 2020 & Q3 & 570 \\
+4  & 2020 & Q4 & 690 \\
+5  & 2021 & Q1 & 548 \\
+6  & 2021 & Q2 & 662 \\
+7  & 2021 & Q3 & 608 \\
+8  & 2021 & Q4 & 742 \\
+9  & 2022 & Q1 & 590 \\
+10 & 2022 & Q2 & 708 \\
+11 & 2022 & Q3 & 646 \\
+12 & 2022 & Q4 & 792 \\
+13 & 2023 & Q1 & 636 \\
+14 & 2023 & Q2 & 760 \\
+15 & 2023 & Q3 & 692 \\
+16 & 2023 & Q4 & 852 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Using periods 1--12 only, calculate suitable centred 4-quarter moving averages and estimate the trend where possible. Plot the original data together with the estimated trend. \markalloc{8}
+
+\item Using periods 1--12 only, calculate seasonal indices using both additive and multiplicative decomposition. \markalloc{7}
+
+\item Use periods 13--16 as a validation set. Produce forecasts for those periods using both models and compare their accuracy using one suitable error measure. \markalloc{6}
+
+\item Using the better model, forecast the four quarters of 2024 and justify your model choice briefly. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\continuednotice
+
+\textbf{6.}
+
+Northfield Relief ships medical supplies from three depots to four clinics through two regional hubs.
+Supplies may travel only from a depot to a hub and then from a hub to a clinic.
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Depot & Supply & Cost to $H_1$ & Cost to $H_2$ \\
+\midrule
+$D_1$ & 100 & 5 & 7 \\
+$D_2$ & 90 & 4 & 6 \\
+$D_3$ & 110 & 6 & 3 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Hub & Cost to $C_1$ & Cost to $C_2$ & Cost to $C_3$ & Cost to $C_4$ & Total Demand \\
+\midrule
+$H_1$ & 4 & 6 & 5 & 7 & \\
+$H_2$ & 6 & 4 & 3 & 5 & \\
+\midrule
+Demand & 60 & 70 & 80 & 75 & 285 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item Formulate a transhipment model for this problem. Clearly define the decision variables, objective function, supply constraints, demand constraints and hub flow-balance constraints. \markalloc{8}
+
+\item Solve the model and determine the optimal shipment plan, the total transportation cost and any unused supply. Report only the non-zero shipments. \markalloc{7}
+
+\item A disruption means that hub $H_1$ can process at most 130 units, and the route from $H_2$ to clinic $C_3$ is unavailable. Show how the model changes and determine the revised total cost. State only the revised non-zero shipments or the flows that change. \markalloc{6}
+
+\item In the disrupted scenario, up to 20 extra units of processing capacity can be bought for hub $H_1$ at a one-off cost of \pounds50. Determine whether this is worthwhile and justify your answer. \markalloc{4}
+\end{enumerate}
+
+\questiontotal{25}
+
+\vfill
+
+\begin{center}
+\textbf{End of Paper}
+\end{center}
+
+\end{document}

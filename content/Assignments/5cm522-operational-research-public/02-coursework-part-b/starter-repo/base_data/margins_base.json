@@ -1,0 +1,5 @@
+{
+  "margin_per_unit": 320.0976701864957,
+  "service_cost_per_km": 0.12830077316984465,
+  "notes": "Annual basis: demand in units/year, costs in GBP. Personalised scaling applied by generate_data.py"
+}
