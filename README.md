@@ -50,14 +50,13 @@ Each week also has a `README.md` listing its files and any notes for staff.
 | `Week 02 - Queueing Theory` | – | Excel |
 | `Week 03 - Discrete Event Simulation with SimPy` | 10 | SimPy |
 | `Week 04 - Problem Structuring and Simulation Build` | 1 | SimPy |
-| `Week 05 - Coursework Part B Release` | – | Brief in `Assignments/5cm522-operational-research-public/02-coursework-part-b` |
+| `Week 05 - Coursework Part B Release` | – | Brief in `Assignments/02-coursework-part-b` |
 | `Week 06 - Agent Based Modelling` | – | HTML slides |
 | `Week 10 - Revision` | 3 | Pyomo + HiGHS, SimPy |
 
-`Assignments/` holds two folders (see `Assignments/README.md`):
-`5cm522-operational-research-public` for students (coursework briefs, the Part B starter repository, revision
-papers with solutions) and `5cm522-operational-research-staff-only` for staff (model solutions, marking, the
-in-class test). Each has a `README.md` that says what to do, in order.
+`Assignments/` holds one folder per assessment (see `Assignments/README.md`): `01-coursework-part-a`,
+`02-coursework-part-b` and `03-in-class-test` (with its revision papers). Each has the same layout (`brief/`,
+`starter/`, `solutions/`, `staff/`) and a `README.md` that says what to do, in order.
 
 Open the `.ipynb` notebooks: in the browser a `.py` file opens as text only (the original scripts are kept in
 each week's `5 Source Files/Python`). Excel examples (`.xlsx`) need Excel. Every notebook is checked
@@ -91,7 +90,7 @@ content/                              everything here appears on the site
   Handbook/                           module handbook and module descriptor
   Lectures/Semester 1/Week 01 … 11/   one folder per week, layout above
   Lectures/Semester 2/Week 01 … 10/   one folder per week, layout above
-  Assignments/                        5cm522-operational-research-public/ (students), …-staff-only/ (staff)
+  Assignments/                        01-coursework-part-a/, 02-coursework-part-b/, 03-in-class-test/
 ```
 
 ## For maintainers
@@ -122,7 +121,7 @@ Keep staff-only material (solutions, exam papers) out of this repository, or in 
 
 ### Automatic notebook test
 `.github/workflows/test-notebooks.yml` runs every notebook in `00_START_HERE.ipynb`, `Lectures/`
-and both `Assignments/` folders inside Pyodide (the same engine as the site) on every push. Results appear
+and `Assignments/` inside Pyodide (the same engine as the site) on every push. Results appear
 on the run's **Summary** page; a red cross means a notebook needs fixing, not that the site is down.
 To run it yourself (needs Node.js 22 and an unpacked
 [Pyodide release](https://github.com/pyodide/pyodide/releases)):
