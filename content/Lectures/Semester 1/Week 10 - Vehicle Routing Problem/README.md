@@ -29,4 +29,5 @@ From the TSP to vehicle routing: multiple tours, capacity, minimising total dist
 
 - `2 Lecture Demos/1 TSP and VRP with Pyomo.ipynb` is a new companion notebook written for this repository. The last slide links to a separate Google Colab notebook (https://colab.research.google.com/drive/1BLPImK2TcdCrTaTN2-N6b2z3QNdUXpMe), which is not in the repository.
 - The HTML notes pointed at images on the author's own computer; the links now point to `1 Lecture/Notes/assets`.
-- An earlier export of the slides (March 2025) is in `5 Source Files/Previous Versions`.
+- The HTML export of the full notes still showed the placeholder label "dsad" on three MTZ constraints; it now has the same labels as the `.md` (Oct 2026).
+- Removed in Oct 2026: an earlier export of the slides (March 2025; one sentence differed from the current PDF) and an earlier HTML export of the notes whose images pointed to the author's computer.

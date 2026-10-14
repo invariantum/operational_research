@@ -42,4 +42,4 @@ Integer and binary variables: knapsack, set covering (fire stations), purchasing
 
 - The answers (.docx and PDF) gained a side note on Q3: two different selections both cost 310. The PDF was edited directly, so its wording differs slightly from the .docx; re-export the PDF from the .docx.
 - The answer screenshots show MATLAB output; the notebooks in `4 Tutorial Answers` give the same results.
-- Slides 26, 27, 29 and 31 of the `.pptx` showed the cost column again under "Expected Profit"; corrected to 5, 3, 4, 3, 3 (as on slides 24-25 and in the notebooks). Re-export the lecture PDF.
+- Slides 26, 27, 29 and 31 of the `.pptx` showed the cost column again under "Expected Profit"; corrected to 5, 3, 4, 3, 3 (as on slides 24-25 and in the notebooks). The lecture PDF was re-exported on 12 Oct 2026 and shows the corrected values.

@@ -37,3 +37,6 @@ Formulating linear programmes, solving them graphically, and solving them with S
 
 - The coded answers were written for an earlier numbering of the sheet: `Question_4a–c.py` answer today's **Q5a–c** and `Question_5.py` answers **Q6a–c**. The notebooks are named by today's numbering.
 - Week 3 demos 2–4 redo the diet problem (Q6) in Pyomo.
+- The answers' Q5a sentence pointed to "the MATLAB code", which is not in this folder; it now says "the Python notebook for 5a" (.docx and PDF, Oct 2026). The output screenshots are still MATLAB's; the values match the notebooks.
+- The notebooks' first cell no longer says "Pyomo models use HiGHS instead of GLPK": these notebooks use SciPy, not Pyomo.
+- The `@author` line (a staff ID) was removed from the five `Question_*.py` scripts.

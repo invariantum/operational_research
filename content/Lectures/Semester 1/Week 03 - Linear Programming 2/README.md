@@ -43,6 +43,7 @@ Work through the folders in number order.
   `python tools/convert_to_notebooks.py "<path to the .py>"` and move the new notebook into place.
 - `Tutorial Coded Answers.zip` was removed: it held the same eight scripts as the loose files (identical apart from Windows line endings).
 - A Windows `debug.log` was removed.
-- `5 Source Files/Python/Week2_question_5b_pyomo.py` was edited: it now solves with `load_solutions=False` and prints the termination condition, because HiGHS stops with an error when asked to load a solution from an unbounded model. The original is in the baseline repository.
+- `5 Source Files/Python/Week2_question_5b_pyomo.py` was edited: it now solves with `load_solutions=False` and prints the termination condition, because HiGHS stops with an error when asked to load a solution from an unbounded model. The original is in the pre-migration course folder.
 - The answers PDF's side note (Q2b alternative optimum) was added directly to the PDF, so its wording differs slightly from the .docx ("on the left" vs "above"). Re-export the PDF from the .docx to bring them in line.
 - Notebooks 1 and 6: the comment above the solver line now says HiGHS (it said GLPK).
+- Demos 2–4: the titles now give this year's question numbers (Week 2 tutorial Q6a–c) next to the slides' Q5a–c.
