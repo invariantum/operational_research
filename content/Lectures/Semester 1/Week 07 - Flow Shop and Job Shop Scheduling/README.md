@@ -53,3 +53,4 @@ Open the `.ipynb` notes to read and run them (each `.md` is the source of its no
 - The two job shop HTML exports had their notebook links updated to the new paths.
 - The annotated flow shop slides in `Previous Versions` date from February 2021, hence "2020-21" in the name.
 - The old OR-Tools answer script (`Previous Versions/jss_tutorial_answers_ortools …py`) was removed in Oct 2026: it did not run, had the wrong Q1 data and is replaced by the Pyomo answers.
+- `1 Johnsons rule.ipynb` (Oct 2026): job numbers are converted with `int()`, so the browser prints `[0, 2, 1]` instead of `[np.int64(0), …]`; the orders are unchanged. Its header no longer mentions Pyomo (the notebook uses NumPy only).
