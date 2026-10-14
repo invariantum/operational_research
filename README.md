@@ -30,6 +30,8 @@ Every week folder has the same layout, used only as far as the week needs it:
 
 Each week also has a `README.md` listing its files and any notes for staff.
 
+**New to Semester 1?** Read `Lectures/Semester 1/README.md` first: what to do each week, in which order, and how the weeks connect.
+
 | Semester 1 | Notebooks | Tools |
 | --- | --- | --- |
 | `Week 01 - Introduction to Operational Research` | 2 | NumPy, Matplotlib, ipywidgets |
@@ -38,7 +40,7 @@ Each week also has a `README.md` listing its files and any notes for staff.
 | `Week 04 - Mathematical Programming - Modelling` | 7 | Pyomo + HiGHS |
 | `Week 05 - Mixed Integer Programming` | 13 | Pyomo + HiGHS |
 | `Week 06 - Integer Linear Programming - Further Problems` | 7 | Pyomo + HiGHS |
-| `Week 07 - Flow Shop and Job Shop Scheduling` | 4 | NumPy, Pyomo + HiGHS, Excel |
+| `Week 07 - Flow Shop and Job Shop Scheduling` | 5 | NumPy, Pyomo + HiGHS, Excel |
 | `Week 08 - Networks - Shortest Paths and MST` | – | Slides and worked answers |
 | `Week 09 - Travelling Salesman Problem` | 1 | Pyomo + HiGHS |
 | `Week 10 - Vehicle Routing Problem` | 1 | Pyomo + HiGHS |
@@ -87,6 +89,7 @@ tools/test_notebooks_pyodide.mjs      the notebook tester used by test-notebooks
 content/                              everything here appears on the site
   00_START_HERE.ipynb                 environment check, run first
   Handbook/                           module handbook and module descriptor
+  Lectures/Semester 1/README.md       start-here guide: reading order and how the weeks connect
   Lectures/Semester 1/Week 01 … 11/   one folder per week, layout above
   Lectures/Semester 2/Week 01 … 10/   one folder per week, layout above
   Assignments/                        01-coursework-part-a/, 02-coursework-part-b/, 03-in-class-test/

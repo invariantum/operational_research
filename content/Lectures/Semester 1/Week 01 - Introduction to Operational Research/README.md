@@ -31,3 +31,4 @@ What OR is, where it is used, and a refresher on vectors, matrices and linear (i
 - The tutorial notebook gained a first cell, `%pip install ipywidgets`; the original cells are unchanged.
 - The tutorial notebook's saved outputs were regenerated: two example plots, a widget placeholder and two corrected placeholder prints are now stored. The code cells are unchanged.
 - The NumPy notebook's note that the browser returns a matrix of `nan` instead of raising `LinAlgError` was added during the move; the PDF print-out of the notebook still shows the original cells.
+- The tutorial notebook's introduction now names the NumPy notebook by its current file and title (it used the old name *Basic Vector and Matrix Operations in NumPy*).

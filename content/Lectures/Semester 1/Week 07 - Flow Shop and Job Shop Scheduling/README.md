@@ -20,10 +20,12 @@ Flow shop scheduling with Johnson's rule, then job shop scheduling as a mixed-in
 - `Week 7 - Flow Shop Scheduling - Slides.pdf`
 - `Week 7 - Job Shop Scheduling Notes.pdf`
 
+Open the `.ipynb` notes to read and run them (each `.md` is the source of its notebook). *Short* is this year's lecture version, the same as the PDF; the full notes add constraint programming and a cryptarithmetic example.
+
 ## 2 Lecture Demos
 
 - `1 Johnsons rule.ipynb` (notebook)
-- `2 Johnsons rule in Excel.xlsx`
+- `2 Johnsons rule in Excel.xlsx` (its *Tutorial* and *Gantt 5 machines* sheets are the worked answers to the flow shop tutorial Q1–Q3)
 
 ## 3 Tutorial
 
@@ -50,3 +52,4 @@ Flow shop scheduling with Johnson's rule, then job shop scheduling as a mixed-in
 - A second copy of the flow shop tutorial PDF (identical bytes) was removed.
 - The two job shop HTML exports had their notebook links updated to the new paths.
 - The annotated flow shop slides in `Previous Versions` date from February 2021, hence "2020-21" in the name.
+- The old OR-Tools answer script (`Previous Versions/jss_tutorial_answers_ortools …py`) was removed in Oct 2026: it did not run, had the wrong Q1 data and is replaced by the Pyomo answers.

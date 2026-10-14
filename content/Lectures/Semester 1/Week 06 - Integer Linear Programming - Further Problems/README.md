@@ -30,6 +30,6 @@ Costed set cover, edge and vertex cover, matching and the balanced assignment pr
 
 ## Notes for staff
 
-- The *annotated* slides still refer to MATLAB; the plain slides refer to Python.
+- Both decks label the highlighted camera positions on the security-camera slide "MATLAB Solution" (plain deck slide 14, annotated deck slide 17). `4 Security cameras - vertex cover.ipynb` solves the same model with HiGHS (4 cameras).
 - Staff note from last year (`5 Source Files/Staff Notes/Notes for 2526.txt`): *Include Pyomo Modelling*.
 - No tutorial sheet was provided for this week.

@@ -18,5 +18,6 @@ The TSP, why it is hard, the subtour problem and the Miller–Tucker–Zemlin fo
 
 ## Notes for staff
 
-- The notebook's saved outputs (including the 4-city GLPK log and four plots) were cleared, as listed in the root `FIXES_README.md` (M2).
+- The notebook's saved outputs (including the 4-city GLPK log and four plots) were cleared.
 - The genetic-algorithm cell uses Python's `random` without a seed, so the tour length changes on every run (the old saved output was 625.16; two test runs gave 704.08 and 573.67). Add `random.seed(...)` if students should see the same number.
+- The notebook gained a title cell and a short note before each code cell (Oct 2026); the empty last cell was removed. The code cells are unchanged.

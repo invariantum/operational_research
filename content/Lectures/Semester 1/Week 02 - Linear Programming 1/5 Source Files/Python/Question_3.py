@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Sep 29 13:25:18 2023
-
-@author: tcsr529
 """
 
 from scipy.optimize import linprog
