@@ -25,6 +25,6 @@ Packing rectangles into the smallest floor area: non-overlap constraints with bi
 - The handbook lists *Inventory Modelling* for Week 11; this folder holds the Floor Planning lecture instead.
 - Notebooks 2 and 3 are Python ports of the MATLAB *max items* and *max item area* models (`5 Source Files/MATLAB`), with the same data and constraints. Optima: 6 of 7 items (proved: all 7 need area 21 > 20) and placed area 100 (= the whole floor).
 - The ports use a tight big-M, `M = W + H + max(w, h)`, instead of MATLAB's 9999. With 9999 the solver can report a wrong optimum (5 items instead of 6) because of numerical tolerance. The *minimise area* notebook still uses 9999 and gets the right answer (12), but the same fix is recommended there.
-- `model.py` and `Notes/Floor Planning - Pyomo Model.md` were fixed: `cm.get_cmap` (removed in Matplotlib 3.9) became `plt.get_cmap`.
+- `model.py`, `Notes/Floor Planning - Pyomo Model.md` and (Oct 2026) the HTML export were fixed: `cm.get_cmap` (removed in Matplotlib 3.9) became `plt.get_cmap`.
 - The HTML export in `5 Source Files/HTML Exports` linked a stylesheet on the author's computer (`file:///c:/Users/...`); the link was removed (Oct 2026) and the page displays the same.
 - Demo 2 (*maximise number of items*) takes about 3.5 minutes to solve in the browser (under a minute in Colab or Anaconda); its first cell now says so.

@@ -465,7 +465,7 @@ print(<span class="hljs-string">"v="</span>, model.v.value)
 
 fig, ax = plt.subplots()
 
-cmap = cm.get_cmap(<span class="hljs-string">'Pastel1'</span>)  <span class="hljs-comment"># Can be any colormap available in matplotlib</span>
+cmap = plt.get_cmap(<span class="hljs-string">'Pastel1'</span>)  <span class="hljs-comment"># Can be any colormap available in matplotlib</span>
 
 <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, no_items+<span class="hljs-number">1</span>):
     x = model.x[i].value
