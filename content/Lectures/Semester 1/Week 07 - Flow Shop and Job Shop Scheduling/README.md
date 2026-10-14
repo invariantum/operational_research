@@ -43,7 +43,8 @@ Flow shop scheduling with Johnson's rule, then job shop scheduling as a mixed-in
 ## Notes for staff
 
 - The `Week 7 - …` files are this year's versions. Last year's (2023-24) slides and notes are in `5 Source Files/Previous Versions`.
-- Job shop answers were rewritten in Pyomo so they run in the browser. The old OR-Tools script did not run, and its Problem 1 data did not match the tutorial; the corrected optimum for Q1 is **11** (Q2 = 16, Q3 = 18).
+- Job shop answers were rewritten in Pyomo so they run in the browser. The old OR-Tools script did not run, and its Problem 1 data did not match the tutorial; the optimum for Q1 is **12** (Q2 = 16, Q3 = 18).
+- Job shop tutorial Q1 printed J2's machine sequence as M1, M3, M2. M3 was a typo: the problem has three machines (M0–M2) and each job visits each machine once, so it is now M1, M0, M2 in the tutorial PDF, its `.md`/`.ipynb`/HTML sources and the answers. With the typo the optimum was 11; corrected, it is 12 (Oct 2026).
 - Job shop tutorial Q4–Q5 are reading exercises on the Google OR-Tools website and need Google Colab.
 - Renamed by content: `slides.pdf` -> `6 Further Reading/Introduction to Constraint Programming (Rodriguez-Carbonell, UPC).pdf`; the old "Flow Shop Scheduling (old slides annotated)" file that was really Bockmayr and Reinert's notes -> `6 Further Reading/Integer vs Constraint Programming (Bockmayr and Reinert).pdf`.
 - A second copy of the flow shop tutorial PDF (identical bytes) was removed.

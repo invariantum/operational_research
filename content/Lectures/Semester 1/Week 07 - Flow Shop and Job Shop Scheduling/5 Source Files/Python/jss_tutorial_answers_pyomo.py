@@ -64,11 +64,13 @@ def solve_job_shop(jobs, title=""):
 # Each job: list of (machine, processing time) in operation order.
 # Machines are numbered from 0 (Problems 2 and 3: A/M1 = 0, B/M2 = 1, ...).
 
-# Problem 1  (J0: M0 M1 M2 / J1: M0 M2 M1 / J2: M1 M3 M2)
+# Problem 1  (J0: M0 M1 M2 / J1: M0 M2 M1 / J2: M1 M0 M2)
+# The sheet used to print M3 for J2's second operation: a typo for M0 (three machines,
+# each job visits each machine once). Optimal makespan 12.
 jobs_1 = [
     [(0, 3), (1, 2), (2, 2)],
     [(0, 4), (2, 3), (1, 1)],
-    [(1, 2), (3, 3), (2, 2)]
+    [(1, 2), (0, 3), (2, 2)]
 ]
 solve_job_shop(jobs_1, "Problem 1")
 
