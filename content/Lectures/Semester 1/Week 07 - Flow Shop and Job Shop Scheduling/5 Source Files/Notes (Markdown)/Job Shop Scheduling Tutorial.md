@@ -22,7 +22,7 @@ Sketch out your solution and check that it is indeed feasible and try appears to
 |--|--|--|--|
 |$J_0$| $O_{01}$, $O_{02}$, $O_{03}$ | $M_0$, $M_1$, $M_2$ | $3$,$2$,$2$ |
 |$J_1$| $O_{11}$, $O_{12}$, $O_{13}$ | $M_0$, $M_2$, $M_1$ | $4$,$3$,$1$ |
-|$J_2$| $O_{21}$, $O_{22}$, $O_{23}$ | $M_1$, $M_3$, $M_2$ | $2$,$3$,$2$ |
+|$J_2$| $O_{21}$, $O_{22}$, $O_{23}$ | $M_1$, $M_0$, $M_2$ | $2$,$3$,$2$ |
 
 **2. Job Shop Scheduling Problem:**
 
