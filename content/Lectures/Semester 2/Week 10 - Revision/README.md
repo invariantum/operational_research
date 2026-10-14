@@ -30,4 +30,4 @@ Revision for the in-class test: selected questions with solutions, and code for 
 - The page images `revision_page-1…7.png` (in `5 Source Files/Images`) are renders of `Revision.pdf`.
 - More revision material is in `Assignments/03-in-class-test/revision`.
 - The LaTeX build files (`.aux`, `.log`) were removed; the `.tex` sources and PDFs are kept.
-- `5 Source Files/LaTeX/README (Formatted Pack).md` was edited: the path to `Revision.pdf` and a note on where the PDFs, notebooks and scripts now live.
+- `5 Source Files/LaTeX/README (Formatted Pack).md` was rewritten as a table of where each file of the original pack now lives (the original said "This folder contains" for files that are now in other folders).
