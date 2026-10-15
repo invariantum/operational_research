@@ -199,7 +199,27 @@ Advisers & Served & Avg wait & Max wait & \% below 8 min \\
 \end{center}
 
 The target is 97\% waiting less than 8 minutes.
-The minimum staffing level that meets the target is therefore 3 advisers.
+In this one run (seed 24), 3 advisers meet the target.
+But seed 24 is a light day: about 70 students are served, against 90 expected arrivals ($15 \times 6$).
+A single run is not enough to choose a staffing level (see part (e)).
+Over 200 replications (seeds 0--199):
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Advisers & Mean \% below 8 min & Days meeting 97\% \\
+\midrule
+2 & 54.9\% & 1\% \\
+3 & 94.0\% & 52\% \\
+4 & 99.3\% & 92\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The Erlang C formula for the M/M/$c$ queue agrees: 92.0\% for 3 advisers and 99.1\% for 4.
+The minimum staffing level that meets the target is therefore \textbf{4 advisers}.
+
+\fbox{\parbox{0.95\linewidth}{\small\textbf{Corrected 15 Oct 2026 (erratum C17).} The earlier version answered 3 advisers, based only on the seed-24 run above. With replications, 3 advisers average about 94\% and meet the target on only about half the days, so 4 are needed. The notebook \texttt{University library - simulation (SimPy).ipynb} reproduces every figure.}}
 
 \item A \texttt{PriorityResource} can be used instead of an ordinary \texttt{Resource}.
 Each arrival is labelled priority or standard, for example with probability 0.10 of being priority.
