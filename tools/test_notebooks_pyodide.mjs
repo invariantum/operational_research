@@ -13,6 +13,7 @@
  *   - "%pip install a b" lines -> micropip.install(["a", "b"]) (from PyPI)
  *   - other % / ! lines (e.g. %matplotlib inline) are skipped
  *   - Matplotlib uses the non-interactive Agg backend; plt.show() does nothing
+ *   - __name__ is "__main__", as in a notebook, so `if __name__ == "__main__":` code runs
  *   - sys.stdout behaves like the notebook's (write() returns None)
  *   - a cell tagged "raises-exception" may fail without failing the notebook
  *   - notebooks that import OR-Tools are reported as SKIP (no browser build)
@@ -96,6 +97,7 @@ async function runOne(nbPath, opts) {
   await py.runPythonAsync(
     `
 import os, sys, builtins
+__name__ = "__main__"  # as in a notebook kernel, so if __name__ == "__main__": blocks run
 os.environ["MPLBACKEND"] = "Agg"
 os.chdir(${JSON.stringify(path.dirname(nbPath))})
 sys.path[:0] = [${opts.extraPaths.map((_, i) => `"/extra${i}"`).join(", ")}]
