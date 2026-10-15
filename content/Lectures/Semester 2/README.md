@@ -110,7 +110,7 @@ main ones:
 | 02 | Cost example on slide p19; typos in the derivation notes; workbook formulas |
 | 03 | Breakdown/pre-emption models (demos 3–4, Q4, Q5): interrupted jobs now queue again; Q5 utilisation; Q2 and Q3 answers checked with replications |
 | 04 | ED model utilisation (0.72, not 0.66, for 2 doctors) |
-| 10 | Q2 Hock-Brooke rebuilt with the right data (about 15 spaces over a year); Q3(c) flagged (open) |
+| 10 | Q2 Hock-Brooke rebuilt with the right data (about 15 spaces over a year); Q3(c) library: 4 advisers, not 3 |
 
 ## 8. Running on your own computer (optional)
 
