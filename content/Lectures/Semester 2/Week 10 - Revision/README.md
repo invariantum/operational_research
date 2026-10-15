@@ -27,7 +27,7 @@ Revision for the in-class test: selected questions with solutions, and code for 
 
 ## Notes for staff
 
-- The page images `revision_page-1…7.png` (in `5 Source Files/Images`) are renders of `Revision.pdf`.
+- The page images `revision_page-1…7.png` that were in `5 Source Files/Images` were removed: they were pictures of the 7 pages of `1 Lecture/Revision.pdf` (checked pixel by pixel), so every exercise is still in that PDF.
 - More revision material is in `Assignments/03-in-class-test/revision`.
 - The LaTeX build files (`.aux`, `.log`) were removed; the `.tex` sources and PDFs are kept.
 - `5 Source Files/LaTeX/README (Formatted Pack).md` was rewritten as a table of where each file of the original pack now lives (the original said "This folder contains" for files that are now in other folders).
