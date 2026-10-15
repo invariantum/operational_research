@@ -33,7 +33,7 @@ Soft OR and problem structuring on a messy emergency-department case, then build
 
 - A minute-by-minute session plan and the live-build script are in `5 Source Files/Staff Notes`.
 - The handbook lists *Agent Based Modelling* for this week; this folder holds the problem-structuring session.
-- The ED deck is in two PDFs: `... - slides 1-8 (Soft OR introduction).pdf` (show first) and `... Emergency Department.pdf` (slides 1-2 and 9-27). The first was called "Problem Structuring.pdf", then "Session Summary".
+- The ED deck is in two PDFs: `... - slides 1-8 (Soft OR introduction).pdf` (show first) and `... Emergency Department.pdf` (slides 1-2, 9-13 and 15-27; slide 14 is a blank whiteboard slide, filled in by hand in the annotated PDF). The first was called "Problem Structuring.pdf", then "Session Summary".
 - The Markdown worksheet that was in `3 Tutorial` is an earlier draft whose questions differ from the PDF worksheet and the possible answers; it is now `5 Source Files/Previous Versions/Problem Structuring Worksheet (earlier draft).md`.
 - `GORS - Intro to Soft OR and Problem Structuring Exercise.pdf` and `Problem Structuring Worksheet.pdf` were exported from the `.pptx` / `.docx` in `5 Source Files`.
 - Both ED PDFs predate the deck's last edit (26 Feb 2026); re-export if the deck changes.

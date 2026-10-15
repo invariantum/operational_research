@@ -13,11 +13,10 @@ Discrete-event simulation with SimPy: the M/M/1 queue, a petrol station with sev
 
 ## 1 Lecture
 
-- `Notes/1 Intro to SimPy and the M-M-1 queue.md`
-- `Notes/2 Petrol station (M-M-c) and costs.md`
-- `Notes/3 Machine breakdowns (pre-emption).md`
-- `Notes/M-M-1 queue - three snapshots.md`
 - `Simpy Basics.pdf`
+- `Notes/M-M-1 queue - three snapshots.md`
+
+The segment notes themselves are the three notebooks in `2 Lecture Demos`: read them there and run the code as you go.
 
 ## 2 Lecture Demos
 
@@ -46,9 +45,11 @@ Discrete-event simulation with SimPy: the M/M/1 queue, a petrol station with sev
 
 ## Notes for staff
 
-- The three segment notebooks are the ones last year's `TODO.txt` asked for; they are built from the segment notes.
+- The three segment notebooks are the ones last year's to-do list (`TODO.txt`, now removed because all three are done) asked for; they are built from the segment notes. Each notebook is its note word for word plus the install cell, so the notes (`1 …`, `2 …`, `3 ….md`) now live in `5 Source Files/Notes (Markdown)` with the practical and tutorial sources, instead of appearing twice for students.
 - Session timings are in `5 Source Files/Staff Notes/Session Outline.md`.
 - `5 Source Files/Python/segment_3_demo.py` was fixed: a breakdown can interrupt maintenance, which crashed the original at t = 402.64 with the fixed seed. The maintenance step now catches `simpy.Interrupt`.
-- `Notes/3 Machine breakdowns (pre-emption).md` gained a missing `import numpy as np` in one code block.
+- `5 Source Files/Notes (Markdown)/3 Machine breakdowns (pre-emption).md` gained a missing `import numpy as np` in one code block (the earlier-draft HTML in `5 Source Files/Previous Versions` predates this fix).
+- The HTML exports of the notes were removed: five were renders of the Markdown notes (which are also the notebooks and PDFs listed above). The sixth, `3 Machine breakdowns (pre-emption)`, is an earlier draft with a shorter cost analysis that exists nowhere else, so it is kept as `5 Source Files/Previous Versions/3 Machine breakdowns (pre-emption) - earlier draft.html`.
+- `Practical - M-M-1 Queue.ipynb` is written for this site: Steps 1–2 say to run the install cell instead of opening Google Colab. `Practical - M-M-1 Queue.pdf` is the original Colab handout and still says Colab.
 - `1 Lecture/Simpy Basics.pdf` was exported from the `.pptx` (2 slides; slide 1 is blank and slide 2's animation shows in its final state).
 - Q3 and Q5 answer notebooks: a `;` was added after the last plot command so the cell no longer prints `(0.0, 105.0)`.

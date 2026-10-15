@@ -32,6 +32,8 @@ Each week also has a `README.md` listing its files and any notes for staff.
 
 **New to Semester 1?** Read `Lectures/Semester 1/README.md` first: what to do each week, in which order, and how the weeks connect.
 
+**New to Semester 2?** Read `Lectures/Semester 2/README.md` first, in the same way.
+
 | Semester 1 | Notebooks | Tools |
 | --- | --- | --- |
 | `Week 01 - Introduction to Operational Research` | 2 | NumPy, Matplotlib, ipywidgets |
@@ -91,6 +93,7 @@ content/                              everything here appears on the site
   Handbook/                           module handbook and module descriptor
   Lectures/Semester 1/README.md       start-here guide: reading order and how the weeks connect
   Lectures/Semester 1/Week 01 … 11/   one folder per week, layout above
+  Lectures/Semester 2/README.md       start-here guide: reading order, how the weeks connect, running locally
   Lectures/Semester 2/Week 01 … 10/   one folder per week, layout above
   Assignments/                        01-coursework-part-a/, 02-coursework-part-b/, 03-in-class-test/
 ```
