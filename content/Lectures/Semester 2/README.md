@@ -1,179 +1,132 @@
 # Semester 2: start here
 
-Semester 2 teaches **simulation**: how to model a system that has randomness in it (a queue at a bank, an
-emergency department, a factory machine that breaks down) and use the model to answer "what if" questions.
-It starts with coins, dice and queues worked by hand and in Excel (Weeks 01–02), moves to discrete-event
-simulation in Python with SimPy (Weeks 03–04), and finishes with agent-based modelling (Week 06) and
-revision for the in-class test (Week 10).
+Semester 2 is about **simulation**: building a model of a system that has randomness in it (a bank queue, an emergency
+department, a machine that breaks down, a town of agents) and using it to answer "what if?" questions.
 
-Every Python example runs **in your web browser** on the course site. You do not install anything.
+The path through the semester:
+
+1. **Week 01:** simulation by hand and in Excel (coins, dice, a queue worked with a pencil).
+2. **Week 02:** queueing theory. The M/M/1 formulas tell you what the simulations should give.
+3. **Week 03:** discrete-event simulation in Python with SimPy, from one server to several servers, priorities and breakdowns.
+4. **Week 04:** structuring a messy real problem (an ED), then building its simulation step by step.
+5. **Week 05:** Coursework Part B is released.
+6. **Week 06:** agent-based models with Mesa.
+7. **Week 10:** revision for the in-class test.
+
+Every notebook runs **in your web browser** on the course site. You install nothing.
 
 ---
 
-## 1. Before Week 01: set up (about 5 minutes)
+## 1. Set up once (about 5 minutes)
 
-1. Open the course site: <https://invariantum.github.io/operational_research/>. Use a recent Chrome,
-   Edge or Firefox.
-2. Open **`00_START_HERE.ipynb`** (top level of the site) and choose *Run → Run All Cells*. If every
-   cell prints `OK`, all the Semester 2 notebooks will run (section 4 of it is a tiny SimPy simulation).
-   The first run downloads Python, so allow about a minute.
-3. In every notebook, **run the first code cell first**. It installs what that notebook needs
-   (SimPy from Week 03 on; Pyomo and the HiGHS solver for the two optimisation notebooks). Then use
-   *Run → Run All Cells*, or run the cells one by one while you read.
-4. **Save your work by downloading it.** Notebooks you change are kept only in this browser. To keep
-   them, right-click the file → *Download*.
-5. **Weeks 01, 02 and 10 also use Excel.** Download the `.xlsx` files and open them in desktop Excel
-   (LibreOffice Calc also works). They use `RAND()`, so press **F9** to re-run the simulation.
+1. Open the course site, <https://invariantum.github.io/operational_research/>, in a recent Chrome, Edge or Firefox.
+2. In the file list on the left, double-click **`00_START_HERE.ipynb`**, then choose *Run → Run All Cells*. When every cell
+   prints `OK`, your browser can run all the course notebooks. The first run downloads Python, so allow about a minute.
+3. Come back to this guide: in the file list, open `Lectures`, then `Semester 2`, right-click `README.md` and choose *Open With → Markdown Preview*.
+
+## 2. How to run a notebook
+
+1. Double-click the `.ipynb` file. It opens with the **results already shown**: these are the verified answers.
+2. Run the **first code cell** (click it, then press Shift+Enter). In notebooks that need extra packages (SimPy,
+   Pyomo + HiGHS or Mesa), this cell starts with `# Run this cell first` and installs them; the first time takes up to
+   half a minute. Notebooks that use only NumPy, pandas and Matplotlib need no install.
+3. Then choose *Run → Run All Cells*, or run the cells one at a time with Shift+Enter while you read. Your numbers will match
+   the saved ones, because the notebooks use a fixed random seed. Change the seed to see other runs.
+4. **Save your work by downloading it.** Changes are kept only in this browser. Right-click the file → *Download*.
+
+If something goes wrong, see *If something fails* at the end of `00_START_HERE.ipynb`.
 
 ### What opens where
 
-| File type | How to open it |
+| File | How to open it |
 | --- | --- |
 | `.ipynb` notebook | Double-click: it opens and runs in the browser |
-| `.pdf` slides, sheets, answers | Double-click: it opens in the browser's PDF viewer (if it does not, right-click → *Download*) |
-| `.md` notes and `README.md` files | Right-click → *Open With* → *Markdown Preview* (double-clicking shows the raw text) |
-| `.html` slides (Week 06) | Double-click: it shows as one long scrolling page. Press *Trust HTML* (or download it and open it in your browser) to page through it as slides |
-| `.xlsx` workbook (Weeks 01, 02, 10) | Download it and open it in desktop Excel |
-| `.png` image | Double-click |
-| `.pptx`, `.docx`, `.tex`, `.m`, `.py` | Originals for staff, in `5 Source Files`. You do not need them |
+| `.pdf` slides, sheets, answers | Double-click (if it doesn't open, right-click → *Download*) |
+| `.md` notes and `README.md` files | Right-click → *Open With* → *Markdown Preview* |
+| `.html` slides (Week 06) | Double-click; press *Trust HTML* for slide mode, or download and open it in your browser |
+| `.xlsx` workbooks (Weeks 01, 02, 10) | Download, then open in Excel or LibreOffice Calc; press **F9** to re-run the random numbers |
 
----
-
-## 2. How a week folder is organised
-
-Every week uses the same numbered folders (a week only has the folders it needs):
+## 3. How each week folder is organised
 
 | Folder | What is in it | When to use it |
 | --- | --- | --- |
-| `1 Lecture` | Slides (PDF) and any lecture notes | Read before or during the lecture |
-| `2 Lecture Demos` | Notebooks and spreadsheets shown in the lecture, numbered in the order they are used | Run them in number order |
-| `3 Tutorial` | The tutorial sheet, and any starter workbook or notebook | The practical session |
-| `4 Tutorial Answers` | Worked answers and answer notebooks | After you have tried the tutorial |
-| `5 Source Files` | Editable originals, the scripts the notebooks were made from, MATLAB versions, older versions | Staff only; you can ignore it |
-| `6 Further Reading` | Papers, case studies and links | Optional |
+| `1 Lecture` | Slides and notes | Before or during the lecture |
+| `2 Lecture Demos` | Notebooks and workbooks from the lecture, **numbered in the order to use them** | During or after the lecture |
+| `3 Tutorial` | The tutorial sheet and any template | The practical |
+| `4 Tutorial Answers` | Worked answers | After you have tried the tutorial |
+| `5 Source Files` | The original scripts (`Python/`, `MATLAB/`), editable slides and sheets, staff notes. You can ignore it | Staff, or to run on your own computer |
+| `6 Further Reading` | Papers and links | Optional |
 
-Each week also has a `README.md` that lists its files.
+Each week's `README.md` lists every file, says what to open first, and has an **Errata** section for any corrected result.
 
 **A good routine for each week:** slides → lecture demos in number order → tutorial sheet → answers.
 
 ---
 
-## 3. Week by week
+## 4. Week by week: what to read and run, in order
 
-| Week | Topic | Read | Run | Practise | Builds on |
-| --- | --- | --- | --- | --- | --- |
-| 01 | Introduction to simulation: why simulate, coins and dice, queues by hand | *Introduction to Simulation* slides; *Example Simulation* handout (slides 38–40). *Production Distribution Model* slides are optional | Demos 1–4 in order: `1 Coin toss` and `2 Dice` notebooks, then the same experiments in Excel (`3 …`, `4 Heated clothes rack …`). Optional: `5 Election simulation`; `6 Production-distribution` (an optimisation example, goes with the optional slides) | Tutorial Q1 by hand, Q2–Q3 in Excel (`Tutorial Example.xlsx` and `Tutorial Excel Sheets.xlsx` show the layout), Q4 in Python (a new notebook; `2 Dice` is a worked answer to Q4a). Answers: PDF, `Tutorial Answers.xlsx`, `Tutorial example answer.png` | – |
-| 02 | Queueing theory: arrival and service distributions, Little's law, Kendall notation, the M/M/1 queue | *Introduction to Queueing Theory* slides; *M-M-1 queue derivation* (optional) | `1 M-M-1 lecture example.xlsx` (Excel; simulated vs theoretical values) | Tutorial Q1–Q3 in `Tutorial Template.xlsx`. Answers: `Tutorial Answers.xlsx` (Q1 theory: Wq = 1.5 min, W = 3 min) | Week 01 Excel simulation |
-| 03 | Discrete-event simulation with SimPy: M/M/1, several servers and costs, breakdowns | *Simpy Basics* slides; `Notes/M-M-1 queue - three snapshots.md` | Demos 1–3 in order (each is the lecture notes plus runnable code); `4 Machine breakdowns - full demo` if time allows | `Practical - M-M-1 Queue` notebook (in the lecture), then `Tutorial Questions.pdf` Q1–Q5 in a notebook of your own. Answers: five notebooks, `Q1` … `Q5` | Week 02 M/M/1 formulas |
-| 04 | Problem structuring (soft OR) and building a simulation live | ED slides: first the *slides 1-8 (Soft OR introduction)* PDF, then *Emergency Department*; the *annotated* PDF is the in-class version; *GORS* exercise is an alternative session | `1 Emergency department simulation` (built in stages in the session) | `Problem Structuring Worksheet.pdf` Parts A–C. Answers: *Possible Answers* PDF | Week 03 priority and pre-emption |
-| 05 | Coursework Part B released | The brief in `Assignments/02-coursework-part-b`; the Vodafone case study (optional) | – | The coursework | Weeks 01–04 |
-| 06 | Agent-based modelling (Mesa): Game of Life, Schelling, wealth, traffic, SIR | The HTML slides | The demos are online and linked from the slides (py.cafe Mesa examples, a Google Colab notebook, playgameoflife.com); they do not run on this site | Predict-then-run questions on the slides; no sheet | Weeks 01–03 (randomness, simulation runs) |
-| 07–09 | No folders on this site | | | | |
-| 10 | Revision for the in-class test | `Revision.pdf` (all questions) | – | `Week 10 Revision Selected Questions.pdf` Q1–Q5. Answers: *Solutions* PDF, three notebooks (GreenGrid, University library, F.B. Knight), `Questions 2 and 5 … .xlsx` | All of Semester 2, plus Semester 1 integer programming and transhipment |
+| Week | You learn | 1. Read | 2. Run | 3. Practise, then check |
+| --- | --- | --- | --- | --- |
+| **01** Introduction to Simulation | Why simulate; random sampling; a queue by hand; lookup tables | `Introduction to Simulation.pdf`; `Example Simulation.pdf` | Demos `1 Coin toss`, `2 Dice`, then the Excel demos `3`, `4`. Optional: `5 Election`, `6 Production-distribution` (with `Production Distribution Model.pdf`) | Tutorial Q1 by hand, Q2–Q3 in Excel, Q4 in Python → `Tutorial Answers.xlsx`, `Tutorial Q2-Q4 in Python.ipynb` |
+| **02** Queueing Theory | Exponential and Poisson; Little's law; Kendall notation; M/M/1 formulas | `Introduction to Queueing Theory.pdf`; optional `M-M-1 queue derivation.pdf` | `1 M-M-1 lecture example.xlsx`, `2 Queueing examples in Python.ipynb` | Tutorial Q1–Q3 in `Tutorial Template.xlsx`, Q4 in Python → `Tutorial Answers.xlsx`, `Tutorial answers in Python.ipynb` |
+| **03** Discrete-event simulation with SimPy | Processes and resources; M/M/1 and M/M/c; costs; priority and pre-emption | `Simpy Basics.pdf`; `Notes/M-M-1 queue - three snapshots.md` | Demos `1` → `2` → `3` (each is the lecture notes with runnable code); `4` if time allows | `Practical - M-M-1 Queue.ipynb` in class, then `Tutorial Questions.pdf` Q1–Q5 in a new notebook → answers `Q1` … `Q5` |
+| **04** Problem structuring and simulation build | Soft OR; from a messy situation to a model | `… slides 1-8 (Soft OR introduction).pdf`, then `… Emergency Department.pdf` | `1 Building the ED simulation in stages`, then `2 Emergency department simulation (full model)` | `Problem Structuring Worksheet.pdf` Parts A–C → `… Possible Answers.pdf` |
+| **05** Coursework Part B | | `Assignments/02-coursework-part-b/README.md` and the brief | | The coursework |
+| **06** Agent-based modelling | Agents, local rules, emergence | The HTML slides | `1 Game of Life` → `5 SIR epidemic`, each as its model comes up on the slides | Predict-then-run questions on the slides and in the notebooks |
+| 07–09 | No folders on this site. The module handbook lists the Beer Game, system dynamics and forecasting; ask your lecturer | | | |
+| **10** Revision | Mixed exam-style questions | `Revision.pdf` | — | `Week 10 Revision Selected Questions.pdf` Q1–Q5 → Solutions PDF, four notebooks, `Questions 2 and 5 … .xlsx` |
 
----
+## 5. How the weeks connect
 
-## 4. How the materials connect
-
-| Example or idea | Where it appears |
+| Idea | Where it appears |
 | --- | --- |
-| Random sampling with a lookup table | Week 01 tutorial (Excel) → Week 02 tutorial (Excel) → Week 10 Q2 inventory simulation (Excel) |
-| The M/M/1 queue | Week 01 queue by hand → Week 02 formulas and Excel → Week 03 demo 1, the practical and Q1 (SimPy) → Week 10 Q3 library help desk |
-| Several servers (M/M/c) and costs | Week 03 demo 2 (petrol station) → Week 03 Q2–Q3 → Week 04 doctors in the ED |
-| Priority and pre-emption (breakdowns, urgent patients) | Week 03 demos 3–4 and Q4–Q5 → Week 04 ED simulation stages 4–5 |
-| The emergency department | Week 03 Q5 (answer notebook) → Week 04 workshop and live build |
-| Minimum-cost flow / transhipment | Week 01 demo 6 → Week 10 Q4 F.B. Knight (both Pyomo; also Semester 1 Week 08) |
-| Binary selection with a budget | Semester 1 Week 05 → Week 10 Q1 GreenGrid (Pyomo) |
+| Sampling from a table of probabilities | W01 tutorial (Excel and Python) → W02 tutorial → W10 Q2 Hock-Brooke |
+| The M/M/1 queue | W01 queue by hand → W02 formulas, Excel and Python → W03 demo 1, the practical and Q1 → W10 Q3 library |
+| Several servers (M/M/c) and costs | W03 demo 2 (petrol station) → W03 Q2–Q3 → W04 doctors in the ED |
+| Priority and pre-emption | W03 demos 3–4, Q4–Q5 → W04 ED stages 4–5 |
+| One run is not enough: replications | W03 Q2, Q3 (end of each notebook) → W04 full model (40 replications) → W10 Q3(e) and Q2 |
+| Minimum-cost flow / transhipment | W01 demo 6 → W10 Q4 F.B. Knight (also Semester 1 Week 08) |
+| Binary selection with a budget | Semester 1 Week 05 → W10 Q1 GreenGrid |
 
-Which file goes with which:
+## 6. Known limitations and how to work around them
 
-| Week | Slides or sheet | Notebook or workbook |
+| What | Why | What to do |
 | --- | --- | --- |
-| 01 | *Introduction to Simulation*, slide 11 | `4 Heated clothes rack in Excel.xlsx` |
-| 01 | *Introduction to Simulation*, slides 12–15 | `3 Coin and dice simulations in Excel.xlsx`, `1 Coin toss`, `2 Dice` |
-| 01 | *Production Distribution Model* | `6 Production-distribution (minimum-cost flow)` |
-| 01 | Tutorial Q2–Q3 | `Tutorial Example.xlsx` and `Tutorial Excel Sheets.xlsx` (worked layouts) → `Tutorial Answers.xlsx` |
-| 02 | Slides 16–26 (M/M/1 example, servers in series) | `1 M-M-1 lecture example.xlsx` |
-| 02 | Tutorial Q1–Q3 | `Tutorial Template.xlsx` → `Tutorial Answers.xlsx` |
-| 03 | *Practical - M-M-1 Queue* (PDF and notebook are the same exercise) | `Practical - M-M-1 Queue.ipynb` |
-| 03 | *Tutorial Questions* Q1–Q5 | `Q1 Bank teller` … `Q5 Hospital emergency department` |
-| 04 | ED slides 18–24 (Part C) | `1 Emergency department simulation` |
-| 10 | Selected Questions Q1, Q3, Q4 | `GreenGrid …`, `University library …`, `F.B. Knight …` notebooks |
-| 10 | Selected Questions Q2, Q5 | `Questions 2 and 5 - forecasting and simulation.xlsx` |
+| Excel workbooks | The browser cannot recalculate Excel formulas | Download them and use Excel or LibreOffice. W01 and W02 also have Python versions |
+| MATLAB originals (W01 `5 Source Files/MATLAB`) | MATLAB doesn't run in a browser | Use the W01 notebooks, which replace all four. To run the originals, see the W01 README |
+| Week 06 Solara web apps (py.cafe links) | They are separate web apps | Use the five Week 06 notebooks, or the online links (internet needed) |
+| Files a notebook saves (for example the W03 answer charts) | They are saved in your browser only | Right-click the file → *Download* |
+| Pyomo notebooks print a solver log | HiGHS writes its progress in the browser | Ignore it; the results follow it |
 
----
+## 7. Corrections (errata)
 
-## 5. Things that can confuse
+Some results in the original materials were wrong. They are corrected in the notebooks and workbooks; PDFs that can't be
+edited are listed in the week README. **Check the Errata section of a week before you compare your answers with a PDF.** The
+main ones:
 
-- **Your numbers will not match the answers exactly.** The Excel workbooks re-draw their random numbers
-  every time they recalculate. Compare the shape of the results and long-run averages with the
-  theoretical values, not individual cells. The notebooks use a fixed seed, so everyone gets the same run;
-  change or remove the seed to see other runs.
-- **The Week 03 practical PDF says "Open Google Colab".** On this site you are already in the notebook:
-  run the install cell and follow the steps. Colab also works if you prefer it.
-- **Week 03 Tutorial Questions have no starter notebook.** Create one (*File → New → Notebook*), and make
-  its first cell `%pip install simpy`.
-- **The Q1–Q5 answer notebooks save a picture** (for example `Q1_Bank_Teller_Results.png`) next to the
-  notebook. On this site it is saved in your browser only; you can ignore or download it.
-- **Week 10 Q3(c)** asks for 2, 3 and 4 advisers: change `ADVISERS` in the library notebook and run it again.
-- **Week 10 Q5 (forecasting)** uses moving averages and seasonal indices. There is no forecasting lecture
-  folder on this site; use the solutions PDF and the workbook.
-- **Weeks 07–09** have no folders here. The module handbook lists the Beer Game, system dynamics,
-  forecasting and time series for those weeks; check with your lecturer.
+| Week | What was corrected |
+| --- | --- |
+| 01 | Slide p37 cumulative band (0.2–0.6); tutorial answers: expected inter-arrival time 15.15, not 12.5 |
+| 02 | Cost example on slide p19; typos in the derivation notes; workbook formulas |
+| 03 | Breakdown/pre-emption models (demos 3–4, Q4, Q5): interrupted jobs now queue again; Q5 utilisation; Q2 and Q3 answers checked with replications |
+| 04 | ED model utilisation (0.72, not 0.66, for 2 doctors) |
+| 10 | Q2 Hock-Brooke rebuilt with the right data (about 15 spaces over a year); Q3(c) flagged (open) |
 
-If a notebook fails, see the *If something fails* section at the end of `00_START_HERE.ipynb`.
+## 8. Running on your own computer (optional)
 
----
-
-## 6. Running the examples on your own computer (optional)
-
-Everything in section 3 runs on the site. To run the Python on your own computer instead, in VS Code,
-PyCharm, Spyder, JupyterLab or Anaconda:
-
-1. Install Python 3.10 or newer (for example Anaconda, or python.org).
-2. Install the packages once, in a terminal (or Anaconda Prompt):
-   ```bash
-   pip install numpy matplotlib simpy pyomo highspy jupyter
-   ```
-3. **Notebooks:** download the `.ipynb` (right-click → *Download*) and open it in VS Code (with the
-   Jupyter extension), JupyterLab or Anaconda's Jupyter. The first cell's `%pip install …` also works
-   there; it does nothing if the package is already installed. The browser-only fixes in the Pyomo
-   notebooks switch themselves off outside the browser.
-4. **Scripts:** the `.py` files in each week's `5 Source Files/Python` are the same code as the
-   notebooks (see the table below). Run them with `python Q1_Bank_Teller.py`, or with the *Run* button in
-   your IDE. Plots open in a window; the Q1–Q5 scripts also save a `.png` in the folder you run them from.
-   The Pyomo scripts use the HiGHS solver from `highspy`; no other solver is needed.
-5. **Week 06 Mesa demos:** these are online. To run Mesa locally: `pip install mesa solara`, then copy an
-   example from the py.cafe link in the slides.
-6. **MATLAB originals (Week 01, `5 Source Files/MATLAB`):** need MATLAB. `dice.m` and
-   `unfair_coin_toss.m` use only base MATLAB (they should also run in a recent version of the free GNU
-   Octave; not tested);
-   `election_simulation.m` uses `normrnd` (Statistics Toolbox; in Octave, `pkg load statistics`);
-   `production_distribution_model.m` uses `optimproblem` (MATLAB Optimization Toolbox; it does not run in
-   Octave). The notebooks replace all four.
-
-### Notebooks and the files they came from
-
-All 18 Semester 2 notebooks run on the site.
-
-| Notebook | Came from | What is different |
-| --- | --- | --- |
-| Week 01 `1 Coin toss`, `2 Dice`, `5 Election`, `6 Production-distribution` | MATLAB `unfair_coin_toss.m`, `dice.m`, `election_simulation.m`, `production_distribution_model.m` | Rewritten in Python (NumPy, Matplotlib; Pyomo + HiGHS for 6). Same experiments and the same optimum (£533,930 for 6). Seeded random numbers differ from MATLAB's; the coin plot shows percentages (0–100) where MATLAB used proportions; the election notebook adds a fixed seed and a "Democrats win x%" line |
-| Week 03 demos `1`–`3` | `5 Source Files/Notes (Markdown)` segment notes | The notes word for word, with their code in runnable cells and an install cell first |
-| Week 03 `Practical - M-M-1 Queue` | `5 Source Files/Notes (Markdown)/Practical - M-M-1 Queue.md` (also the PDF) | Install cell added; Steps 1–2 rewritten for this site instead of Google Colab |
-| Week 03 `4 Machine breakdowns - full demo` | `5 Source Files/Python/segment_3_demo.py` | Same code (the script was fixed first: a breakdown during maintenance no longer crashes it), split into cells; install cell |
-| Week 03 `Q1`–`Q5` | `5 Source Files/Python/Q1_Bank_Teller.py` … `Q5_Hospital_ED.py` | Same code, split into cells; install cell. Q3 and Q5 add one `;` so a plot cell does not print `(0.0, 105.0)` |
-| Week 04 `1 Emergency department simulation` | `5 Source Files/Python/hospital_sim.py` | Same code, split into cells; install cell |
-| Week 10 `GreenGrid …`, `F.B. Knight …` | `5 Source Files/Python/greengrid_pyomo.py`, `fb_knight_mcfp_pyomo.py` | Same code; the install cell also adapts Pyomo to the browser (only in the browser) |
-| Week 10 `University library …` | `5 Source Files/Python/uni_library_simpy.py` | Same code, split into cells; install cell |
-
-What does **not** run on the site: the Excel workbooks (desktop Excel), the Week 06 Mesa demos (online
-links, or locally as in step 5) and the MATLAB originals (MATLAB). None of these is a notebook.
+1. Install Python 3.10 or newer (Anaconda or python.org).
+2. In a terminal (or Anaconda Prompt): `pip install numpy pandas matplotlib simpy pyomo highspy mesa networkx jupyter`
+3. Download a notebook (right-click → *Download*) and open it in JupyterLab, VS Code (with the Jupyter extension) or
+   Anaconda's Jupyter. The first cell's `%pip install …` also works there.
+4. The original scripts are in each week's `5 Source Files/Python`; run them with `python Q1_Bank_Teller.py`. They are the
+   unchanged originals, so they do **not** include the corrections; the notebooks do. Each week README lists the differences.
 
 ---
 
 ## For staff
 
-Each week's `README.md` ends with *Notes for staff* (what changed during the move, known issues).
-The full teaching guide, with teaching order, prerequisites and pitfalls for every week, is
-`Handbook/5CM522 Weekly Teaching Guide (Lectures).pdf`.
+- Each week README ends with *Notes for staff* (what changed during the move, known issues).
+- The full teaching guide (teaching order, prerequisites and pitfalls for every week) is
+  `Handbook/5CM522 Weekly Teaching Guide (Lectures).pdf`.
+- The notebooks are checked automatically on every push (Pyodide, the same engine as the site): see the repository README,
+  *Automatic notebook test*.

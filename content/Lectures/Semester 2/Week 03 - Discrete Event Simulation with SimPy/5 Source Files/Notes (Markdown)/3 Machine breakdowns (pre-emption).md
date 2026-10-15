@@ -370,8 +370,6 @@ def preventive_maintenance_process(env, machine, maintenance_interval, maintenan
 This is where **reliability trade-offs** become critical. A more reliable machine costs more upfront and to maintain, but saves money through fewer breakdowns.
 
 ```python
-import numpy as np
-
 def calculate_total_cost_of_ownership(stats, mtbf, processing_time_mean=5.0, sim_time=200):
     """
     Calculate Total Cost of Ownership including:

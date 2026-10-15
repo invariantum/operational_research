@@ -101,12 +101,8 @@ def preventive_maintenance_process(env, machine, maintenance_interval, maintenan
         # Request machine for maintenance
         with machine.request(priority=0) as req:  # Higher priority than jobs
             yield req
-            try:
-                yield env.timeout(maintenance_time)
-                print(f"{env.now:.2f}: Maintenance complete")
-            except simpy.Interrupt:
-                # A breakdown (priority -1, preempt=True) can seize the machine mid-maintenance
-                print(f"{env.now:.2f}: Maintenance interrupted by a breakdown")
+            yield env.timeout(maintenance_time)
+            print(f"{env.now:.2f}: Maintenance complete")
 
 
 def run_simulation(mtbf, mttr, sim_time=200, arrival_rate=0.1, processing_time=5.0, random_seed=42):

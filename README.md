@@ -50,20 +50,20 @@ Each week also has a `README.md` listing its files and any notes for staff.
 
 | Semester 2 | Notebooks | Tools |
 | --- | --- | --- |
-| `Week 01 - Introduction to Simulation` | 4 | NumPy, Pyomo + HiGHS, Excel |
-| `Week 02 - Queueing Theory` | – | Excel |
+| `Week 01 - Introduction to Simulation` | 5 | NumPy, pandas, Pyomo + HiGHS, Excel |
+| `Week 02 - Queueing Theory` | 2 | NumPy, Excel |
 | `Week 03 - Discrete Event Simulation with SimPy` | 10 | SimPy |
-| `Week 04 - Problem Structuring and Simulation Build` | 1 | SimPy |
+| `Week 04 - Problem Structuring and Simulation Build` | 2 | SimPy |
 | `Week 05 - Coursework Part B Release` | – | Brief in `Assignments/02-coursework-part-b` |
-| `Week 06 - Agent Based Modelling` | – | HTML slides |
-| `Week 10 - Revision` | 3 | Pyomo + HiGHS, SimPy |
+| `Week 06 - Agent Based Modelling` | 5 | Mesa |
+| `Week 10 - Revision` | 4 | Pyomo + HiGHS, SimPy, NumPy |
 
 `Assignments/` holds one folder per assessment (see `Assignments/README.md`): `01-coursework-part-a`,
 `02-coursework-part-b` and `03-in-class-test` (with its revision papers). Each has the same layout (`brief/`,
 `starter/`, `solutions/`, `staff/`) and a `README.md` that says what to do, in order.
 
 Open the `.ipynb` notebooks: in the browser a `.py` file opens as text only (the original scripts are kept in
-each week's `5 Source Files/Python`). Excel examples (`.xlsx`) need Excel. Every notebook is checked
+each week's `5 Source Files/Python`). Excel examples (`.xlsx`) need Excel. Week 06 notebooks install Mesa the same way (`%pip install mesa networkx`). Every notebook is checked
 automatically on each push (see *Automatic notebook test* below).
 
 ## Using the site

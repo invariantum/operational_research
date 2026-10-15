@@ -89,71 +89,67 @@ This would need extra data on when costs are incurred, when benefits begin, and 
 
 \textbf{2. Hock-Brooke Automobiles}
 
-Because the revision sheet does not specify a random-number stream or a simulation horizon, more than one valid simulation answer is possible.
-Using the accompanying spreadsheet workbook, the intended approach is to show an illustrative short run and then estimate average cost from a much longer simulation.
-The short table below is retained as an example, and the long-run recommendation is aligned to the spreadsheet results.
+\fbox{\parbox{0.95\linewidth}{\small\textbf{Corrected 15 Oct 2026 (erratum C1).} The earlier version used a spreadsheet in which the \emph{Delivered} and \emph{Demand} tables were swapped (and the demand values shifted by one), and it charged overflow on the closing stock. This version uses the data as set, charges space on the stock held during the week (opening stock + Monday delivery), and reports expected costs over a 52-week horizon. The notebook \texttt{Hock-Brooke - warehouse simulation.ipynb} reproduces every figure.}}
+
+New cars arrive on Monday and are collected on Friday or Saturday, so during the week the dealer must hold the leftover stock \emph{plus} the delivery. For a capacity $c$, the weekly cost is $10c + 20\max(0,\ \text{stock}-c)$; sales are $\min(\text{stock},\text{demand})$ and unsold cars carry over.
 
 \begin{enumerate}
-\item For capacity 9, one valid 12-week simulation is:
+\item For capacity 9, an illustrative 12-week simulation (random draws for deliveries and demand) is:
 
 \begin{center}
-\begin{tabular}{cccccccc}
+\begin{tabular}{ccccccccc}
 \toprule
-Week & Opening Stock & Delivered & Demand & Sales & Closing Stock & Overflow & Cost \\
+Week & Opening & Delivered & Stock held & Demand & Sales & Closing & Overflow & Cost \\
 \midrule
-1 & 0 & 9 & 6 & 6 & 3 & 0 & 90 \\
-2 & 3 & 8 & 7 & 7 & 4 & 0 & 90 \\
-3 & 4 & 9 & 10 & 10 & 3 & 0 & 90 \\
-4 & 3 & 10 & 7 & 7 & 6 & 0 & 90 \\
-5 & 6 & 9 & 6 & 6 & 9 & 0 & 90 \\
-6 & 9 & 8 & 8 & 8 & 9 & 0 & 90 \\
-7 & 9 & 7 & 7 & 7 & 9 & 0 & 90 \\
-8 & 9 & 9 & 8 & 8 & 10 & 1 & 110 \\
-9 & 10 & 8 & 9 & 9 & 9 & 0 & 90 \\
-10 & 9 & 10 & 6 & 6 & 13 & 4 & 170 \\
-11 & 13 & 10 & 10 & 10 & 13 & 4 & 170 \\
-12 & 13 & 9 & 7 & 7 & 15 & 6 & 210 \\
+1 & 0 & 9 & 9 & 6 & 6 & 3 & 0 & 90 \\
+2 & 3 & 8 & 11 & 7 & 7 & 4 & 2 & 130 \\
+3 & 4 & 9 & 13 & 10 & 10 & 3 & 4 & 170 \\
+4 & 3 & 10 & 13 & 7 & 7 & 6 & 4 & 170 \\
+5 & 6 & 9 & 15 & 6 & 6 & 9 & 6 & 210 \\
+6 & 9 & 8 & 17 & 8 & 8 & 9 & 8 & 250 \\
+7 & 9 & 7 & 16 & 7 & 7 & 9 & 7 & 230 \\
+8 & 9 & 9 & 18 & 8 & 8 & 10 & 9 & 270 \\
+9 & 10 & 8 & 18 & 9 & 9 & 9 & 9 & 270 \\
+10 & 9 & 10 & 19 & 6 & 6 & 13 & 10 & 290 \\
+11 & 13 & 10 & 23 & 10 & 10 & 13 & 14 & 370 \\
+12 & 13 & 9 & 22 & 7 & 7 & 15 & 13 & 350 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-This gives a short-run 12-week cost of
+This run costs $2800$ over 12 weeks, i.e.\ $2800/12 \approx 233.33$ per week. Overflow grows because the mean delivery ($8.80$ cars) exceeds the mean demand ($8.65$): unsold stock tends to build up by about $0.15$ cars a week, so there is no stable long-run average and the answer depends on the horizon. Over one year (52 weeks, starting empty) the \emph{expected} average weekly cost for capacity 9 is
 \[
-1380
+\approx 243.78 \text{ per week}
 \]
-and a short-run average weekly cost of
-\[
-\frac{1380}{12}=115.
-\]
+(exact Markov-chain calculation; 2,000 simulated years give $\approx 242.5$).
 
-Using the spreadsheet logic over the long run, the estimated average weekly cost for capacity 9 is approximately
-\[
-103 \text{ per week}
-\]
-more precisely about 103.04 on the simulation sheet, and about 102.91 on the analysis sheet.
-
-\item Using the spreadsheet analysis sheet, the estimated long-run average weekly costs are:
+\item Expected average weekly cost over 52 weeks, starting with an empty warehouse:
 
 \begin{center}
 \begin{tabular}{lc}
 \toprule
 Capacity & Average Weekly Cost \\
 \midrule
-6 & 110.74 \\
-7 & 104.09 \\
-8 & 102.16 \\
-9 & 102.91 \\
-10 & 106.89 \\
-11 & 114.32 \\
+6 & 272.57 \\
+7 & 262.57 \\
+8 & 252.84 \\
+9 & 243.78 \\
+10 & 236.48 \\
+11 & 230.81 \\
+12 & 226.54 \\
+13 & 223.64 \\
+14 & 222.01 \\
+15 & 221.56 \textbf{(lowest)} \\
+16 & 222.22 \\
+17 & 223.89 \\
+18 & 226.49 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-So, based on the spreadsheet outputs, capacity 9 is not the best choice.
-The lowest long-run average cost is achieved at capacity 8, with an estimated average weekly cost of about 102.16.
-Capacity 9 is only slightly worse, but the spreadsheet evidence supports recommending 8 spaces rather than 9.
+So capacity 9 is not the best choice. Over a year the lowest expected cost is at about \textbf{15 spaces} ($\approx 221.56$ per week), with 14 and 16 within $\pounds 1$. Over a shorter 12-week horizon the best is 11 spaces ($\approx 137.85$ per week). Because stock keeps building up, the dealer should also review the order quantity, not only the warehouse size.
 
-Note: because no specific random-number stream was given in the source sheet, other correctly executed simulation runs may give slightly different short-run estimates.
+Note: other correctly executed simulations will give different short-run tables; the expected values above do not depend on the random numbers.
 \end{enumerate}
 
 \newpage

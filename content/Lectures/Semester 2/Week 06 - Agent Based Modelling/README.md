@@ -1,25 +1,40 @@
 # Semester 2 · Week 06 – Agent Based Modelling
 
-Agent-based modelling with the Mesa library (slides only).
+Agent-based modelling with the Mesa library: Game of Life, Schelling segregation, Boltzmann wealth, traffic jams and an SIR epidemic.
+
+**Open first:** `1 Lecture/Agent Based Modelling with Mesa - Slides.html`, then the notebooks in `2 Lecture Demos` as each model comes up.
 
 | Folder | What is in it | When |
 | --- | --- | --- |
 | `1 Lecture` | Slides (a single HTML file) | The lecture |
+| `2 Lecture Demos` | One notebook per model on the slides | During or after the lecture |
 
 ## 1 Lecture
 
-- `Agent Based Modelling with Mesa - Slides.html`
+- `Agent Based Modelling with Mesa - Slides.html`. On the site, double-click it: it shows as one long page, because the
+  viewer blocks the slide controls until you press *Trust HTML*. For slide mode, press *Trust HTML*, or download the file and
+  open it in your browser. The slides also link to online demos (py.cafe Mesa examples, a Colab traffic notebook,
+  playgameoflife.com); those need the internet.
 
-The live demos run outside this site: the slides link to the Mesa examples on py.cafe and to a Google Colab
-notebook (internet access needed). Mesa is not installed in the browser Python here.
+## 2 Lecture Demos (added for this site)
 
-## Notes for staff
+Each notebook follows the rules on the slides, asks you to predict before you run, and installs Mesa in its first cell
+(`%pip install mesa networkx`; it takes about half a minute the first time). Tested with Mesa 3.5.1 in the browser.
 
-- The slides are a single HTML file. In the site, double-click it (or *Open With → HTML Viewer*): it shows as one
-  long scrolling page, because the viewer blocks the slide controls until you press *Trust HTML*. For slide mode,
-  press *Trust HTML*, or download the file and open it in a browser.
-- Slide 26 (SIR Model, Demo) referenced an image `images/sir.png` that was missing from the original folder too.
-  It now shows a chart embedded in the HTML: one seeded run of an agent-based SIR model (1,600 agents on a
-  40 × 40 grid, β = 0.08 per infected neighbour per step, γ = 0.10), plotting the susceptible, infected and
-  recovered counts over time. It was made for this site, not by the original author; replace it if the author's
-  image turns up.
+| Notebook | Slides | What to look for |
+| --- | --- | --- |
+| `1 Game of Life.ipynb` | 8 | Simple local rules → still lifes, oscillators, gliders |
+| `2 Schelling segregation.ipynb` | 11–14 | A mild preference (h = 0.3) still gives strong clustering; final similarity vs h |
+| `3 Boltzmann wealth.ipynb` | 15–19 | Random exchange → unequal wealth; the Gini coefficient settles near 0.6 |
+| `4 Traffic (Nagel-Schreckenberg).ipynb` | 20–23 | Jams with no cause that move backwards; the flow–density curve |
+| `5 SIR epidemic.ipynb` | 24–27 | The rise and fall of infections; a small change in β gives a large change in the outcome |
+
+The interactive Solara apps from the slides (py.cafe) do not run on this site. To run Mesa with Solara on your own
+computer: `pip install mesa solara`, then copy an example from the py.cafe link.
+
+## Errata and notes
+
+| Where | Note |
+| --- | --- |
+| Slide 26 (SIR demo) | The original slide image `images/sir.png` was missing from the course files. The slide now shows a chart from one run of `2 Lecture Demos/5 SIR epidemic.ipynb` (seed 1), labelled as illustrative. It is not the original author's image |
+| Slide 19 (Gini) | G = 2Σ i·wᵢ / (nΣ wᵢ) − (n+1)/n needs the wealths sorted from smallest to largest (i = 1…n). Its largest value is (n−1)/n, which is close to 1 for large n. The Boltzmann notebook uses this form |
