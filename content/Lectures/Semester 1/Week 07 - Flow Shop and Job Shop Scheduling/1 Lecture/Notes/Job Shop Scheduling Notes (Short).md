@@ -16,7 +16,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
     
 # Job Shop Scheduling
 
-The example is based off the excellent resources provided by [Google OR-Tools](https://developers.google.com/optimization/cp).
+The example is based on the excellent resources provided by [Google OR-Tools](https://developers.google.com/optimization/cp).
 
 
 ## 1. What is Job Shop Scheduling
@@ -36,6 +36,8 @@ Below we have 3 jobs and 3 machines. Each job requires a sequence of operations 
 Here is an example schedule which is valid. 
 
 ![](assets/schedule1.png)
+
+*The picture (from Google OR-Tools) numbers operations from 0: `job(1, 0)` is the first operation of job $J_1$, written $O_{11}$ in the table.*
 
 
 ***The question is how do we best schedule these jobs on the machines?***
@@ -72,7 +74,7 @@ This is useful when writing code to solve these problems.
 
 4. **Exact Algorithms (1990s-Present):**
    - In the 1990s and continuing into the present, research focused on developing exact algorithms for job shop scheduling.
-   - Exact methods, such as branch and bound with dynamic programming and constraint programming, aim to find optimal solutions by exhaustively searching through all possible schedules.
+   - Exact methods, such as branch and bound with dynamic programming and constraint programming, aim to find optimal solutions by systematically searching all possible schedules (most of them implicitly, by ruling out whole groups of schedules at once).
 
 5. **Hybrid Approaches and Applications (Present):**
    - Current research in job shop scheduling emphasizes hybrid approaches that combine different algorithms and techniques to improve solution quality and computational efficiency.
@@ -147,7 +149,7 @@ That is, minimise the total time required to complete all jobs.
 
 You can find out how to solve this via [Google OR-Tools](https://developers.google.com/optimization/scheduling/job_shop)
 
-## 4. Solving as an LP
+## 4. Solving as a MILP (mixed-integer linear program)
 
 ### Job Shop Scheduling MILP 
 
@@ -343,7 +345,7 @@ if __name__ == "__main__":
 
 ```
 
-**Output**
+**Output** (saved from an earlier run). Several schedules reach the optimal makespan $C_{\max} = 11$, so your run may list different start times; the makespan is always 11.
 
 ```
 Optimal makespan Cmax = 11.00

@@ -2,7 +2,7 @@
 
 # Job Shop Scheduling Tutorial
 
-You should do this tutorial using Google Collabatory and using [Google OR-Tools](https://developers.google.com/optimization/cp).
+You should do this tutorial using Google Colaboratory and using [Google OR-Tools](https://developers.google.com/optimization/cp).
 
 Note you will need to run the following first to install the ortools python package.
 
@@ -12,9 +12,9 @@ Note you will need to run the following first to install the ortools python pack
 
 ## Exercises
 
-Solve the following problems by adapting either the Google OR Tools or the LP code.
+Solve the following problems by adapting either the Google OR Tools or the LP code. Q1–Q3 can also be done in the browser, with nothing to install: adapt the Pyomo code in the *Job Shop Scheduling Notes* notebook (Week 7, `1 Lecture/Notes`).
 
-Sketch out your solution and check that it is indeed feasible and try appears to be optimal. Remember you cannot check optimality (if done correctly it will be optimal), but you can at least eyeball the solution for reasonableness. 
+Sketch out your solution and check that it is indeed feasible and that it appears to be optimal. Remember you cannot check optimality (if done correctly it will be optimal), but you can at least eyeball the solution for reasonableness. 
 
 **1. Job Shop Scheduling Problem:**
 
@@ -45,10 +45,10 @@ Sketch out your solution and check that it is indeed feasible and try appears to
 
 Read through the **N-queens problem** on the [Google OR-Tools site](https://developers.google.com/optimization/cp/queens).
 
-Implement the solution in Google Collabatory and make sure you understand what the model is doing and how it translates to the Python code.
+Implement the solution in Google Colaboratory and make sure you understand what the model is doing and how it translates to the Python code.
 
 **5. Employee Scheduling Problem:**
 
 Read through the **Employee Scheduling Problem** on the [Google OR-Tools site](https://developers.google.com/optimization/scheduling/employee_scheduling). 
 
-Implement the solution in Google Collabatory and make sure you understand what the model is doing and how it translates to the Python code.
+Implement the solution in Google Colaboratory and make sure you understand what the model is doing and how it translates to the Python code.

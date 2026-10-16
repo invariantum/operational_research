@@ -27,14 +27,18 @@ def solve_job_shop(jobs, title=""):
     m.cmax = pyo.Var(within=pyo.NonNegativeReals)
     m.obj = pyo.Objective(expr=m.cmax, sense=pyo.minimize)
 
+    # 1) precedence: each operation starts after the job's previous operation has finished
     m.order = pyo.ConstraintList()
     for (j, k) in ops:
         if k > 0:
             m.order.add(m.s[j, k] >= m.s[j, k - 1] + p[j, k - 1])
+    # 2) no overlap: for each pair of operations on the same machine, y = 1 puts the first one of the pair
+    #    first, y = 0 the second; big_m switches off the constraint that does not apply
     m.no_overlap = pyo.ConstraintList()
     for (a, b) in pairs:
         m.no_overlap.add(m.s[b] >= m.s[a] + p[a] - big_m * (1 - m.y[a, b]))
         m.no_overlap.add(m.s[a] >= m.s[b] + p[b] - big_m * m.y[a, b])
+    # 3) the makespan is at least the finishing time of every job's last operation
     m.makespan = pyo.ConstraintList()
     for j, job in enumerate(jobs):
         last = (j, len(job) - 1)
@@ -44,7 +48,7 @@ def solve_job_shop(jobs, title=""):
 
     print(f"{title}  optimal makespan = {pyo.value(m.cmax):g}")
     for (j, k) in sorted(ops, key=lambda o: (mach[o], pyo.value(m.s[o]))):
-        start = pyo.value(m.s[j, k])
+        start = round(pyo.value(m.s[j, k]), 6) + 0.0  # hide solver round-off such as 8e-14 when printing
         print(f"  Machine {mach[j, k]}: Job {j} task {k}  start {start:g}  end {start + p[j, k]:g}")
 
     fig, ax = plt.subplots(figsize=(8, 0.6 * (max(mach.values()) + 2)))
