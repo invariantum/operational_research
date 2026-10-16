@@ -98,7 +98,7 @@ Several problems are revisited with a new method, so it helps to keep earlier no
   the manufacturing problem "Q4". On this year's Week 02 sheet they are **Q6** and **Q5**. The answer
   notebooks use this year's numbers.
 - **More than one right answer.** Some problems have several optimal solutions with the same value
-  (Week 03 Q2b, Week 04 Q1b, Week 05 Q3, Week 06 security cameras, Week 08 Q2a, Week 11). Your selection may
+  (Week 02 Q5c, Week 03 Q2b, Week 04 Q1b, Week 05 Q3, Week 06 security cameras, Week 08 Q2a, Week 11). Your selection may
   differ from the answer sheet; the optimal value will match.
 - **MATLAB screenshots.** Some answer sheets show MATLAB output. The Python notebooks give the same
   values.
