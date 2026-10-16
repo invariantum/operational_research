@@ -84,11 +84,19 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
   with the cost objective (£136.52), because the question asks about both solutions. Every maximising
   notebook now says that `fval` is minus the profit. Removed: the `# -*- coding: utf-8 -*-` lines, and the
   demo's two empty cells and editor timing metadata. No existing printed numbers changed.
+- **Added (Oct 2026), notebook explanations.** Each notebook now opens with the problem, how to run it and
+  the expected result; has a short explanation above each code cell and a comment on every constraint row
+  (Q6 Part C numbers its rows 1–10, as the binding-constraint list does); and ends with a "What do you
+  notice?" question with a hidden answer (the demo and Q3 also have a "Try it" with answers). Only
+  markdown cells and comments were added: code, saved outputs and printed results are unchanged.
 - **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
   `1 Lecture` has not been re-exported yet**. The PDF is also older than the `.pptx` in two places
   (slide 1 has no author line; slide 5 has no O/A/B labels and no "We can find the 3 points of
   intersection…" box), so one re-export fixes both.
-  - slide 12: $P = £277.71$ (it said £277.72; $1944/7 = 277.714$);
+  - slide 11: "For example, should the number…" (it had a capital "Should");
+  - slide 12: $P = £277.71$ (it said £277.72; $1944/7 = 277.714$), and "i.e. make at least 4 chairs for each
+    table" (it said "make enough tables to go with chairs", the reverse of $x \ge 4y$ and of slide 11's
+    "tables will not sell on their own");
   - slide 15: $41.14 \approx 4 \cdot 10.29$ (it said "=", but $4 \times 10.29 = 41.16$; exactly, $288/7 = 4 \cdot 72/7$);
   - slide 18: "anywhere on the line $3x + 2y = 144$ from (0, 72) to (48, 0)";
   - slide 19: "An optimal solution always lies on the boundary of the feasible region: at a vertex, or along a
@@ -105,8 +113,10 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
   product Z, …") and adds that the best whole-number plan earns £266 (e.g. 20, 2, 2) and that the LP has
   other optimal solutions; 6b "you should get an output"; each "Please see the Python code" names its
   notebook; 6c gives the minimum cost under the new limits; the empty paragraph that made a blank last
-  page was removed.
+  page was removed; Q4 says "You should get the same answer as 3): see the workbook “Q4 LP with Excel
+  Solver”" (it said "a similar answer"); Q6 "basic restrictions" and "are given in Table 2".
 - **Tutorial `.docx`** (`5 Source Files`; **the PDF has not been re-exported yet**): "I recommend using
-  Spyder" now says that Q3, Q5 and Q6 run on the course site and Q4 needs desktop Excel with Solver.
+  Spyder" now says that Q3, Q5 and Q6 run on the course site and Q4 needs desktop Excel with Solver;
+  Q6 "basic restrictions" (it said "restriction") and "are given in Table 2" (it said "is given in table 2").
 - **Added (Oct 2026):** `4 Tutorial Answers/Q4 LP with Excel Solver.xlsx`, made from the demo workbook
   (same layout and Solver set-up). Before that, Q4 had only "You should get a similar answer to 3)".
