@@ -23,7 +23,7 @@ model.obj = Objective(expr=sum(cost[station] * model.x[station] for station in f
 def cover_constraint(model, city):
     return sum(model.x[s] for s in firestations if city in covers[s]) >= 1
 
-model.cover_constaint = Constraint(cities, rule=cover_constraint)
+model.cover_constraint = Constraint(cities, rule=cover_constraint)
 
 # Create a solver
 solver = SolverFactory('glpk')
