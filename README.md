@@ -46,7 +46,7 @@ Each week also has a `README.md` listing its files and any notes for staff.
 | `Week 08 - Networks - Shortest Paths and MST` | 1 | Plain Python (answers check) |
 | `Week 09 - Travelling Salesman Problem` | 2 | Pyomo + HiGHS |
 | `Week 10 - Vehicle Routing Problem` | 1 | Pyomo + HiGHS |
-| `Week 11 - Floor Planning` | 4 | Pyomo + HiGHS |
+| `Week 11 - Floor Planning` | 3 | Pyomo + HiGHS |
 
 | Semester 2 | Notebooks | Tools |
 | --- | --- | --- |
