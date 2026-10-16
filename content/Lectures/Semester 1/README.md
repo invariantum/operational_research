@@ -69,7 +69,7 @@ Each week also has a `README.md` that lists its files.
 | 08 | Networks: shortest paths (Dijkstra) and minimum spanning trees (Prim, Kruskal) | Slides; *Negative weight example*; *Dijkstra Algorithm* (optional) | No lecture notebooks: pen and paper | Tutorial Q1 (MST), Q2 (shortest path). Answers: two PDFs and `Q1-Q2 answers in Python` (steps of all three algorithms) | Week 06 graphs |
 | 09 | Travelling Salesman Problem | Slides | `1 TSP with Pyomo` (the last cell is a genetic-algorithm heuristic; change its seed to see other runs) | No sheet: the tasks are on slide 22; do them in the demo notebook. Answers: one notebook (solve times, genetic-algorithm settings, research questions) | Weeks 05–06, 08 |
 | 10 | Vehicle Routing Problem | Slides; `Notes/Routing Problems - Lecture Notes.md` | `1 TSP and VRP with Pyomo`, sections 1–3 | The notebook's *Try it* questions (answers are in the notebook) | Week 09 TSP and MTZ constraints |
-| 11 | Floor planning (packing rectangles) | Slides; the Pyomo model notes | `1 Floor planning - minimise area`; 2 and 3 are optional variations (2 takes 3–4 minutes to solve in the browser) | No sheet | Week 05 binary variables |
+| 11 | Floor planning (packing rectangles) | Slides; the Pyomo model notes (the same code as demo 1) | `1 Floor planning - minimise area`; 2 and 3 are optional variations (2 takes 2–4 minutes to solve in the browser) | No sheet: the *Try it* questions at the end of each notebook (answers inside) | Weeks 05 and 07 big-M "either/or" constraints |
 
 The module handbook lists *Transportation and Transhipment* for Week 08 and *Inventory Modelling* for
 Week 11. This year those weeks cover networks and floor planning, as above.
