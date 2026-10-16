@@ -25,8 +25,8 @@ What OR is, where it is used, and a refresher on vectors, matrices and linear (i
 | 3 | `3 Tutorial/Week 1 Tutorial - Introduction to OR.ipynb` | Exercises 1–8: determinants and systems by hand and in Python, plots of the solutions, a feasible region. Exercises 5 and 6 also use [desmos.com](https://www.desmos.com/calculator). Keep the step 2 notebook open for reference. |
 | 4 | `4 Tutorial Answers/Week 1 Tutorial - Answers.ipynb` | Worked answers to Exercises 1–8. Check your work after you have tried them. |
 
-The `(PDF version)` files are printable copies of the notebooks, for reading offline. They show the
-notebooks as they were before the move to the browser; run the `.ipynb` files.
+The `(PDF version)` files are printable copies of the notebooks, for reading offline (printed Oct 2026 from
+the current notebooks with their saved outputs). Run the `.ipynb` files to see every result.
 
 ## By the end of this week you can
 
@@ -69,7 +69,9 @@ notebooks as they were before the move to the browser; run the `.ipynb` files.
   Corrected Oct 2026: Q2 now says "check your answers to Q1" (it said Q2); "it's determinant" → "its".
 - The tutorial notebook gained a first cell, `%pip install ipywidgets`.
 - The tutorial notebook's saved outputs were regenerated: two example plots, a widget placeholder and three placeholder prints are stored.
-- The NumPy notebook's note that the browser returns a matrix of `nan` instead of raising `LinAlgError` was added during the move; the PDF print-out of the notebook still shows the original cells.
+- The two `(PDF version)` files were re-printed in Oct 2026 from the current notebooks (saved outputs only, nothing re-run).
+  The NumPy notebook stores no outputs, so its print shows code without results.
+- The NumPy notebook's note that the browser returns a matrix of `nan` instead of raising `LinAlgError` was added during the move.
 - The tutorial notebook's introduction now names the NumPy notebook by its current file and title (it used the old name *Basic Vector and Matrix Operations in NumPy*).
 - **Corrections (Oct 2026), notebooks.** NumPy notebook: the `.dot()` / `M @` output labels were swapped
   and `answer3`/`answer4` used `np.matmul` where the comment said `.dot`; the singular-matrix paragraph
@@ -81,8 +83,8 @@ notebooks as they were before the move to the browser; run the `.ipynb` files.
   scattered points" now reads "Grid of (x, y) points on which the three planes are drawn". NumPy notebook:
   $\mathbf{a} \circ \mathbf{b}$ and $\mathbf{a} \cdot \mathbf{b}$ in bold like the rest of the notebook, "NumPy" spelling,
   and a *Try it* cell (with its answer) after the determinant cell. No code or printed numbers changed.
-- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
-  `1 Lecture` has not been re-exported yet** and still shows the old text:
+- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected and the PDF in `1 Lecture`
+  re-exported from it in PowerPoint:
   - slide 24: the equation now reads $x - y = 1$, which is the line the graph has always drawn (it crosses
     the other two at (1.8, 0.8) and (2.333, 1.333)); the slide said $x - y = 0$. The last line now reads
     "i.e. no point solves all three equations simultaneously!" (it said "something that solves…");
@@ -91,6 +93,9 @@ notebooks as they were before the move to the browser; run the `.ipynb` files.
   - slide 29 (PDF page 28): the graph labels `x₁ ≥ 0` and `x₂ ≥ 0` were swapped (`x₂ ≥ 0` sat on the vertical
     axis, which is the line x₁ = 0). The two labels have exchanged places, so each sits on its own boundary line.
   - Not changed: slide 3 says "Simpy" for SimPy, but that text is part of a picture.
+  - The equation boxes on slides 18 and 24 were re-saved in PowerPoint so that programs other than PowerPoint
+    (LibreOffice, Google Slides) also show the corrected equations. After editing an equation outside
+    PowerPoint, open the deck in PowerPoint, click into the edited box, type and delete a space, then save.
 - Slide 25 of the `.pptx` is hidden and not in the PDF. It says that as many equations as unknowns always
   gives a unique solution and more equations than unknowns always gives none; both are false in general.
   Keep it hidden or correct it before showing it.
