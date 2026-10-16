@@ -16,7 +16,7 @@ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorM
     
 # Job Shop Scheduling
 
-These notes are based off the excellent resources provided by [Google OR-Tools](https://developers.google.com/optimization/cp).
+These notes are based on the excellent resources provided by [Google OR-Tools](https://developers.google.com/optimization/cp).
 
 ## 1. Constraint Programming
 
@@ -24,19 +24,19 @@ These notes are based off the excellent resources provided by [Google OR-Tools](
 
 The Constraint Satisfaction Problem (CSP) is defined by:
 - a set of variables $X = \{x_1, x_2, \ldots, x_n\} $
-- each with a domain $D=\{d_1,d_2,\dots,d_n\}$ of possible values
+- each with a domain $D_i$ of possible values, $D=\{D_1,D_2,\dots,D_n\}$
 - and a set of constraints $C = \{c_1, c_2, \ldots, c_m\}$
-    - where each constraint $c_i=(S_i, R_i)$ involves a subset of variables, $S_i=(x_{i_1}, x_{i_2}, \ldots, x_{i_k})$ (scope), and specifies the allowable combinations of values for those variables $R\subseteq d_{i_1} \times \dots \times d_{i_k}$(relation).
+    - where each constraint $c_i=(S_i, R_i)$ involves a subset of variables, $S_i=(x_{i_1}, x_{i_2}, \ldots, x_{i_k})$ (scope), and specifies the allowable combinations of values for those variables $R_i\subseteq D_{i_1} \times \dots \times D_{i_k}$ (relation).
 
 The goal is to find an assignment of values to the variables from their respective domains such that all constraints are satisfied simultaneously.
 
 Formally, a solution to the CSP is an assignment $A= \{x_1 = v_1, x_2 = v_2, \ldots, x_n = v_n\}$ such that:
 - Each variable $x_i$ is assigned a value $v_i$ from its domain $D_i$.
-- For each constraint $c_i$ involving variables $(x_{i_1}, x_{i_2}, \ldots, x_{i_k})$, the combination of values $(v_{i_1}, v_{i_2}, \ldots, v_{i_k})$ satisfies the constraint $C_i$.
+- For each constraint $c_i$ involving variables $(x_{i_1}, x_{i_2}, \ldots, x_{i_k})$, the combination of values $(v_{i_1}, v_{i_2}, \ldots, v_{i_k})$ satisfies the constraint $c_i$.
 
 The CSP can be represented as a tuple $\langle X, D, C \rangle$, where:
 - $X$ is the set of variables.
-- $D = \{d_1, d_2, \ldots, d_n\}$ is the set of domains for the variables.
+- $D = \{D_1, D_2, \ldots, D_n\}$ is the set of domains for the variables.
 - $C$ is the set of constraints.
 
 **Note**: *An objective is optional*. For example, sudoku is a CSP and has no objective! You just need to find a solution that satisfies the constraints
@@ -59,19 +59,20 @@ Then the constraint is given by $c=((x,y,z),\{(0,0,0),(1,0,1),(0,1,1)\})$
 $$
 \begin{align*}
 \text{maximise } & \; &2x + 2y + 3z \\
-\text{subject to: } & \; & 3x -5y + 7z \leq 45 \\
-& \; & 2y -6z \leq 37 \\
+\text{subject to: } & \; & 2x + 7y + 3z \leq 50 \\
+& \; & 3x -5y + 7z \leq 45 \\
+& \; & 5x + 2y -6z \leq 37 \\
 & \; & x,y,z \geq 0 \\
 & \; & x,y,z \in \mathbb{Z}
 \end{align*}
 $$
 
 
-You will also recognise this as an integer programming problem. 
+You will also recognise this as an integer programming problem. Its optimum is $35$, at $x = 7$, $y = 3$, $z = 5$. 
 
 You already know how to solve this using Pyomo!
 
-You can also see how to solve this using [Google OR-Tools CP-SAT solver](https://developers.google.com/optimization/cp/cp_example). Note that this is a different technique and solver to the one we've been using in Pyomo (GLPK).
+You can also see how to solve this using [Google OR-Tools CP-SAT solver](https://developers.google.com/optimization/cp/cp_example). Note that this is a different technique and solver to the one we've been using in Pyomo (HiGHS).
 
 ### Constraint Programming vs Mathematical Programming
 
@@ -124,12 +125,12 @@ This has 96 possible solutions. You should confirm that the two below are soluti
 
 **Variables**
 
-- Based on the equation ``OR + IS + FUN = TRUE`` there are 8 variables. 
+- Based on the equation ``OR + IS + FUN = TRUE`` there are 9 variables, one per letter: O, R, I, S, F, U, N, T, E. 
 - The domain of each variable is $\{0,1,\dots, 9\}$.
 
 **Constraints**:
 - ``OR + IS + FUN = TRUE``
-- Each of the 8 letters is unique. Note this is called the all different constraint
+- Each of the 9 letters is unique. Note this is called the all different constraint
 - ``O``, ``I``, ``F`` and ``T`` cannot be ``0`` (as we don't start numbers in decimal with a leading ``0``).
 
 **Note**: There is no objective!
@@ -155,6 +156,8 @@ Below we have 3 jobs and 3 machines. Each job requires a sequence of operations 
 Here is an example schedule which is valid. 
 
 ![](assets/schedule1.png)
+
+*The picture (from Google OR-Tools) numbers operations from 0: `job(1, 0)` is the first operation of job $J_1$, written $O_{11}$ in the table.*
 
 
 ***The question is how do we best schedule these jobs on the machines?***
@@ -191,7 +194,7 @@ This is useful when writing code to solve these problems.
 
 4. **Exact Algorithms (1990s-Present):**
    - In the 1990s and continuing into the present, research focused on developing exact algorithms for job shop scheduling.
-   - Exact methods, such as branch and bound with dynamic programming and constraint programming, aim to find optimal solutions by exhaustively searching through all possible schedules.
+   - Exact methods, such as branch and bound with dynamic programming and constraint programming, aim to find optimal solutions by systematically searching all possible schedules (most of them implicitly, by ruling out whole groups of schedules at once).
 
 5. **Hybrid Approaches and Applications (Present):**
    - Current research in job shop scheduling emphasizes hybrid approaches that combine different algorithms and techniques to improve solution quality and computational efficiency.
@@ -266,7 +269,7 @@ That is, minimise the total time required to complete all jobs.
 
 You can find out how to solve this via [Google OR-Tools](https://developers.google.com/optimization/scheduling/job_shop)
 
-### Solving as an LP
+### Solving as a MILP (mixed-integer linear program)
 
 ### Job Shop Scheduling MILP (concise)
 
@@ -460,7 +463,7 @@ if __name__ == "__main__":
 
 ```
 
-**Output**
+**Output** (saved from an earlier run). Several schedules reach the optimal makespan $C_{\max} = 11$, so your run may list different start times; the makespan is always 11.
 
 ```
 Optimal makespan Cmax = 11.00
