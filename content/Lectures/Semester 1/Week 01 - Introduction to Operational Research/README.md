@@ -7,7 +7,38 @@ What OR is, where it is used, and a refresher on vectors, matrices and linear (i
 | `1 Lecture` | Slides (PDF) and lecture notes | The lecture |
 | `2 Lecture Demos` | Notebooks and spreadsheets shown in the lecture, numbered in teaching order | Run live in the lecture |
 | `3 Tutorial` | Tutorial / practical sheet and any starter files | The practical |
+| `4 Tutorial Answers` | Worked answers and answer notebooks | **Release after the practical** |
 | `5 Source Files` | Editable originals (.pptx, .docx, .md), the scripts the notebooks came from, MATLAB, older versions, staff notes | Staff only |
+
+## Before you start
+
+- **Maths:** solving two equations in two unknowns (school algebra). Everything else is introduced this week.
+- **Python:** none needed. The notebooks explain each step.
+- **Set-up:** open the course site and run `00_START_HERE.ipynb` once (see `Lectures/Semester 1/README.md`, section 1).
+
+## Work through this week in order
+
+| Step | File | What it is for |
+| --- | --- | --- |
+| 1 | `1 Lecture/Week 1 - Introduction to Operations Research.pdf` | What OR is and where it is used (slides 1–14); the maths for the rest of the module: linear equations, systems of equations, inequalities and feasible regions (slides 15–30) |
+| 2 | `2 Lecture Demos/1 Vectors and matrices in NumPy.ipynb` | Run every cell: vectors, matrix products, inverse, determinant and solving $Ax = b$ in NumPy. **Do this before the tutorial.** |
+| 3 | `3 Tutorial/Week 1 Tutorial - Introduction to OR.ipynb` | Exercises 1–8: determinants and systems by hand and in Python, plots of the solutions, a feasible region. Exercises 5 and 6 also use [desmos.com](https://www.desmos.com/calculator). Keep the step 2 notebook open for reference. |
+| 4 | `4 Tutorial Answers/Week 1 Tutorial - Answers.ipynb` | Worked answers to Exercises 1–8. Check your work after you have tried them. |
+
+The `(PDF version)` files are printable copies of the notebooks, for reading offline. They show the
+notebooks as they were before the move to the browser; run the `.ipynb` files.
+
+## By the end of this week you can
+
+- explain what Operational Research is and name some places it is used;
+- solve a system of two linear equations by substitution and with the matrix inverse;
+- calculate a 2 × 2 determinant and say what a zero determinant (a singular matrix) means;
+- recognise systems with one solution, no solution and infinitely many solutions (parallel lines,
+  more variables than equations, more equations than variables);
+- use NumPy to multiply matrices, find inverses and determinants, and solve $Ax = b$;
+- write a system of linear inequalities in matrix form $Ax \le b$ and sketch its feasible region.
+
+**Next:** Week 02 (Linear Programming 1) uses the matrix form and the feasible region from this week.
 
 ## 1 Lecture
 
@@ -23,12 +54,35 @@ What OR is, where it is used, and a refresher on vectors, matrices and linear (i
 - `Week 1 Tutorial - Introduction to OR (PDF version).pdf`
 - `Week 1 Tutorial - Introduction to OR.ipynb` (notebook)
 
+## 4 Tutorial Answers
+
+- `Week 1 Tutorial - Answers.ipynb` (notebook): Ex 1 determinants −2, 10, 0; Ex 3 $(x, y) = (3, 2)$;
+  Ex 6 corners $(0, 0), (2, 0), (1.5, 0.5), (0, 1)$; Ex 7 $(x, y, z) = (38/39,\ 11/39,\ -4/39)$.
+
 ## Notes for staff
 
 - The NumPy notebook's two deliberate error examples are caught and printed, so *Run All* runs to the end.
-- No separate tutorial answers exist for Week 1.
-- `5 Source Files/Week 1 - Tutorial.docx` is the earlier MATLAB version of the tutorial; the Python notebook in `3 Tutorial` replaces it.
-- The tutorial notebook gained a first cell, `%pip install ipywidgets`; the original cells are unchanged.
-- The tutorial notebook's saved outputs were regenerated: two example plots, a widget placeholder and two corrected placeholder prints are now stored. The code cells are unchanged.
+- **Tutorial answers were added in Oct 2026** (`4 Tutorial Answers`). Before that no answers existed for Week 1.
+  Exercise 7's answer is fractional (det = 39); the answer notebook checks it by substituting back.
+- `5 Source Files/Week 1 - Tutorial.docx` is the earlier MATLAB version of the tutorial; the Python notebook in `3 Tutorial` replaces it. The exercises are the same.
+- The tutorial notebook gained a first cell, `%pip install ipywidgets`.
+- The tutorial notebook's saved outputs were regenerated: two example plots, a widget placeholder and three placeholder prints are stored.
 - The NumPy notebook's note that the browser returns a matrix of `nan` instead of raising `LinAlgError` was added during the move; the PDF print-out of the notebook still shows the original cells.
 - The tutorial notebook's introduction now names the NumPy notebook by its current file and title (it used the old name *Basic Vector and Matrix Operations in NumPy*).
+- **Corrections (Oct 2026), notebooks.** NumPy notebook: the `.dot()` / `M @` output labels were swapped
+  and `answer3`/`answer4` used `np.matmul` where the comment said `.dot`; the singular-matrix paragraph
+  was an unfinished sentence; the line "It should also help for Peter's module" was removed; typos.
+  Both notebooks: the comment "solve … using the `np.linalg.det()` function" now says `np.linalg.inv()`.
+  Tutorial: Exercises 4 and 8 now name the exercise they plot (3 and 7); the empty last cell was removed;
+  typos ("Write your code", "library"). No printed numbers changed.
+- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
+  `1 Lecture` has not been re-exported yet** and still shows the old text:
+  - slide 24: the equation now reads $x - y = 1$, which is the line the graph has always drawn (it crosses
+    the other two at (1.8, 0.8) and (2.333, 1.333)); the slide said $x - y = 0$. The last line now reads
+    "i.e. no point solves all three equations simultaneously!" (it said "something that solves…");
+  - slide 18: "Sub (3) into (2)" (it said "Sub (1) into (2)");
+  - slide 2: "Let's start" (it said "Let' start").
+  - Not changed: slide 3 says "Simpy" for SimPy, but that text is part of a picture.
+- Slide 25 of the `.pptx` is hidden and not in the PDF. It says that as many equations as unknowns always
+  gives a unique solution and more equations than unknowns always gives none; both are false in general.
+  Keep it hidden or correct it before showing it.
