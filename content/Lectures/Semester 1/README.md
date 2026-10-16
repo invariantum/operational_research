@@ -60,7 +60,7 @@ Each week also has a `README.md` that lists its files.
 | Week | Topic | Read | Run | Practise | Builds on |
 | --- | --- | --- | --- | --- | --- |
 | 01 | Introduction to OR; vectors, matrices and inequalities | Slides | `1 Vectors and matrices in NumPy` (do this before the tutorial) | Tutorial notebook, Exercises 1–8 (Exercises 5–6 use desmos.com). Answers: one notebook | – |
-| 02 | Linear Programming 1: formulation, graphical solution | Slides; *Simplex demo* PDF (optional) | `1 LP with SciPy linprog`; `2 LP with Excel Solver.xlsx` (desktop Excel) | Tutorial Q1–Q6 (Q4 in Excel). Answers: PDF and five notebooks | Week 01 matrix form |
+| 02 | Linear Programming 1: formulation, graphical solution | Slides; *Simplex demo* PDF (optional) | `1 LP with SciPy linprog`; `2 LP with Excel Solver.xlsx` (desktop Excel) | Tutorial Q1–Q6 (Q4 in Excel). Answers: PDF, five notebooks and a Q4 workbook | Week 01 matrix form |
 | 03 | Linear Programming 2: Pyomo, the diet problem, integer and mixed-integer LP | Slides | Demos 1–6 in order (the week's README gives the slide for each) | Tutorial Q1 (LP, ILP, MILP) and Q2 (Icki-Toffee). Answers: PDF and three notebooks | Week 02 lecture LP and diet problem |
 | 04 | Mathematical Programming: Modelling | Slides; *Slack Variables* | `1 Pyomo expressions and constraints` | Tutorial Q1 (Icki-Toffee objectives), Q2 (two factories). Answers: PDF and six notebooks | Week 03 Icki-Toffee model |
 | 05 | Mixed Integer Programming: binary variables | Slides | Demos 1–7; demo 8 (vertex cover) is a preview of Week 06 | Tutorial Q1 (knapsack), Q2 (fire stations), Q3 (Icki-Toffee). Answers: PDF and five notebooks | Weeks 03–04 |
