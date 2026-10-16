@@ -1,19 +1,10 @@
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
-</script>
-
 # Lecture Notes: Routing Problems
 
-Please note that I am currently working on these notes and they are somewhat incomplete, missing images and some addition sections required.
-
-They will form part of a larger book I intend to release next year which you will get access to at some point.
-
 ## Introduction
-Routing problems are a class of optimisation problems concerned with finding the most efficient way to allocate and schedule resources to move goods, people, or information from one location to another. These problems are crucial in various industries such as transportation, logistics, supply chain management, and telecommunications. The goal is to minimise costs, time, or other relevant metrics while satisfying constraints such as capacity limitations, time windows, and demand fulfillment.
+Routing problems are a class of optimisation problems concerned with finding the most efficient way to allocate and schedule resources to move goods, people, or information from one location to another. These problems are crucial in various industries such as transportation, logistics, supply chain management, and telecommunications. The goal is to minimise costs, time, or other relevant metrics while satisfying constraints such as capacity limitations, time windows, and demand fulfilment.
 
-## Traveling Salesman Problem (TSP)
-The Traveling Salesman Problem (TSP) is one of the most well-known routing problems. It involves finding the shortest possible tour that visits each city exactly once and returns to the original city. 
+## Travelling Salesman Problem (TSP)
+The Travelling Salesman Problem (TSP) is one of the most well-known routing problems. It involves finding the shortest possible tour that visits each city exactly once and returns to the original city. 
 
 |||
 |--|--|
@@ -26,7 +17,7 @@ Let:
 - $c_{ij}$ be the distance between cities $i$ and $j$,
 - $x_{ij}$ be a binary decision variable indicating whether to travel directly from city $i$ to city $j$.
 
-The objective is to minimise the total distance traveled:
+The objective is to minimise the total distance travelled:
 
 $$
 \text{Minimise} \quad \sum_{i=1}^{n}\sum_{j=1, j\neq i}^{n} c_{ij}x_{ij}
@@ -51,7 +42,7 @@ $$
 u_i - u_j + 1 \leq (n - 1)(1-x_{ij}), \quad \forall i \in \{2,3,...,n\}, j \in \{2,3,...,n\}, i \neq j
 $$
 
-Where $u_i$ is a continuous variable representing the position of city $i$ in the tour and $n$ is the number of cities.
+Where $u_i$ is a continuous variable that orders the cities along the tour (only the order of the values matters, see below) and $n$ is the number of cities.
 
 We can write this compactly as follows.
 
@@ -112,7 +103,7 @@ model.exactly_one_incoming_edge = Constraint(model.V, rule=exactly_one_incoming_
 # This is to ensure that x[i,i]=0, it replaces the : i != j in the x_ij in {0,1} variable in the model
 def no_self_edge_rule(model, i):
     return model.x[i, i] == 0
-model.Vo_self_edge = Constraint(model.V, rule=no_self_edge_rule)
+model.no_self_edge = Constraint(model.V, rule=no_self_edge_rule)
 
 def mtz_subtour_elimination_rule(model, i, j):
     if i != j and j != 1 and i != 1:
@@ -122,21 +113,21 @@ def mtz_subtour_elimination_rule(model, i, j):
 model.mtz_subtour_elimination = Constraint(model.V, model.V, rule=mtz_subtour_elimination_rule)
 
 # Solve
-solver = SolverFactory('glpk')
+solver = SolverFactory('appsi_highs')
 solver.solve(model)
 
 # Print solution
 print('Optimal Tour:')
-for i in cities:
-    for j in cities:
-        if value(model.x[i, j]) == 1:
+for i in model.V:
+    for j in model.V:
+        if value(model.x[i, j]) > 0.5:
             print(f'{i} -> {j}')
 ```
 
 If we run this code but add the following line before we solve
 
 ```python
-# deactive the subtour constraint
+# deactivate the subtour constraint
 model.mtz_subtour_elimination.deactivate()
 ```
 
@@ -153,7 +144,7 @@ We could have started with this, but I think it is nice to see it working and th
 
 The idea behind this constraint is that we wish to store the order of the tour in a variable $u_i \in \mathbb{R}$ where $u_i$ represents the order in which city $i$ is visited.
 
-A key point here is that $u_i$ does not represent position. What we are looking for is some increasing sequence $u_{r_1} < u_{r_2} < \dots < u_{r_n}$, where $r_j$ is the represents where city $j$ is visited (position in the tour). e.g. $r_1=5, r_2=2$ states that the first city visited is $5$ and the second city visited is $2$.
+A key point here is that $u_i$ does not represent position. What we are looking for is some increasing sequence $u_{r_1} < u_{r_2} < \dots < u_{r_n}$, where $r_k$ is the city visited in position $k$ of the tour. e.g. $r_1=5, r_2=2$ states that the first city visited is $5$ and the second city visited is $2$.
 
 We should consider what this means. If we have a city $i$ visited before city $j$, then we would expect to set $x_{ij}=1$. The above now requires that $u_j > u_i$, we can rewrite this as a constraint using $\geq$, namely $u_j \geq u_i + 1$. Basically, $u_j$ should be larger than $u_i$.
 
@@ -199,8 +190,6 @@ $$
 
 i.e. city 8 appears before city 5 and after city 5!
 
-PLACEHOLDER IMAGE
-
 Thus we have unique set of values for $r_i$ and the increasing sequence, 
 
 $$
@@ -232,7 +221,7 @@ $$
 u_{r_2} < u_{r_3} \dots < u_{r_n},
 $$
 
-but we are no longer bound by the MTZ constraint for city 1. Hence we are free to choose $x_{1r_2}=1$, that is city 1 starts the tour and connects with city $2$. We are also free to choose $x_{r_n1}=1$, city $n$ connects to city 1 to end the tour.
+but we are no longer bound by the MTZ constraint for city 1. Hence we are free to choose $x_{1r_2}=1$, that is city 1 starts the tour and connects with city $r_2$. We are also free to choose $x_{r_n1}=1$, city $r_n$ connects to city 1 to end the tour.
 
 $$
 1, r_2, \dots, r_n, 1
@@ -271,13 +260,13 @@ $$
 
 The first constraint is satisfied as long as $M\geq1$ as $u_{r_2} < u_{r_n}$ because of their position in the sequence. i.e. $u_{r_2} - u_{r_n} < 0$.
 
-For the second $u_{r_n} - u_{r_2} \geq n-2 \implies u_{r_n} - u_{r_2} + 1 \geq n-1 \leq M$. 
+For the second, $u_{r_n} - u_{r_2} \geq n-2 \implies u_{r_n} - u_{r_2} + 1 \geq n-1$, so we need $M \geq u_{r_n} - u_{r_2} + 1 \geq n-1$. 
 
 Thus $M \geq n-1$, that is pick any number $M$ as long as it is greater than or equal to $n-1$.
 
 ## Extending the TSP to Allow Multiple Tours
 
-Let's say we wish there to be $k$ tours leaving city 1. This is very easy. All we have to do is relax the incoming and outgoing edge constraints for city 1.
+Let's say we wish there to be $m$ tours leaving city 1. This is very easy. All we have to do is relax the incoming and outgoing edge constraints for city 1.
 
 1. Each city is left exactly once. Now we exclude city 1:
 
@@ -307,14 +296,14 @@ City 1 is now forced to have $m$ edges leaving and entering.
 
 This is really quite beautiful and gives you an intuition into the MTZ constraint itself!
 
-You should consider what would happen if we don't use constraint 3. We will end up with a single tour, the TSP solution. Why? We discussed this previous in our discussion on the MTZ constraint. It also suggests a small optimisation in our TSP model.
+You should consider what would happen if we don't use constraint 3. We will end up with a single tour, the TSP solution. Why? We discussed this previously in our discussion on the MTZ constraint. It also suggests a small optimisation in our TSP model.
 
 ## Vehicle Routing Problem (VRP)
-The Vehicle Routing Problem (VRP) extends the TSP by introducing a fleet of vehicles with limited capacity to serve a set of customers with varying demands. The objective is to minimise the total distance traveled by the vehicles while satisfying all customer demands and respecting capacity constraints.
+The Vehicle Routing Problem (VRP) extends the TSP by introducing a fleet of vehicles with limited capacity to serve a set of customers with varying demands. The objective is to minimise the total distance travelled by the vehicles while satisfying all customer demands and respecting capacity constraints.
 
 ### Model 1
 Let:
-- $V$ be the set number of customers,
+- $V$ be the set of locations (city 1 is the depot),
 - $m$ be the number of vehicles,
 - $q_i$ be the demand of customer $i$,
 - $Q$ is the capacity of each vehicle
@@ -389,7 +378,7 @@ $$
 
 This means that we will only get sub-tours if there exists a sequence of cities whereby the sub-tour is a balanced demand cycle (i.e. the sum of the demands is $0$).
 
-This is only possible if we allow $q_i < 0$ (negative), i.e. we are picking up something. Even if we allow this (and there is no reason why not, the model will still work) it is highly unlikely we will come across such a balanced sequence for a group of cities close enough for it to matter.
+This is only possible if we allow $q_i \leq 0$, i.e. we are picking up something ($q_i < 0$) or a location has no demand ($q_i = 0$). Even if we allow this (and there is no reason why not, the model will still work) it is highly unlikely we will come across such a balanced sequence for a group of cities close enough for it to matter.
 
 I have however cooked up an example that illustrates this, see the images below.
 
@@ -409,19 +398,20 @@ $$
 ### Implementation in Pyomo
 
 ```python
+# uses num_cities, num_vehicles, distance_matrix, demand and capacity defined beforehand
 model = ConcreteModel()
 
-# Set of nodes
+# Set of nodes (node 1 is the depot)
 model.V = RangeSet(1, num_cities)
 
-# Set of vehicles
-model.V = RangeSet(1, num_vehicles)
-
-# Binary decision variables: x[i,j] equals 1 if the TSP tour goes from node i to node j
+# Binary decision variables: x[i,j] equals 1 if a vehicle travels from node i to node j
 model.x = Var(model.V, model.V, within=Binary, initialize=0)
 
-# Flow decision variables: f[i,j] equals 1 if the TSP tour goes from node i to node j
+# Flow decision variables: f[i,j] is the load the vehicle carries from node i to node j
 model.f = Var(model.V, model.V, within=NonNegativeReals, initialize=0)
+
+# Continuous variables for the optional MTZ constraints: u[i] orders the nodes along a route
+model.u = Var(RangeSet(2, num_cities), within=Reals)
 
 # Objective function: minimize total distance
 model.obj = Objective(expr=sum(distance_matrix[i, j] * model.x[i, j] for i in model.V for j in model.V if i != j), sense=minimize)
@@ -479,11 +469,11 @@ def print_solution(model):
     print('Solution:')
     for i in model.V:
         for j in model.V:
-            if value(model.x[i, j]) == 1:
+            if value(model.x[i, j]) > 0.5:
                 print(f'{i} -> {j}')
 
 # Solve
-solver = SolverFactory('glpk')
+solver = SolverFactory('appsi_highs')
 solver.solve(model)
 print_solution(model)
 
@@ -495,9 +485,9 @@ print_solution(model)
 
 #### Some Key Points
 * We require $Qm \geq \sum_{i \in V:i\neq 1} q_i$. i.e. we need enough vehicles to cover the demand.
-* If we set $q_i = 1$ for all $i:i\neq1$ then this model means all locations are visited.
+* If we set $q_i = 1$ for all $i:i\neq1$ then $Q$ is the largest number of locations one vehicle can visit.
 * Allowing $q_i \in \mathbb{R}$ then we can have negative demands (supply) and positive demands (demand).
-  * You should recognise this from the multi-commodity flow Problem (MCFP).
+  * This is the flow conservation constraint of the minimum-cost flow problem (MCFP); see Semester 2 Week 01, `6 Production-distribution (minimum-cost flow).ipynb`.
 
 #### The Main Issue with this Model
 
@@ -518,10 +508,10 @@ To do this we will need to know the length of each of the routes for the vehicle
 
 A nice way to visualise this idea is to imagine we are creating a copy of the network for each vehicle, we can then track which edges are used in each of the networks.
 
-PLACEHOLDER IMAGE
+See the *Illustration* slide (slide 30) of `Vehicle Routing Problem.pdf`: the network for all vehicles and one copy per vehicle.
 
 Let:
-- $V$ be the set of customers,
+- $V$ be the set of locations (city 1 is the depot),
 - $K$ be the set of vehicles,
 - $q_i$ be the demand of customer $i$,
 - $Q$ is the capacity of each vehicle
@@ -533,23 +523,23 @@ $$
 \begin{align*}
 &\text{Minimise: } \; &C_{Max} \\
 &\text{Subject to: } \quad \quad \\
- & \; &\sum_{k \in K} \sum_{j \in V:j\neq i} x_{ijk} = 1, \quad &\forall i \in V \setminus \{1\} & \text{A single vehicle enters a location}  \\
- & \; &\sum_{k \in K} \sum_{i\in V:i\neq j} x_{ijk} = 1, \quad &\forall j \in V \setminus \{1\}  & \text{A single vehicle leaves a location} \\
+ & \; &\sum_{k \in K} \sum_{j \in V:j\neq i} x_{ijk} = 1, \quad &\forall i \in V \setminus \{1\} & \text{A single vehicle leaves a location}  \\
+ & \; &\sum_{k \in K} \sum_{i\in V:i\neq j} x_{ijk} = 1, \quad &\forall j \in V \setminus \{1\}  & \text{A single vehicle enters a location} \\
+ & \; &\sum_{j \in V:j\neq i} x_{jik} = \sum_{j \in V:j\neq i} x_{ijk}, \quad &\forall i \in V \setminus \{1\}, \forall k \in K & \text{If vehicle $k$ enters location $i$ then it must leave location $i$} \\
  & \; &\sum_{k \in K} \sum_{j \in V} x_{1jk} \leq m & & \text{No more than $m$ vehicles leave the depot} \\
- & \; &\sum_{i\in V} \sum_{j\in V:i\neq j} c_{ij}x_{ijk} \leq C_{Max}, \quad &\forall k \in K  & \text{Distance of route for a vehicle is less than $Q_{max}$} \\
+ & \; &\sum_{i\in V} \sum_{j\in V:i\neq j} c_{ij}x_{ijk} \leq C_{Max}, \quad &\forall k \in K  & \text{Distance of route for a vehicle is at most $C_{Max}$} \\
  & \; &\sum_{k \in K} \sum_{j \in V} f_{jik} - \sum_{k \in K} \sum_{j \in V} f_{ijk} = q_i, \quad & \forall i \in V \setminus \{1\}  & \text{Enough demand is delivered to a location} \\
- & \; &0 \leq f_{ijk} \leq Qx_{ijk}, \quad &\forall i,j \in V, \forall k \in K : i \neq j & \text{Length of a route is less than vehicle capacity}\\
+ & \; &0 \leq f_{ijk} \leq Qx_{ijk}, \quad &\forall i,j \in V, \forall k \in K : i \neq j & \text{The load on an arc is at most the vehicle capacity}\\
  & \; &x_{ijk} \in \{0,1\}, \quad &\forall i,j \in V, \forall k \in K : i \neq j\\
  & \; &f_{ijk} \in \mathbb{R}, \quad &\forall i,j \in V, \forall k \in K : i \neq j
 \end{align*}
 $$
-Optional: Sub tour constraints.
+The constraint "if vehicle $k$ enters location $i$ then it must leave location $i$" is needed: without it vehicle $k$ could arrive at a location and another vehicle leave, and the route length of each vehicle (and so $C_{Max}$) would mean nothing.
 
-Include if solving without results in sub tours not starting at city 1
+Optional: sub-tour constraints. Include them if solving without them gives sub-tours that do not start at city 1.
 $$
 \begin{align*}
- & \; &u_{ik} - u_{jk} + 1 \leq (n - 1)(1-x_{ijk}), \quad & \forall i,j \in V \setminus \{1\}, \forall k \in K: i \neq j \quad & \text{MTZ Sub-tour constraint for each vehicle $k$}\\
- & \; &\sum_{j \in V:j\neq i} x_{jik} = \sum_{j \in V:j\neq i} x_{ijk}, \quad &\forall i \in V \setminus \{1\}, \forall k \in K \quad & \text{If vehicle $k$ enters location $i$ then it must leave location $i$} 
+ & \; &u_{ik} - u_{jk} + 1 \leq (n - 1)(1-x_{ijk}), \quad & \forall i,j \in V \setminus \{1\}, \forall k \in K: i \neq j \quad & \text{MTZ Sub-tour constraint for each vehicle $k$}
 \end{align*}
 $$
 
@@ -579,16 +569,19 @@ model.V = RangeSet(1, num_cities)
 # Set of vehicles
 model.K = RangeSet(1, num_vehicles)
 
-# Binary decision variables: x[i,j] equals 1 if the TSP tour goes from node i to node j
+# Binary decision variables: x[i,j,k] equals 1 if vehicle k travels from node i to node j
 model.x = Var(model.V, model.V, model.K, within=Binary, initialize=0)
 
-# Flow decision variables: f[i,j] equals 1 if the TSP tour goes from node i to node j
+# Flow decision variables: f[i,j,k] is the load vehicle k carries from node i to node j
 model.f = Var(model.V, model.V, model.K, within=NonNegativeReals, initialize=0)
+
+# Continuous variables for the optional MTZ constraints: u[i,k] orders the nodes along vehicle k's route
+model.u = Var(RangeSet(2, num_cities), model.K, within=Reals)
 
 model.Cmax = Var(within=NonNegativeReals)
 
 # Objective function: minimize longest route for a vehicle
-model.obj = Objective(expr=model.Qmax, sense=minimize)
+model.obj = Objective(expr=model.Cmax, sense=minimize)
 
 # Constraints
 def exactly_one_outgoing_arc_rule(model, i):
@@ -613,7 +606,7 @@ def m_leave_depot_rule(model):
 model.m_leave_depot_rule = Constraint(rule=m_leave_depot_rule)
 
 def route_length_rule(model, k):
-    return sum(model.c[i,j] * model.x[i,j,k] for i in model.V for j in model.V if i!= j) <= model.Cmax
+    return sum(distance_matrix[i,j] * model.x[i,j,k] for i in model.V for j in model.V if i!= j) <= model.Cmax
   
 model.route_length = Constraint(model.K, rule=route_length_rule)
     
@@ -664,13 +657,13 @@ We also could consider the following:
 * Different capacities for vehicles
 * Time windows for deliveries
 * Weight limit for a vehicle
-* Different sized deliveries/pickups (i.e. hetrogeneous demand/supply)
+* Different sized deliveries/pickups (i.e. heterogeneous demand/supply)
 
 Modelling any of these makes this problem even more difficult. However, it is something that is modelled and solved everyday by thousands, if not millions of companies. Some use sophisticated software, others may do it by hand. 
 
 ## NP-Hard Problems and Heuristic Solutions
 Both TSP and VRP are NP-Hard problems, meaning that no known polynomial-time algorithm can solve them optimally. Therefore, heuristic methods are commonly employed to find near-optimal solutions in a reasonable amount of time. Some popular heuristics include:
-- Nearest Neighbor
+- Nearest Neighbour
 - Clarke-Wright Savings Algorithm
 - Simulated Annealing
 - Genetic Algorithms
@@ -686,7 +679,7 @@ Each vehicle starts at the depot.
 ```
 For each vehicle:
     While vehicle has capacity
-        Move to the nearest location where demand is smaller than capacity
+        Move to the nearest location whose demand fits in the remaining capacity
         
     return to start location
 ```
