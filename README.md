@@ -41,7 +41,7 @@ Each week also has a `README.md` listing its files and any notes for staff.
 | `Week 03 - Linear Programming 2` | 9 | Pyomo + HiGHS |
 | `Week 04 - Mathematical Programming - Modelling` | 7 | Pyomo + HiGHS |
 | `Week 05 - Mixed Integer Programming` | 13 | Pyomo + HiGHS |
-| `Week 06 - Integer Linear Programming - Further Problems` | 7 | Pyomo + HiGHS |
+| `Week 06 - Integer Linear Programming - Further Problems` | 8 | Pyomo + HiGHS |
 | `Week 07 - Flow Shop and Job Shop Scheduling` | 5 | NumPy, Pyomo + HiGHS, Excel |
 | `Week 08 - Networks - Shortest Paths and MST` | – | Slides and worked answers |
 | `Week 09 - Travelling Salesman Problem` | 1 | Pyomo + HiGHS |
