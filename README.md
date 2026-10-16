@@ -36,7 +36,7 @@ Each week also has a `README.md` listing its files and any notes for staff.
 
 | Semester 1 | Notebooks | Tools |
 | --- | --- | --- |
-| `Week 01 - Introduction to Operational Research` | 2 | NumPy, Matplotlib, ipywidgets |
+| `Week 01 - Introduction to Operational Research` | 3 | NumPy, Matplotlib, ipywidgets |
 | `Week 02 - Linear Programming 1` | 6 | SciPy `linprog`, Excel Solver |
 | `Week 03 - Linear Programming 2` | 9 | Pyomo + HiGHS |
 | `Week 04 - Mathematical Programming - Modelling` | 7 | Pyomo + HiGHS |
