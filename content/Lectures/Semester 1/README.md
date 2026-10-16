@@ -66,7 +66,7 @@ Each week also has a `README.md` that lists its files.
 | 05 | Mixed Integer Programming: binary variables | Slides | Demos 1–7; demo 8 (vertex cover) is a preview of Week 06 | Tutorial Q1 (knapsack), Q2 (fire stations), Q3 (Icki-Toffee). Answers: PDF and five notebooks | Weeks 03–04 |
 | 06 | Integer LP: further problems (set cover, vertex cover, assignment) | Slides (the *annotated* version is last year's, optional) | Demos 1–7: each model is written three ways | No separate sheet: the tasks are on the last slide (demo 2 is the incidence-matrix version it asks for). Answers: one notebook (task 5) | Week 05 fire stations and vertex cover |
 | 07 | Flow shop and job shop scheduling | Flow shop slides; *Job Shop Scheduling Notes (Short)* (the full notes add constraint programming; optional) | `1 Johnsons rule`; `2 Johnsons rule in Excel.xlsx`; the notes notebook | Flow shop tutorial Q1–Q4; job shop tutorial Q1–Q3 (Q4–Q5 in Colab). Answers: PDF, `Flow Shop Q4 MILP answers` and `Job Shop Q1-Q3 answers` | Weeks 05–06 binary variables |
-| 08 | Networks: shortest paths (Dijkstra) and minimum spanning trees (Prim, Kruskal) | Slides; *Negative weight example*; *Dijkstra Algorithm* (optional) | No notebooks: pen and paper | Tutorial Q1 (MST), Q2 (shortest path). Answers: two PDFs | Week 06 graphs |
+| 08 | Networks: shortest paths (Dijkstra) and minimum spanning trees (Prim, Kruskal) | Slides; *Negative weight example*; *Dijkstra Algorithm* (optional) | No lecture notebooks: pen and paper | Tutorial Q1 (MST), Q2 (shortest path). Answers: two PDFs and `Q1-Q2 answers in Python` (steps of all three algorithms) | Week 06 graphs |
 | 09 | Travelling Salesman Problem | Slides | `1 TSP with Pyomo` (the last cell is a genetic-algorithm heuristic; change its seed to see other runs) | No sheet: the tasks are on slide 22 (it links to a Colab copy; use this notebook instead) | Weeks 05–06, 08 |
 | 10 | Vehicle Routing Problem | Slides; the routing notes | `1 TSP and VRP with Pyomo`, sections 1–3 | The notebook's *Try it* questions | Week 09 TSP and MTZ constraints |
 | 11 | Floor planning (packing rectangles) | Slides; the Pyomo model notes | `1 Floor planning - minimise area`; 2 and 3 are optional variations (2 takes 3–4 minutes to solve in the browser) | No sheet | Week 05 binary variables |
@@ -98,7 +98,7 @@ Several problems are revisited with a new method, so it helps to keep earlier no
   the manufacturing problem "Q4". On this year's Week 02 sheet they are **Q6** and **Q5**. The answer
   notebooks use this year's numbers.
 - **More than one right answer.** Some problems have several optimal solutions with the same value
-  (Week 03 Q2b, Week 04 Q1b, Week 05 Q3, Week 06 security cameras, Week 11). Your selection may
+  (Week 03 Q2b, Week 04 Q1b, Week 05 Q3, Week 06 security cameras, Week 08 Q2a, Week 11). Your selection may
   differ from the answer sheet; the optimal value will match.
 - **MATLAB screenshots.** Some answer sheets show MATLAB output. The Python notebooks give the same
   values.
