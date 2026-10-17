@@ -74,7 +74,7 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
 
 - The coded answers were written for an earlier numbering of the sheet: `Question_4a–c.py` answer today's **Q5a–c** and `Question_5.py` answers **Q6a–c**. The notebooks are named by today's numbering.
 - Week 3 demos 2–4 redo the diet problem (Q6) in Pyomo.
-- The answers' Q5a sentence pointed to "the MATLAB code", which is not in this folder; it now says "the Python notebook for 5a" (.docx and PDF, Oct 2026). The output screenshots are still MATLAB's; the values match the notebooks.
+- The answers' Q5a sentence pointed to "the MATLAB code", which is not in this folder; it now names the notebook “Q5a Manufacturing - products X and Y” (.docx and PDF, Oct 2026). The output screenshots are still MATLAB's; the values match the notebooks.
 - The notebooks' first cell no longer says "Pyomo models use HiGHS instead of GLPK": these notebooks use SciPy, not Pyomo.
 - The `@author` line (a staff ID) was removed from the five `Question_*.py` scripts.
 - **Corrections (Oct 2026), notebooks.** The comment "cost function (row vector) - to minimise we need the
@@ -89,10 +89,10 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
   (Q6 Part C numbers its rows 1–10, as the binding-constraint list does); and ends with a "What do you
   notice?" question with a hidden answer (the demo and Q3 also have a "Try it" with answers). Only
   markdown cells and comments were added: code, saved outputs and printed results are unchanged.
-- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
-  `1 Lecture` has not been re-exported yet**. The PDF is also older than the `.pptx` in two places
-  (slide 1 has no author line; slide 5 has no O/A/B labels and no "We can find the 3 points of
-  intersection…" box), so one re-export fixes both.
+- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected, and
+  `1 Lecture/Week 2 - Linear Programming 1.pdf` was re-exported from it in PowerPoint (17 Oct 2026), which
+  also brought in the slide 1 author line and the slide 5 O/A/B labels and box. The Simplex demo PDF was
+  re-exported the same day (content unchanged).
   - slide 11: "For example, should the number…" (it had a capital "Should");
   - slide 12: $P = £277.71$ (it said £277.72; $1944/7 = 277.714$), and "i.e. make at least 4 chairs for each
     table" (it said "make enough tables to go with chairs", the reverse of $x \ge 4y$ and of slide 11's
@@ -106,16 +106,20 @@ adds integer variables. Tutorial Q5c already shows why whole-number answers need
   - slide 24: title capitalised; slide 25: the link text says "SciPy documentation" (it said "SciPy v1.11.3
     Manual", but the link opens the current docs); slide 26: "it is important to".
   - Not changed: the code on slide 25 is a picture, so its comment still says "to minimise we need the
-    negatives". Slides 12, 15 and 18 keep a stored fallback picture of the old text that only programs
-    without equation support (e.g. LibreOffice) show; PowerPoint and its PDF export use the corrected text.
-- **Corrections (Oct 2026), answers `.docx`** (`5 Source Files`; **the PDF has not been re-exported yet**):
+    negatives".
+  - Slides 11, 12, 15 and 18 also store a fallback picture of their main text box, which only programs
+    without equation support (e.g. LibreOffice, Google Slides) show. On 17 Oct 2026 these four pictures
+    were replaced by the same areas of the PowerPoint PDF export, so they show the corrected text too.
+    PowerPoint redraws such a picture only when the text in that box changes (a plain re-save does not),
+    so after editing one of these boxes, check it once in another program.
+- **Corrections (Oct 2026), answers `.docx`** (`5 Source Files`; the PDF was re-exported, 17 Oct 2026):
   Q2's constraint now includes the vector $(x, y)^T$; Q5c's heading matches the sheet ("In addition to
   product Z, …") and adds that the best whole-number plan earns £266 (e.g. 20, 2, 2) and that the LP has
   other optimal solutions; 6b "you should get an output"; each "Please see the Python code" names its
   notebook; 6c gives the minimum cost under the new limits; the empty paragraph that made a blank last
   page was removed; Q4 says "You should get the same answer as 3): see the workbook “Q4 LP with Excel
   Solver”" (it said "a similar answer"); Q6 "basic restrictions" and "are given in Table 2".
-- **Tutorial `.docx`** (`5 Source Files`; **the PDF has not been re-exported yet**): "I recommend using
+- **Tutorial `.docx`** (`5 Source Files`; the PDF was re-exported, 17 Oct 2026): "I recommend using
   Spyder" now says that Q3, Q5 and Q6 run on the course site and Q4 needs desktop Excel with Solver;
   Q6 "basic restrictions" (it said "restriction") and "are given in Table 2" (it said "is given in table 2").
 - **Added (Oct 2026):** `4 Tutorial Answers/Q4 LP with Excel Solver.xlsx`, made from the demo workbook
