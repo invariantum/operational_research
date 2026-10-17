@@ -93,8 +93,7 @@ costs (demos 1–3) and to vertex cover with security cameras (demo 4), and adds
   `.pptx` slides 4–21 are PDF pages 3–20 and slides 24–32 are PDF pages 21–29. The README and the notebooks give
   PDF page numbers. Hidden slides 22–23 (general set covering) are not used; their example also has a cover of
   two sets, $\{s_1, s_4\}$.
-- The answers (.docx and PDF) gained a side note on Q3: two different selections both cost 310. The PDF was edited
-  directly, so its wording differs slightly from the .docx; re-export the PDF from the .docx.
+- The answers (.docx and PDF) gained a side note on Q3: two different selections both cost 310.
 - The answer screenshots show MATLAB output; the notebooks in `4 Tutorial Answers` give the same optimal values.
   With HiGHS the Q2 and Q3 selections differ from the screenshots (both optimal); vertex cover (demo 8) also has
   several optimal sets, and the browser and desktop versions of HiGHS pick different ones.
@@ -103,16 +102,17 @@ costs (demos 1–3) and to vertex cover with security cameras (demo 4), and adds
 - In the browser, HiGHS prints its log even with `tee=False` (the first cell switches off Pyomo's output capture,
   which needs threads). The notebooks say so.
 - Slides 26, 27, 29 and 31 of the `.pptx` showed the cost column again under "Expected Profit"; corrected to 5, 3,
-  4, 3, 3 (as on slides 24–25 and in the notebooks). The lecture PDF was re-exported on 12 Oct 2026 and shows the
-  corrected values.
+  4, 3, 3 (as on slides 24–25 and in the notebooks). The lecture PDF shows the corrected values.
 - **Notebooks (Oct 2026), text only.** Each notebook gained an opening cell (problem, how to run it, expected
   result), a short explanation above every code cell, a comment on each constraint row and a closing *What do you
   notice?* / *Try it* cell with a hidden answer. Wrong or unclear comments were fixed: "with lower and upper
   bounds" above `NonNegativeIntegers` (demo 1, there is no upper bound), "Define binary variables" above
   `NonNegativeIntegers` (Q1b), the vertex-cover constraints named `city1`–`city5` (they are edges), and
-  `fat_weight_min` explained as an upper limit (Q3). No code and no printed result changed.
-- **Corrections (Oct 2026), lecture slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
-  `1 Lecture` has not been re-exported yet** (`.pptx` slide numbers, PDF pages in brackets):
+  `fat_weight_min` explained as an upper limit (Q3). Later, demo 1's closing answer was made exact: "An LP always
+  has an optimum at a corner" (it said "is always at a corner"; an LP can have a whole optimal edge). No code and
+  no printed result changed.
+- **Corrections (Oct 2026), lecture slides.** The `.pptx` in `5 Source Files` was corrected and the PDF in
+  `1 Lecture` re-exported from it in PowerPoint (17 Oct 2026) (`.pptx` slide numbers, PDF pages in brackets):
   - slide 14 (p. 13): the sums run to 7, the number of items (they said 6);
   - slide 27 (p. 24): "$\delta_i$ – 1 if item $i$ picked, 0 if item $i$ not picked" (it was the wrong way round;
     the text below it already used $\delta_i = 1$ for "chosen");
@@ -131,12 +131,25 @@ costs (demos 1–3) and to vertex cover with security cameras (demo 4), and adds
   - Not changed (pictures): the code on slides 9, 14, 21, 28, 30 and 32 uses GLPK; slide 9 says "Define the
     integer decision variables with lower and upper bounds" (there is no upper bound) and shows a MATLAB output box
     (`sol`, `fval = -13`) next to the Pyomo code.
-  - The edited equations (slides 5, 7, 14, 17, 19, 21 and 27) also keep a stored picture of the old text, which
-    only LibreOffice and old viewers show. **Re-export from PowerPoint**, as on 12 Oct. Check that slide 5 still
-    fits now that each example has a third constraint.
-- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; **the PDFs have not been
-  re-exported yet**): Q3 now says "at least 320g", "at most 45%" and "at most 2850 calories" (as in Weeks 03–04;
+  - slides 24–28 (pp. 21–25): the amounts now give their unit: "a maximum of 10 kg per item", "at least 6 kg",
+    "Maximum order of 10 kg per item", "at least 6 kg of every item" and (slide 26, p. 23) "I must order at least
+    6 kg and at most 10 kg" (it said "at least 6 and no more than 10"; the box does not wrap and already reached the
+    slide edge, so the new wording is no longer than the old). **Corrected in the `.pptx` after the 17 Oct export:
+    re-export the PDF.**
+  - Always edit and export the `.pptx` in PowerPoint: LibreOffice cannot draw equations inside table cells (on
+    pp. 12–13 its table headers show a tiny copy of the table instead of the column names).
+  - The equation boxes also store fallback pictures that only programs without equation support (e.g. LibreOffice,
+    Google Slides) show. On 17 Oct 2026 the 19 pictures that still showed the old text (slides 5, 7, 13, 14, 17,
+    19, 21 and 24–30, including slide 27's $\delta_i$ the wrong way round) were replaced by the same areas of the
+    PowerPoint PDF export, with "kg" added as above; the slide 5 pictures are taller, because the third constraint
+    now runs below the bottom of their text boxes. PowerPoint redraws such a picture only when the text in that box
+    changes (a plain re-save does not), so after editing one of these boxes, check it once in another program.
+- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; the PDFs were re-exported from them
+  in Word on 17 Oct 2026): Q3 now says "at least 320g", "at most 45%" and "at most 2850 calories" (as in Weeks 03–04;
   the model uses $\ge$ and $\le$). Answers only: the Q1 objective sums run to 8, the number of items (they said
   6); the empty box above the other Q1 sums is gone; "$s_i$ – survival value of item $i$" (it said "(kg)"); and
   the Q3 formulation gained the missing weight cap $\sum_i W_i x_i \le 480$ (the code already had it; it does not
   change the answer).
+  - Answers, corrected after the 17 Oct export (**re-export the answers PDF in Word**): Q1a–c write the integers
+    as $\mathbb{Z}$ (they had a double-struck lower-case z, unlike Q3), and Q1 defines $x_i$: "number of times item
+    $i$ is packed (0 or 1 in a and c; any whole number in b)".
