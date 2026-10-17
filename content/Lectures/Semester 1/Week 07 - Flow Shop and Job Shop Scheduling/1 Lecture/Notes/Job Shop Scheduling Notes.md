@@ -434,7 +434,7 @@ if __name__ == "__main__":
     from pyomo.opt import SolverFactory
 
     # Try a few common MILP solvers (use the first available)
-    for solver_name in ["cbc", "glpk", "gurobi", "cplex"]:
+    for solver_name in ["appsi_highs", "cbc", "glpk", "gurobi", "cplex"]:
         if SolverFactory(solver_name).available():
             opt = SolverFactory(solver_name)
             break
@@ -451,7 +451,7 @@ if __name__ == "__main__":
     by_machine = {mach: [] for mach in model.MACHINES}
     for (i, j) in model.OPS:
         mach = m[(i, j)]
-        start = value(model.S[i, j])
+        start = round(value(model.S[i, j]), 6) + 0.0  # hide solver round-off such as -0.00 when printing
         finish = start + p[(i, j)]
         by_machine[mach].append(((i, j), start, finish))
 
