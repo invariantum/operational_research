@@ -134,8 +134,8 @@ costs (demos 1–3) and to vertex cover with security cameras (demo 4), and adds
   - slides 24–28 (pp. 21–25): the amounts now give their unit: "a maximum of 10 kg per item", "at least 6 kg",
     "Maximum order of 10 kg per item", "at least 6 kg of every item" and (slide 26, p. 23) "I must order at least
     6 kg and at most 10 kg" (it said "at least 6 and no more than 10"; the box does not wrap and already reached the
-    slide edge, so the new wording is no longer than the old). **Corrected in the `.pptx` after the 17 Oct export:
-    re-export the PDF.**
+    slide edge, so the new wording is no longer than the old).
+
   - Always edit and export the `.pptx` in PowerPoint: LibreOffice cannot draw equations inside table cells (on
     pp. 12–13 its table headers show a tiny copy of the table instead of the column names).
   - The equation boxes also store fallback pictures that only programs without equation support (e.g. LibreOffice,
