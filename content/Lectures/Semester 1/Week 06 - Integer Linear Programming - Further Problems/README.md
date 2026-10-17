@@ -6,7 +6,7 @@ Pyomo, from typed-out constraints to sets and dictionaries. Work through the fol
 
 | Folder | What is in it | When |
 | --- | --- | --- |
-| `1 Lecture` | Slides (PDF), and last year's slides with the lecturer's handwritten notes (*annotated*, optional) | The lecture |
+| `1 Lecture` | Slides (PDF), and the 2023 lecture with the lecturer's handwritten notes (*annotated*, optional) | The lecture |
 | `2 Lecture Demos` | Seven notebooks, numbered in the order the slides use them | Run live in the lecture |
 | `4 Tutorial Answers` | One answer notebook for the tasks on the last slide | **Release after the practical** |
 | `5 Source Files` | Editable originals: the two `.pptx` decks, the Python scripts the notebooks came from, staff notes | Staff only; edit here, then republish the PDF / notebook |
@@ -89,11 +89,16 @@ Week 08 returns to graphs (shortest paths and spanning trees).
 
 - **Slide and page numbers.** The plain `.pptx` has three hidden slides (2 "Blank Slide", 10–11 edge covering),
   so `.pptx` slide 1 is PDF page 1, slides 3–9 are pages 2–8 and slides 12–28 are pages 9–25. The *annotated*
-  PDF includes the hidden slides, so its page numbers are the `.pptx` slide numbers.
-- **The annotated deck is last year's lecture with handwritten notes.** It uses the older notation ($x_s$,
-  $s \in S$). Its `.pptx` is an earlier draft than its PDF (its last slide still says "MATLAB code" and
-  "Homework"); keep it for the ink, but edit only the plain deck. The corrections below are not in the
-  annotated deck.
+  PDF (a print of the 2023 lecture) includes the hidden slides, so its page numbers are the `.pptx` slide
+  numbers; its pages 10–11 show the edge-cover examples used in Q5 (b).
+- **Two annotated versions.** `1 Lecture/… (annotated).pdf` is the 2023 lecture printed with the lecturer's
+  ink; it uses the older notation ($x_s$, $s \in S$, sets $a$–$d$) and its last slide is already the
+  Python/Gurobi *Tutorial*. `5 Source Files/… (annotated).pptx` holds the ink of an earlier lecture (2020,
+  MATLAB era: sets $s_1$–$s_4$, last slide "Homework" and "MATLAB code"), with slips such as slide 6
+  "Element 5: $x_1 + x_5 \ge 1$" (should be $x_1 + x_3$) and slide 7 sets named $x_0$–$x_3$ (should be
+  $s_0$–$s_3$). **Do not export it over the PDF:** on 17 Oct 2026 a PowerPoint export of it replaced the
+  2023 PDF, and the 2023 PDF was put back. Edit only the plain deck. The corrections below are in neither
+  annotated version.
 - **Security cameras.** The slides call corners 2, 4, 6, 8 the "MATLAB Solution" (page 14) and 1, 3, 5, 7
   "Another possibility" (page 15). These are the only two minimum covers. HiGHS (browser and desktop) picks
   2, 4, 6, 8; the GLPK script in `5 Source Files/Python` picks 1, 3, 5, 7.
@@ -112,8 +117,9 @@ Week 08 returns to graphs (shortest paths and spanning trees).
 - **Data correction (Oct 2026), demo 7 and `balanced_assignment_sets_dictionaries.py`.** Worker 1's times for
   jobs 3 and 4 were 9 and 2; the table on the slides (and demos 5–6) has 7 and 8. Corrected. The optimal
   assignment and total (13) are the same before and after.
-- **Corrections (Oct 2026), lecture slides.** The plain `.pptx` in `5 Source Files` was corrected; **the PDF in
-  `1 Lecture` has not been re-exported yet** (`.pptx` slide numbers, PDF pages in brackets):
+- **Corrections (Oct 2026), lecture slides.** The plain `.pptx` in `5 Source Files` was corrected and the PDF
+  in `1 Lecture` re-exported from it in PowerPoint (17 Oct 2026); the PDF shows all of these (`.pptx` slide
+  numbers, PDF pages in brackets):
   - slide 4 (p. 3): "$t \in S$ – a given set $t$" (it said "set $s$");
   - slides 6 and 8 (pp. 5, 7): "$x_t \in \{0,1\}$" (it said $x_s$; the model uses $x_t$);
   - slide 25 (p. 22): the first constraint sums over $v \in J$ (it said $v \in j$);
@@ -129,5 +135,15 @@ Week 08 returns to graphs (shortest paths and spanning trees).
     Vodafone talk in `6 Further Reading`. The one on slide 14 (p. 11) is the talk's general "from a graph to
     an integer program" picture (node variables, edge variables, labels); only its *Example 2* box is vertex
     cover.
-  - The edited equations (slides 4, 6, 8 and 25) also keep a stored picture of the old text, which only
-    LibreOffice and old viewers show. **Re-export from PowerPoint.**
+  - Slides 7–9 (pp. 6–8), the definitions next to the fire-station data: "$t \in S$ – A given fire station
+    $t$", "$x_t$ - fire station $t$ chosen or not", "$c_t$ - cost of running fire station $t$" (they said
+    $s_i$, $x_i$, $c_i$ and "fire station $i$" or "$s_i$", while the model on p. 7 sums over $t$). **Corrected
+    in the `.pptx` after the 17 Oct export: re-export the PDF.**
+  - Always edit and export the `.pptx` in PowerPoint. The equation boxes also store fallback pictures that only
+    programs without equation support (e.g. LibreOffice, Google Slides) show. On 17 Oct 2026 the 7 pictures that
+    still showed the old text (slides 4, 6, 8 (the model box), 23, 24, 25 and 26: "set $s$", $x_s$, $v \in j$,
+    "bi-partite") were replaced by the same areas of the PowerPoint PDF export. The three definition boxes on
+    slides 7–9 still have pictures of the oldest text ("firestation", $s_i$, $x_i$, $c_i$). PowerPoint redraws such
+    a picture only when the text in that box changes (a plain re-save does not), so to refresh them, edit each of
+    those boxes once in PowerPoint (e.g. delete one letter and type it again), save, and check them once in another
+    program.
