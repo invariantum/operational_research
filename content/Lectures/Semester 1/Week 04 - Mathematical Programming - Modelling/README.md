@@ -111,7 +111,7 @@ All three Q1b notebooks include the Q1a weight cap ($\le 480$ g).
   - slides 8–10 (pp. 7–9): "Week 2 Tutorial Q6a" (it said "Tutorial Question 5a", the old numbering);
   - slide 21 (p. 20): "For a 40/60 split (40% popularity, 60% cost)".
   - slides 22–23 (pp. 21–22): Lime sherbet's normalised difference is $0.6 - 0.65 = -0.05$ (it said −0.5). The
-    results do not change. **Corrected in the `.pptx` after the 17 Oct export: re-export the PDF.**
+    results do not change.
   - Not changed (pictures): the code on slides 6–7 says "Define integer variables" above `NonNegativeReals`; the
     code on slide 10 uses GLPK.
   - Always edit and export the `.pptx` in PowerPoint: LibreOffice cannot draw equations inside table cells (on
