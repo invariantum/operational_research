@@ -11,7 +11,7 @@ first" variables and solved in Pyomo. Work through the folders in number order.
 | `2 Lecture Demos` | Johnson's rule notebook and the Excel workbook used on the slides | Run live in the lecture |
 | `3 Tutorial` | Flow shop tutorial sheet and job shop tutorial sheet | The practical |
 | `4 Tutorial Answers` | Flow shop answers (PDF), flow shop Q4 notebook, job shop Q1–Q3 notebook | **Release after the practical** |
-| `5 Source Files` | Editable originals (.pptx, .docx, .md), the scripts the notebooks came from, MATLAB, HTML exports, older versions | Staff only; edit here, then republish the PDF / notebook |
+| `5 Source Files` | Editable originals (.pptx, .docx, .md), the scripts the notebooks came from, MATLAB, HTML exports, older versions, a staff note on the answers | Staff only; edit here, then republish the PDF / notebook |
 | `6 Further Reading` | Two introductions to constraint programming (Bockmayr and Reinert; Rodriguez-Carbonell) | Optional reading |
 
 ## Before you start
@@ -26,7 +26,7 @@ first" variables and solved in Pyomo. Work through the folders in number order.
 
 ## Work through this week in order
 
-Page numbers are the pages of `1 Lecture/Week 7 - Flow Shop Scheduling - Slides.pdf`.
+Page numbers are the pages of `1 Lecture/Week 7 - Flow Shop Scheduling.pdf`.
 
 | Step | File | What it is for |
 | --- | --- | --- |
@@ -104,39 +104,46 @@ lecture version, the same as the PDF; the full notes add constraint programming 
   R P T Q S; 63 if each machine may use a different order, which is no longer a flow shop). The A+B / D+E network
   processed the jobs as R T S Q P (72), while Johnson's rule gives R T Q S P (68). The `.docx` text now says this,
   and the workbook's *Tutorial* sheet (rows 63–82) was reordered to R T Q S P (68, values recalculated). **The
-  picture of that network on page 5 of the answers still shows R T S Q P = 72** (it is an image); redo it if you
-  want it to match. The answers also gained a Q4 answer (the new notebook), "74 for both orders" in Q2, and the
+  picture of that network on page 5 of the answers still shows R T S Q P = 72** (it is an image):
+  `5 Source Files/NOTE - Q3 network picture on page 5.txt` explains how to replace it from the corrected workbook,
+  which sentence to shorten afterwards, and the numbers the new picture must show; then re-export the answers PDF.
+  Delete the note when that is done. The answers also gained a Q4 answer (the new notebook), "74 for both orders" in Q2, and the
   title "Flow Shop Scheduling Tutorial – Answers" (it said "Semester 2 - Tutorial 1").
-- **Slides (Oct 2026).** The `.pptx` in `5 Source Files` was corrected; **the PDF in `1 Lecture` has not been
-  re-exported yet** (slide = PDF page): 13 "Everything else is NP-hard" (it said "in NP"); 11 "to complete all
+- **Slides (Oct 2026).** The `.pptx` in `5 Source Files` was corrected and the PDF re-exported from PowerPoint
+  (17 Oct 2026) as `1 Lecture/Week 7 - Flow Shop Scheduling.pdf`, named like the other weeks' lecture PDFs (it was
+  `… - Slides.pdf`). Changes (slide = PDF page): 13 "Everything else is NP-hard" (it said "in NP"); 11 "to complete all
   jobs"; 24 the sum $1 + 2 + \dots + (m-1)$ (a "+" was missing); 2 completion time defined as the time a job is
   finished; 3 "(total completion time)" (it said "Overall Processing Time"); 4 "of the same length"; 12
-  "permutations?" and "NP-Hard problems (in general, from 3 machines on)"; 22 "Campbell, Dudek and Smith". The
-  text on slides 2, 3, 4, 12 and 24 sits in equation boxes that keep a stored picture of the old text, which only
-  LibreOffice and old viewers show. **Re-export from PowerPoint.**
+  "permutations?"; 22 "Campbell, Dudek and Smith". Slide 12 briefly also said "NP-Hard problems (in general, from 3
+  machines on)", but the longer line wrapped and pushed the next line onto the box below; it was shortened back to
+  "NP-Hard problems" on 17 Oct (slide 13 says when the problem is NP-hard). **Re-export the slides PDF from
+  PowerPoint once more for this slide.**
 - **Job shop notes (Oct 2026), `.md` and `.ipynb`.** Full notes: the integer programming example was unbounded
   (two of the three OR-Tools constraints were missing; now $2x + 7y + 3z \le 50$, $3x - 5y + 7z \le 45$,
   $5x + 2y - 6z \le 37$, optimum 35 at $(7, 3, 5)$); OR + IS + FUN = TRUE has **9** letters (it said 8); the solver
   is HiGHS (it said GLPK); CSP notation made consistent ($D_i$, $c_i$, $R_i$). Both notes: "Solving as a MILP", a
   note that the saved output is one of several optimal schedules, a note on the picture's 0-based numbering, and
   smaller wording fixes. The two unused images `eg_constraint.png` and `example_int_prog.png` (the second showed
-  the unbounded example) were removed. **The Short notes PDF has not been re-exported yet.**
+  the unbounded example) were removed. The Short notes PDF was re-exported from its `.md` (17 Oct 2026; long code
+  lines now wrap instead of being cut off), and again after the solver-list change below.
 - **Notebooks (Oct 2026).** Every notebook gained an opening cell (problem, how to run it, expected result), an
   explanation above each code cell, comments on each constraint group and a closing *Try it* / *What do you
   notice?* cell with a hidden answer. In the notes notebooks these cells exist only in the `.ipynb` (not in the
   `.md`), and the dead `cdn.mathjax.org` script tags were dropped from the notebooks only. Wrong comments fixed in
   `1 Johnsons rule` ("if there are no more jobs to do, return the list" above a check that does not return).
   `Job Shop Q1-Q3 answers` (and its `.py`) rounds start times when printing, so the browser shows `0` instead of
-  `8.12049e-14`. No other code or printed result changed.
+  `8.12049e-14`; the model cell of both notes (notebook and `.md`) does the same, so it shows `0.00` instead of
+  `-0.00` (17 Oct 2026). The `.md` notes now try `appsi_highs` first, like the notebooks, so the code in the `.md`
+  and the PDF is the same as the code students run. No other code or printed result changed.
 - **New (Oct 2026):** `4 Tutorial Answers/Flow Shop Q4 MILP answers.ipynb` answers flow shop Q4 with a
   permutation flow shop MILP (one binary per pair of jobs): 30, 74, 64. It has no `.py` source.
 - **Job shop tutorial (Oct 2026), `.md`, `.ipynb` and HTML.** "Colaboratory" (it said "Collabatory", 3×), "check
   that it is indeed feasible and that it appears to be optimal", and a sentence saying Q1–Q3 can be done in the
-  browser with the notes' Pyomo code. **The tutorial PDF has not been re-exported yet.**
+  browser with the notes' Pyomo code. The tutorial PDF was re-exported from the `.md` (17 Oct 2026).
 - **Flow shop tutorial (Oct 2026), `.docx`.** Q3: "a good exercise to try in Excel" (it said "on to try on
-  Excel"). **The PDF has not been re-exported yet.**
+  Excel"). The PDF was re-exported from Word (17 Oct 2026).
 - **MATLAB (Oct 2026).** `johnsons_rule_demo.m` commented out an alternative table with `#`, which MATLAB does
   not accept; it now uses `%`.
-- **HTML exports** in `5 Source Files/HTML Exports` are snapshots of the notes from before the move to the
-  browser (GLPK code, old wording). Only the tutorial export received the fixes above; re-export the notes from
-  the `.md` files if you still use them.
+- **HTML exports** in `5 Source Files/HTML Exports`: the two notes exports were regenerated from the current
+  `.md` files (17 Oct 2026); the tutorial export carries the fixes above. They load KaTeX's stylesheet from
+  jsdelivr, so the maths displays correctly only when online.
