@@ -93,7 +93,7 @@ objectives (Q2d's question: is maximising total popularity the right aim?) and a
 - `Tutorial Coded Answers.zip` was removed: it held the same eight scripts as the loose files (identical apart from Windows line endings).
 - A Windows `debug.log` was removed.
 - `5 Source Files/Python/Week2_question_5b_pyomo.py` was edited: it now solves with `load_solutions=False` and prints the termination condition, because HiGHS stops with an error when asked to load a solution from an unbounded model. The original is in the pre-migration course folder.
-- The answers PDF's side note (Q2b alternative optimum) was added directly to the PDF, so its wording differs slightly from the .docx ("on the left" vs "above"). Re-export the PDF from the .docx to bring them in line.
+- The answers PDF's Q2b side note was first added directly to the PDF; the PDF was re-exported from the .docx on 17 Oct 2026, so the two now match.
 - Notebooks 1 and 6: the comment above the solver line now says HiGHS (it said GLPK).
 - Demos 2–4: the titles now give this year's question numbers (Week 2 tutorial Q6a–c) next to the slides' Q5a–c.
 - **Notebooks (Oct 2026), text only.** Each notebook gained an opening cell (problem, how to run it,
@@ -103,8 +103,8 @@ objectives (Q2d's question: is maximising total popularity the right aim?) and a
   the data lists (Q2b, Q2c), "Set tee=True" where it is already True; the Q2b/Q2c constraint
   `fat_weight_min` is explained as an upper limit on fat. Slide references are now PDF pages. No code and
   no printed result changed.
-- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
-  `1 Lecture` has not been re-exported yet** (`.pptx` slide numbers, PDF pages in brackets):
+- **Corrections (Oct 2026), slides.** The `.pptx` in `5 Source Files` was corrected and the PDF in
+  `1 Lecture` re-exported from it in PowerPoint (17 Oct 2026) (`.pptx` slide numbers, PDF pages in brackets):
   - slide 10 (p. 9): vitamin B constraint $14x_5$ (it said $12x_5$); vitamin C constraint $10x_9$ (it
     said $10x_{10}$). The notebooks were already right;
   - slide 19 (p. 18): $P^* = 262.22$ (it said 262.62; $11.5 \cdot 80/9 + 160 = 262.22$);
@@ -116,10 +116,9 @@ objectives (Q2d's question: is maximising total popularity the right aim?) and a
     `2 Lecture Demos` folder.
   - Not changed (pictures): the code on slides 7, 24 and 26 says GLPK; slide 16's code comment says
     "minimise total cost" for a maximisation; slide 6's comment says "to minimise we need the negatives".
-    Slides 10, 19, 20 and 22 keep a stored fallback picture of the old text that only programs without
-    equation support (e.g. LibreOffice) show; PowerPoint and its PDF export use the corrected text.
-- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; **the PDFs have not been
-  re-exported yet**): Q2 now says the selection must weigh "at least" 320 g, with fat "at most" 45% and
+    Always edit and export the `.pptx` in PowerPoint.
+- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; the PDFs were re-exported from them
+  in Word on 17 Oct 2026): Q2 now says the selection must weigh "at least" 320 g, with fat "at most" 45% and
   "at most" 2850 calories (it said "more than" / "less than", but the model uses ≥ / ≤ and the Q2c answer
   uses exactly 2850 calories). Answers only: Q2a no longer adds "Is this a good selection?" (not on the
   sheet; Q2d asks it), and Q2b's heading has the sheet's `**`.
