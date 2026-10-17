@@ -97,8 +97,8 @@ All three Q1b notebooks include the Q1a weight cap ($\le 480$ g).
   above `NonNegativeReals` (demo), "Define objective function coefficients" above the constraint data (Q1b),
   `fat_weight_min` explained as an upper limit, the four-number "raw material for each factory" list (Q2b), and
   the expected Pyomo warning when the demo redefines `constraint1`. No code and no printed result changed.
-- **Corrections (Oct 2026), lecture slides.** The `.pptx` in `5 Source Files` was corrected; **the PDF in
-  `1 Lecture` has not been re-exported yet** (`.pptx` slide numbers, PDF pages in brackets):
+- **Corrections (Oct 2026), lecture slides.** The `.pptx` in `5 Source Files` was corrected and the PDF in
+  `1 Lecture` re-exported from it in PowerPoint (17 Oct 2026) (`.pptx` slide numbers, PDF pages in brackets):
   - slide 8 (p. 7): vitamin B constraint $14x_5$ (it said $12x_5$); vitamin C constraint $10x_9$ (it said
     $10x_{10}$). Week 03 had the same error;
   - slide 24 (p. 23): the last column is now $\alpha = 0.16$ and the text says "$\alpha < 1/6$ (≈ 0.167) return the
@@ -110,18 +110,32 @@ All three Q1b notebooks include the Q1a weight cap ($\le 480$ g).
     selection", but $\sum_i (P_i/C_i) x_i$ is not the selection's total popularity ÷ total cost);
   - slides 8–10 (pp. 7–9): "Week 2 Tutorial Q6a" (it said "Tutorial Question 5a", the old numbering);
   - slide 21 (p. 20): "For a 40/60 split (40% popularity, 60% cost)".
+  - slides 22–23 (pp. 21–22): Lime sherbet's normalised difference is $0.6 - 0.65 = -0.05$ (it said −0.5). The
+    results do not change. **Corrected in the `.pptx` after the 17 Oct export: re-export the PDF.**
   - Not changed (pictures): the code on slides 6–7 says "Define integer variables" above `NonNegativeReals`; the
     code on slide 10 uses GLPK.
-  - **Re-export from PowerPoint, not LibreOffice.** The current PDF was made with LibreOffice, which cannot draw
-    equations inside table cells: on pp. 10, 11, 16, 18–23 the table headers show a tiny copy of the table instead
-    of the column names. The edited equations (slides 8 and 24) also keep a stored picture of the old text that
-    only LibreOffice shows.
-- **Corrections (Oct 2026), `Slack Variables.pptx`** (the PDF in `1 Lecture` has not been re-exported yet):
-  slide 2 "$P = 5 \cdot 0 + 4 \cdot 0 = 0$" (it said $7 \cdot 0$; the objective is $5x + 4y$); slide 10 "Used for
-  ≤ (less than or equal to) constraints" and "≥ (greater than or equal to)".
-- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; **the PDFs have not been
-  re-exported yet**): Q1 now says "at least" 320 g, "at most" 45% fat and "at most" 2850 calories (as in Week 03);
-  Q2 "its products", "for each factory to maximise its profit", and the missing ")" in Q2a ii. Answers only: the
-  Colab link (it needs a sign-in and had GLPK code) now points to the course site; "popularity per cost ratio" (it
-  said "population"), "normalised weighted objective", "greater than", "last week's"; Q2a ii says *slack* instead
-  of *surplus*; and a new table under Q1b lists the selections from the notebooks.
+  - Always edit and export the `.pptx` in PowerPoint: LibreOffice cannot draw equations inside table cells (on
+    pp. 10, 11, 16, 18–23 its table headers show a tiny copy of the table instead of the column names).
+  - Slides 8, 22, 23 and 24 also store fallback pictures (of the equations text box, the tables and the text under
+    the slide 24 table) that only programs without equation support (e.g. LibreOffice, Google Slides) show. On
+    17 Oct 2026 these were replaced by the same areas of the PowerPoint PDF export, with the slides 22–23 Lime
+    sherbet cell redrawn as −0.05, so they show the corrected text too; the slide 24 fallback box is wider than the
+    text box, because in PowerPoint the last line runs past it. PowerPoint redraws such a picture only when the
+    text in that box changes (a plain re-save does not), so after editing one of these boxes, check it once in
+    another program.
+- **Corrections (Oct 2026), `Slack Variables.pptx`** (the PDF in `1 Lecture` was re-exported in PowerPoint,
+  17 Oct 2026): slide 2 "$P = 5 \cdot 0 + 4 \cdot 0 = 0$" (it said $7 \cdot 0$; the objective is $5x + 4y$);
+  slide 10 "Used for ≤ (less than or equal to) constraints" and "≥ (greater than or equal to)". The fallback
+  pictures of these two text boxes (see above) were replaced the same way on 17 Oct 2026.
+- **Corrections (Oct 2026), tutorial and answers `.docx`** (`5 Source Files`; the PDFs were re-exported from them
+  in Word on 17 Oct 2026): Q1 now says "at least" 320 g, "at most" 45% fat and "at most" 2850 calories (as in
+  Week 03); Q2 "its products", "for each factory to maximise its profit", and the missing ")" in Q2a ii. Answers
+  only: the Colab link (it needs a sign-in and had GLPK code) now points to the course site; "popularity per cost
+  ratio" (it said "population"), "normalised weighted objective", "greater than", "last week's"; Q2a ii says
+  *slack* instead of *surplus*; and a new table under Q1b lists the selections from the notebooks.
+- **After the 17 Oct export** (**re-export both PDFs**): the tutorial sheet now has the "* Medium / ** Hard" key
+  of the other weeks' sheets (Q1b is marked *). In the answers, the note under the Q1b table uses † (not *) and
+  says which objective its α thresholds belong to: 0.59 and 1/6 are for the normalised weighted objective; the
+  plain weighted objective switches at about 0.42 (minimum cost) and 0.09 (maximum popularity).
+- The answers' Q2b combined model pads factory A's and B's constraint rows with yellow-on-yellow terms (e.g.
+  "+5s₁+3d₁") to line up the columns. They are invisible in the PDF but appear if the text is copied; left as is.
