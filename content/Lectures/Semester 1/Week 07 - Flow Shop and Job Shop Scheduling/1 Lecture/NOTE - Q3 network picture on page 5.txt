@@ -1,0 +1,39 @@
+NOTE - Flow shop tutorial answers, page 5: Q3 network picture (A+B / D+E)
+=========================================================================
+
+WHERE
+  File:   5 Source Files/Week 7 - Flow Shop Scheduling - Tutorial - Answers.docx
+          (exported as 4 Tutorial Answers/Week 7 - Flow Shop Scheduling - Tutorial - Answers.pdf)
+  Page 5: Q3, the first network, under the table "Machine A+B / D+E" and the
+          schedule box R T Q S P.
+
+WHAT IS WRONG
+  Johnson's rule on A+B / D+E gives the order R T Q S P (as the schedule box says).
+  The network picture below it processes the jobs as R T S Q P (S and Q swapped),
+  so it ends with makespan 72. The correct order R T Q S P gives makespan 68.
+  The picture is an image pasted from Excel, so it cannot be edited as text.
+
+HOW TO FIX IT
+  1. Open 2 Lecture Demos/2 Johnsons rule in Excel.xlsx, sheet "Tutorial".
+     The block labelled "A+B" (rows 63-73, columns S to AH) is already corrected:
+     it uses R T Q S P and cell AH73 shows 68.
+  2. Select the network part of that block (the same cells as the old picture), then
+     Home > Copy > Copy as Picture > As shown on screen.
+  3. In the answers .docx, page 5, click the old network picture, delete it and
+     paste the new one in its place (resize it to match the pictures around it).
+  4. In the paragraph below the pictures, remove the part that describes the old
+     picture. Replace
+        "(makespan 68); the network above has S and Q the other way round (RTSQP, 72)."
+     with
+        "(makespan 68)."
+  5. Save, then File > Export > PDF and replace
+     4 Tutorial Answers/Week 7 - Flow Shop Scheduling - Tutorial - Answers.pdf.
+
+CHECK - the new picture must show these completion times (jobs in order R T Q S P)
+  Machine A:   2   9  16  22  30
+  Machine B:   5  13  21  31  42
+  Machine C:  10  15  29  40  45
+  Machine D:  17  29  34  54  57
+  Machine E:  20  32  43  56  68    <- makespan 68
+
+  The old picture (R T S Q P) ends with 20 32 49 61 72.
